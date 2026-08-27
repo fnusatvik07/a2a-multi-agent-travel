@@ -1,0 +1,277 @@
+<!doctype html><html><head><meta charset="utf-8">
+<script>window.__err=[];window.onerror=function(m,f,l,c){window.__err.push(m+" @"+l+":"+c);};</script>
+<script src="_f11gsap.js"></script>
+<style>*{margin:0;padding:0;box-sizing:border-box}html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+#host{position:relative;width:1920px;height:1080px;overflow:hidden;background:#FAF9F5}
+#capline{position:absolute;left:0;top:896px;width:1920px;height:1px;background:rgba(255,0,0,.28);z-index:99}</style>
+</head><body><div id="host">
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{
+      position:absolute; inset:0; width:1920px; height:1080px;
+      overflow:hidden; container-type:size;
+    }
+    #root .clip{ position:absolute; left:0; top:0; width:1920px; height:1080px; }
+
+    .ps11-bg{ background:#FAF9F5; }
+    .ps11-stage{ overflow:hidden; }
+
+    .ps11-world{
+      position:absolute; left:0; top:0; width:4400px; height:1080px;
+      transform-origin:0 0; will-change:transform;
+    }
+
+    /* — the rail — */
+    .ps11-rail-base{
+      position:absolute; left:200px; top:800px; height:1px; width:560px;
+      background:rgba(20,20,19,0.18);
+    }
+    .ps11-rail-lit{
+      position:absolute; left:200px; top:799px; height:2px; width:560px;
+      background:rgba(20,20,19,0.82);
+    }
+    .ps11-head{
+      position:absolute; top:793px; left:-7px; width:14px; height:14px;
+      border-radius:50%; background:#141413;
+    }
+    .ps11-tick{
+      position:absolute; top:795px; width:10px; height:10px; border-radius:50%;
+      background:#FAF9F5; border:1px solid rgba(20,20,19,0.34); box-sizing:border-box;
+    }
+    .ps11-conn{
+      position:absolute; width:1px; background:rgba(20,20,19,0.18);
+    }
+
+    /* — agent station card (identical for both) — */
+    .ps11-card{
+      position:absolute; top:250px; width:520px; height:400px;
+      background:#FAF9F5; border:1px solid rgba(20,20,19,0.12); border-radius:12px;
+      box-shadow:0 1px 3px rgba(20,20,19,0.08), 0 4px 16px rgba(20,20,19,0.04);
+    }
+    .ps11-icon{ position:absolute; left:44px; top:44px; width:88px; height:88px; }
+    .ps11-lock{ position:absolute; right:44px; top:46px; width:34px; height:34px; opacity:0.72; }
+    .ps11-name{
+      position:absolute; left:44px; top:158px;
+      font-family:"Inter",system-ui,sans-serif; font-weight:400; font-size:46px;
+      letter-spacing:-0.005em; color:#141413; line-height:1.2;
+    }
+    .ps11-role{
+      position:absolute; left:44px; top:222px;
+      font-family:"JetBrains Mono",monospace; font-weight:400; font-size:24px;
+      letter-spacing:0.16em; text-transform:uppercase; color:rgba(20,20,19,0.42);
+    }
+
+    /* — the waiting chip: byte-identical on both agents — */
+    .ps11-chip{
+      position:absolute; height:44px; display:flex; align-items:center; gap:12px;
+      padding:0 20px; background:#ECE3D4; border:1px solid rgba(20,20,19,0.20);
+      border-radius:9999px; font-family:"JetBrains Mono",monospace; font-weight:400;
+      font-size:24px; letter-spacing:0.02em; color:rgba(20,20,19,0.74);
+      white-space:nowrap; box-sizing:border-box;
+    }
+    .ps11-chip i{ width:9px; height:9px; border-radius:50%; background:#141413; display:block; }
+
+    /* — station three: not an agent — */
+    .ps11-person-name{
+      position:absolute; top:266px; width:1600px; text-align:center;
+      font-family:"EB Garamond",Georgia,serif; font-weight:400; font-style:italic;
+      font-size:64px; letter-spacing:-0.012em; color:rgba(20,20,19,0.60); line-height:1.1;
+    }
+    .ps11-q{
+      position:absolute; top:356px; width:1600px; text-align:center;
+      font-family:"EB Garamond",Georgia,serif; font-weight:400; font-size:132px;
+      letter-spacing:-0.022em; color:#141413; line-height:1.02; white-space:nowrap;
+    }
+    .ps11-q span{ display:inline-block; }
+    .ps11-qrule{
+      position:absolute; top:540px; height:1px; width:0px; background:rgba(20,20,19,0.20);
+    }
+    .ps11-approved{
+      position:absolute; top:572px; width:1600px; text-align:center;
+      font-family:"EB Garamond",Georgia,serif; font-weight:400; font-style:italic;
+      font-size:88px; letter-spacing:-0.012em; color:#141413; line-height:1.1;
+    }
+    .ps11-booked{
+      position:absolute; left:548px; top:552px;
+      font-family:"EB Garamond",Georgia,serif; font-weight:400; font-style:italic;
+      font-size:46px; letter-spacing:-0.012em; color:#141413; line-height:1.1;
+    }
+  </style>
+
+  <div id="root" data-composition-id="11-pause-spreads" data-width="1920" data-height="1080" data-duration="15.7">
+    <div class="clip ps11-bg" data-start="0" data-duration="15.7" data-track-index="0"></div>
+
+    <div class="clip ps11-stage" data-start="0" data-duration="15.7" data-track-index="1">
+      <div class="ps11-world" id="ps11-world">
+
+        <!-- the rail -->
+        <div class="ps11-rail-base" id="ps11-rail-base"></div>
+        <div class="ps11-rail-lit" id="ps11-rail-lit"></div>
+        <div class="ps11-head" id="ps11-head"></div>
+
+        <div class="ps11-tick" id="ps11-tick1" style="left:755px;"></div>
+        <div class="ps11-tick" id="ps11-tick2" style="left:2155px;"></div>
+        <div class="ps11-tick" id="ps11-tick3" style="left:3515px;"></div>
+
+        <div class="ps11-conn" id="ps11-conn1" style="left:760px; top:650px; height:150px;"></div>
+        <div class="ps11-conn" id="ps11-conn2" style="left:2160px; top:650px; height:150px;"></div>
+        <div class="ps11-conn" id="ps11-conn3" style="left:3520px; top:700px; height:100px;"></div>
+
+        <!-- STATION ONE — Ledger -->
+        <div class="ps11-card" id="ps11-card-l" style="left:500px;">
+          <svg class="ps11-icon" id="ps11-icon-l" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 14 V52"/>
+            <path d="M24 56 H40"/>
+            <path d="M26 56 C26 52 29 52 32 52 C35 52 38 52 38 56"/>
+            <circle cx="32" cy="11.5" r="2.5"/>
+            <g id="ps11-beam"><path d="M12 20 H52"/></g>
+            <g id="ps11-panl"><path d="M12 20 V28"/><path d="M4 28 C4 36 20 36 20 28 Z"/></g>
+            <g id="ps11-panr"><path d="M52 20 V28"/><path d="M44 28 C44 36 60 36 60 28 Z"/></g>
+          </svg>
+          <svg class="ps11-lock" id="ps11-lock" viewBox="0 0 32 32" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round">
+            <g id="ps11-shackle"><path d="M11 14 V10 a5 5 0 0 1 10 0 V14"/></g>
+            <rect x="7" y="14" width="18" height="13" rx="3"/>
+          </svg>
+          <div class="ps11-name">Ledger</div>
+          <div class="ps11-role">agent</div>
+        </div>
+        <div class="ps11-chip" id="ps11-chip-l" style="left:544px; top:562px;"><i></i>input-required</div>
+        <div class="ps11-booked" id="ps11-booked">booked</div>
+
+        <!-- STATION TWO — Concierge (identical treatment) -->
+        <div class="ps11-card" id="ps11-card-c" style="left:1900px;">
+          <svg class="ps11-icon" id="ps11-icon-c" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 43 a15 15 0 0 1 30 0"/>
+            <path d="M13 43 H51"/>
+            <path d="M9 49 H55"/>
+            <path d="M32 28 V23.5"/>
+            <circle cx="32" cy="20" r="3"/>
+          </svg>
+          <div class="ps11-name">Concierge</div>
+          <div class="ps11-role">agent</div>
+        </div>
+        <!-- the SAME chip, travelled along the rail: same shape, size, wording, slot -->
+        <div class="ps11-chip" id="ps11-chip-c" style="left:1944px; top:562px;"><i></i>input-required</div>
+
+        <!-- STATION THREE — not an agent: no card, no icon, no chip -->
+        <div class="ps11-person-name" id="ps11-person" style="left:2720px;">The approver</div>
+        <div class="ps11-q" id="ps11-q" style="left:2720px;"><span>approve</span> <span>$3,688.76?</span></div>
+        <div class="ps11-qrule" id="ps11-qrule" style="left:3520px;"></div>
+        <div class="ps11-approved" id="ps11-approved" style="left:2720px;">approved</div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var ID = "11-pause-spreads";
+      var scope = document.querySelector('[data-composition-id="' + ID + '"]');
+      var q = function (s) { return scope.querySelector(s); };
+      var gsap = window.gsap;
+
+      var world    = q("#ps11-world");
+      var railLit  = q("#ps11-rail-lit");
+      var railBase = q("#ps11-rail-base");
+      var head     = q("#ps11-head");
+      var chipL    = q("#ps11-chip-l");
+      var chipC    = q("#ps11-chip-c");
+      var iconL    = q("#ps11-icon-l");
+      var iconC    = q("#ps11-icon-c");
+
+      /* ---- the virtual camera, as world-transform keyframes ----
+         .ps11-world has transform-origin 0 0, so a world point wx sits at screen
+         centre when  x = 960 - s*wx  and  y = 540 - s*540.  Stops:
+           A  Ledger tight   wx 760  s 1.20
+           B  Ledger wide    wx 900  s 0.98
+           C  Ledger + Concierge BOTH in frame   wx 1460  s 0.86
+           D  the person     wx 3520 s 0.95
+           E  home on Ledger wx 760  s 1.00      F settle wx 760 s 1.02       */
+      var A = { x: 48,     y: -108, scale: 1.20 };
+      var B = { x: 78,     y: 10.8, scale: 0.98 };
+      var C = { x: -295.6, y: 75.6, scale: 0.86 };
+      var D = { x: -2384,  y: 27,   scale: 0.95 };
+      var E = { x: 200,    y: 0,    scale: 1.00 };
+      var F = { x: 184.8,  y: -10.8, scale: 1.02 };
+
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines[ID] = tl;
+
+      var OUT = "power3.out", IO = "power3.inOut", NR = { immediateRender: false };
+      function cam(from, to, dur, at, ease) {
+        tl.fromTo(world,
+          { x: from.x, y: from.y, scale: from.scale },
+          { x: to.x, y: to.y, scale: to.scale, duration: dur, ease: ease || IO, immediateRender: at === 0.2 },
+          at);
+      }
+
+      /* ===== Scene 1 (0.0-3.4) — pull back: Ledger was station one ===== */
+      tl.fromTo(q("#ps11-card-l"), { opacity: 0.55 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, 0);
+      tl.fromTo([q("#ps11-conn1"), q("#ps11-tick1")], { opacity: 0.12 }, { opacity: 1, duration: 0.7, ease: OUT }, 0.2);
+      cam(A, B, 2.4, 0.2);
+      tl.fromTo(railBase, { width: 560 }, { width: 4000, duration: 2.1, ease: OUT }, 1.1);
+      tl.fromTo(q("#ps11-tick2"), { opacity: 0 }, { opacity: 1, duration: 0.5, ease: OUT }, 2.0);
+      tl.fromTo(q("#ps11-tick3"), { opacity: 0 }, { opacity: 1, duration: 0.5, ease: OUT }, 2.45);
+
+      /* the balance arrives LOCKED and tipped, and stays that way until the sweep reaches it */
+      tl.fromTo(q("#ps11-beam"), { rotation: 12 }, { rotation: 0, svgOrigin: "32 20", duration: 0.9, ease: OUT, immediateRender: true }, 13.05);
+      tl.fromTo(q("#ps11-panl"), { y: -4.25 }, { y: 0, duration: 0.9, ease: OUT, immediateRender: true }, 13.05);
+      tl.fromTo(q("#ps11-panr"), { y: 4.25 }, { y: 0, duration: 0.9, ease: OUT, immediateRender: true }, 13.05);
+      tl.fromTo(q("#ps11-lock"), { opacity: 0.72 }, { opacity: 0, duration: 0.55, ease: OUT, immediateRender: true }, 13.05);
+      tl.fromTo(q("#ps11-shackle"), { y: 0 }, { y: -3, duration: 0.55, ease: OUT, immediateRender: true }, 13.05);
+      tl.fromTo(iconL, { opacity: 0.45 }, { opacity: 1, duration: 0.9, ease: OUT, immediateRender: true }, 13.05);
+
+      /* ===== Scene 2 (3.4-7.0) — pan right; the SAME chip travels and lands ===== */
+      tl.fromTo(q("#ps11-card-c"), { opacity: 0 }, { opacity: 1, duration: 0.7, ease: OUT }, 3.35);
+      cam(B, C, 2.5, 3.4);
+      tl.fromTo(q("#ps11-conn2"), { opacity: 0 }, { opacity: 1, duration: 0.6, ease: OUT }, 3.6);
+      tl.fromTo(chipC, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 3.8);
+      tl.fromTo(chipC, { y: 0 }, { y: 216, duration: 0.42, ease: "power2.inOut" }, 3.8);
+      tl.fromTo(chipC, { x: -1400 }, { x: 0, duration: 1.55, ease: IO }, 4.05);
+      tl.fromTo(railLit, { width: 560 }, { width: 1960, duration: 1.55, ease: IO }, 4.05);
+      tl.fromTo(head, { x: 760 }, { x: 2160, duration: 1.55, ease: IO }, 4.05);
+      tl.fromTo(chipC, { y: 216 }, { y: 0, duration: 0.6, ease: OUT, immediateRender: false }, 5.35);
+      tl.fromTo(iconC, { opacity: 1 }, { opacity: 0.42, duration: 0.7, ease: OUT, immediateRender: false }, 5.55);
+
+      /* ===== Scene 3 (7.0-10.2) — station three is not an agent ===== */
+      cam(C, D, 2.3, 7.0);
+      tl.fromTo(railLit, { width: 1960 }, { width: 3320, duration: 1.7, ease: IO, immediateRender: false }, 7.2);
+      tl.fromTo(head, { x: 2160 }, { x: 3520, duration: 1.7, ease: IO, immediateRender: false }, 7.2);
+      tl.fromTo(q("#ps11-conn3"), { opacity: 0 }, { opacity: 1, duration: 0.6, ease: OUT }, 7.6);
+      tl.fromTo(q("#ps11-person"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: OUT }, 8.0);
+      tl.fromTo(scope.querySelectorAll("#ps11-q span"), { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.9, ease: OUT, stagger: 0.13 }, 8.45);
+      tl.fromTo(q("#ps11-qrule"), { width: 0, x: 0 }, { width: 760, x: -380, duration: 0.75, ease: IO }, 9.45);
+
+      /* ===== Scene 4 (10.2-15.2) — approved, then ONE unbroken return sweep =====
+         camera + lit rail + head run the same 2.9s window on slightly different
+         eases, so the lit head leads the frame through the middle of the move and
+         rejoins centre exactly on Ledger. The chips clear as the head passes them. */
+      tl.fromTo(q("#ps11-approved"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.75, ease: OUT }, 10.35);
+      cam(D, E, 2.9, 10.95, "power2.inOut");
+      tl.fromTo(railLit, { width: 3320 }, { width: 560, duration: 2.9, ease: IO, immediateRender: false }, 10.95);
+      tl.fromTo(head, { x: 3520 }, { x: 760, duration: 2.9, ease: IO, immediateRender: false }, 10.95);
+      /* — passing the Concierge (~12.3s) — */
+      tl.fromTo(chipC, { opacity: 1 }, { opacity: 0, duration: 0.34, ease: "power2.inOut", immediateRender: false }, 12.28);
+      tl.fromTo(iconC, { opacity: 0.42 }, { opacity: 1, duration: 0.9, ease: OUT, immediateRender: false }, 12.28);
+      /* — passing Ledger (~13.1s): the identical chip clears, the balance unlocks and levels — */
+      tl.fromTo(chipL, { opacity: 1 }, { opacity: 0, duration: 0.4, ease: "power2.inOut", immediateRender: false }, 13.05);
+      tl.fromTo(q("#ps11-booked"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7, ease: OUT }, 13.95);
+      cam(E, F, 0.85, 14.35, OUT);
+    })();
+  </script>
+</div><div id="capline"></div>
+<script>
+var t = parseFloat((location.search.match(/t=([\d.]+)/)||[])[1]||"0");
+try { window.__timelines["11-pause-spreads"].seek(t); } catch(e){ window.__err.push("SEEK:"+e.message); }
+var w=document.getElementById("ps11-world");
+var out="T="+t+" | world="+w.style.transform+" | lit="+document.getElementById("ps11-rail-lit").style.width+" | beam="+(document.getElementById("ps11-beam").getAttribute("transform")||document.getElementById("ps11-beam").style.transform)+" | ERR="+JSON.stringify(window.__err);
+var d=document.createElement("div"); d.id="dbg"; d.style.cssText="position:absolute;left:-9999px;top:0"; d.textContent=out; document.body.appendChild(d);
+</script></body></html>

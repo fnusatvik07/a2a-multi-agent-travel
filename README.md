@@ -42,7 +42,7 @@ They negotiate, they overrule each other, and one of them refuses to spend money
 
 <p align="center">
   <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4">
-    <img src="docs/media/atlastrip-explainer-poster.png" alt="Watch the AtlasTrip explainer" width="820">
+    <img src="docs/media/thumbnail/thumbnail-b.png" alt="Watch the AtlasTrip explainer" width="820">
   </a>
 </p>
 
