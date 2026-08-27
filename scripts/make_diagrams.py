@@ -166,163 +166,108 @@ def label_html(title: str, subtitle: str, detail: str = "") -> str:
 
 
 def architecture() -> Page:
-    page = Page("Architecture", 1500, 1060)
+    """What talks to what.
 
-    left = 210
-    right = 1420
+    Sized and typed to be read at the width a README renders it, which means
+    short labels and large type rather than a wall of small text. Anything that
+    needs a sentence belongs in the prose, not in a box.
+    """
+    page = Page("Architecture", 1680, 940)
+
+    left = 60
+    right = 1620
     span = right - left
 
+    page.node("AtlasTrip", left, 34, 600, 40, title_style(30))
     page.node(
-        "AtlasTrip", 60, 40, 600, 34, title_style(24)
-    )
-    page.node(
-        "Five agents on five frameworks, cooperating over the A2A protocol",
-        60, 74, 800, 22, caption_style(13),
+        "Five agents on five frameworks, cooperating over A2A",
+        left, 76, 900, 26, caption_style(16),
     )
 
-    # Band labels down the left edge.
-    bands = [
-        ("CALLER", 150),
-        ("ORCHESTRATION", 290),
-        ("SPECIALISTS", 500),
-        ("TOOL PLANE", 760),
-        ("DATA PLANE", 920),
-    ]
-    for text, y in bands:
-        page.node(text, 40, y, 150, 24, band_label())
+    def band(text: str, y: int) -> None:
+        page.node(text, left, y, 200, 22, band_label() + ";align=left;fontSize=12")
 
     # Caller
+    band("CALLER", 128)
     client = page.node(
-        label_html(
-            "Any A2A client",
-            "",
-            "The CLI, a web app, another agent. It knows one URL and reads one "
-            "Agent Card.",
-        ),
-        left + (span - 420) // 2, 130, 420, 84,
+        "<b style='font-size:19px'>Any A2A client</b><br/>"
+        "<span style='font-size:14px'>one URL, one Agent Card</span>",
+        left + (span - 460) // 2, 152, 460, 76,
         box("client"),
     )
 
     # Orchestrator
+    band("ORCHESTRATION", 268)
     concierge = page.node(
-        label_html(
-            "Concierge",
-            "LangGraph",
-            "Reads the request, commissions the specialists, renegotiates what "
-            "policy rejects, assembles the itinerary.",
-        ),
-        left + (span - 520) // 2, 268, 520, 118,
+        "<b style='font-size:22px'>Concierge</b><br/>"
+        "<span style='font-size:13px;letter-spacing:0.8px'>LANGGRAPH</span><br/>"
+        "<span style='font-size:14px'>plans the trip, renegotiates, escalates</span>",
+        left + (span - 620) // 2, 292, 620, 108,
         box("orchestrator"),
-    )
-    page.node(
-        ":8000", left + (span - 520) // 2 + 528, 268, 60, 20, caption_style(10)
     )
 
     # Specialists
+    band("SPECIALISTS", 452)
     specialists = [
-        ("Skyline", "Google ADK", "Sources and ranks flights.", "air", ":8001"),
-        ("Hearth", "CrewAI", "Finds a stay near the venue.", "stay", ":8002"),
-        ("Sentinel", "LlamaIndex", "Rules on policy and entry.", "policy", ":8003"),
-        ("Ledger", "Pydantic AI", "Authorises the spend.", "money", ":8004"),
+        ("Skyline", "GOOGLE ADK", "flights", "air"),
+        ("Hearth", "CREWAI", "lodging", "stay"),
+        ("Sentinel", "LLAMAINDEX", "policy &amp; visas", "policy"),
+        ("Ledger", "PYDANTIC AI", "budget &amp; approval", "money"),
     ]
-    node_w, gap = 272, 34
+    node_w, gap = 348, 28
     total = len(specialists) * node_w + (len(specialists) - 1) * gap
-    start = left + (span - total) // 2
+    start_x = left + (span - total) // 2
 
     specialist_ids = []
-    for index, (name, framework, detail, role, port) in enumerate(specialists):
-        x = start + index * (node_w + gap)
+    for index, (name, framework, job, role) in enumerate(specialists):
         node_id = page.node(
-            label_html(name, framework, detail), x, 478, node_w, 132, box(role)
+            f"<b style='font-size:21px'>{name}</b><br/>"
+            f"<span style='font-size:13px;letter-spacing:0.8px'>{framework}</span><br/>"
+            f"<span style='font-size:15px'>{job}</span>",
+            start_x + index * (node_w + gap), 476, node_w, 104,
+            box(role),
         )
-        page.node(port, x, 614, node_w, 18, caption_style(10, "center"))
         specialist_ids.append(node_id)
 
     # Tool plane
+    band("TOOL PLANE", 636)
     mcp = page.node(
-        label_html(
-            "Travel Inventory MCP server",
-            "Model Context Protocol, streamable HTTP",
-            "search_flights  ·  search_hotels  ·  lookup_employee  ·  "
-            "get_cost_center_budget  ·  record_commitment",
-        ),
-        left + (span - 760) // 2, 740, 760, 112,
+        "<b style='font-size:21px'>Travel Inventory MCP server</b><br/>"
+        "<span style='font-size:14px'>flights &nbsp;·&nbsp; hotels &nbsp;·&nbsp; people "
+        "&nbsp;·&nbsp; budgets</span>",
+        left + (span - 900) // 2, 660, 900, 86,
         box("tools"),
-    )
-    page.node(
-        ":8100/mcp", left + (span - 760) // 2 + 768, 740, 80, 20, caption_style(10)
     )
 
     # Data plane
+    band("DATA PLANE", 802)
     postgres = page.node(
-        label_html(
-            "PostgreSQL",
-            "",
-            "Flights, hotels, people, cost centres, the budget ledger, and the "
-            "A2A task store.",
-        ),
-        left + (span - 700) // 2, 900, 330, 108,
+        "<b style='font-size:19px'>PostgreSQL</b><br/>"
+        "<span style='font-size:14px'>inventory, ledger, A2A task store</span>",
+        left + (span - 860) // 2, 826, 416, 76,
         box("data"),
     )
     tinydb = page.node(
-        label_html(
-            "TinyDB",
-            "",
-            "Policy clauses, entry rules, customer sites, and the audit trail.",
-        ),
-        left + (span - 700) // 2 + 370, 900, 330, 108,
+        "<b style='font-size:19px'>TinyDB</b><br/>"
+        "<span style='font-size:14px'>policy clauses, entry rules, audit trail</span>",
+        left + (span - 860) // 2 + 444, 826, 416, 76,
         box("data"),
     )
 
     # Edges
-    page.edge(client, concierge, "A2A  message/stream", arrow("#4C51BF", width=1.8))
-
-    for node_id, (_, _, _, role, _) in zip(specialist_ids, specialists, strict=True):
-        page.edge(concierge, node_id, "", arrow(ROLES[role][1]))
-
-    for node_id, (_, _, _, role, _) in zip(specialist_ids, specialists, strict=True):
-        page.edge(node_id, mcp, "", arrow(ROLES[role][1], dashed=False, width=1.2))
-
-    page.edge(mcp, postgres, "", arrow("#4A5568"))
-    page.edge(mcp, tinydb, "", arrow("#4A5568"))
-
-    # A legend, rather than captions floating over the connectors.
-    page.node(
-        "", 60, 872, 330, 140,
-        f"rounded=1;arcSize=6;html=1;fillColor=#FFFFFF;strokeColor={HAIRLINE};"
-        f"strokeWidth=1;dashed=0",
-    )
-    page.node(
-        "<b style='font-size:12px'>Reading this diagram</b>",
-        78, 886, 294, 20, caption_style(12, "left", INK),
-    )
-    page.node(
-        "", 80, 924, 30, 2,
-        "line;strokeColor=#4C51BF;strokeWidth=2;html=1",
-    )
-    page.node(
-        "<b>A2A</b>&nbsp; agent to agent. One contextId per trip.",
-        120, 916, 258, 18, caption_style(10.5, "left", INK),
-    )
-    page.node(
-        "", 80, 956, 30, 2,
-        "line;strokeColor=#2C7A7B;strokeWidth=2;html=1",
-    )
-    page.node(
-        "<b>MCP</b>&nbsp; agent to tools. One server, four clients.",
-        120, 948, 258, 18, caption_style(10.5, "left", INK),
-    )
-    page.node(
-        "Every agent also persists its A2A tasks to PostgreSQL, and "
-        "appends to the audit trail in TinyDB.",
-        80, 972, 292, 34, caption_style(10, "left"),
-    )
+    page.edge(client, concierge, "A2A", arrow("#4C51BF", width=2))
+    for node_id, (_, _, _, role) in zip(specialist_ids, specialists, strict=True):
+        page.edge(concierge, node_id, "", arrow(ROLES[role][1], width=1.8))
+    for node_id, (_, _, _, role) in zip(specialist_ids, specialists, strict=True):
+        page.edge(node_id, mcp, "", arrow(ROLES[role][1], width=1.4))
+    page.edge(mcp, postgres, "", arrow("#4A5568", width=1.6))
+    page.edge(mcp, tinydb, "", arrow("#4A5568", width=1.6))
 
     page.node(
-        "MCP gives an agent its tools.&nbsp;&nbsp;A2A lets agents give each "
-        "other work.",
-        left, 1024, span, 20,
-        caption_style(12.5, "center", INK),
+        "<b>A2A</b> connects agents to each other. &nbsp;&nbsp;"
+        "<b>MCP</b> connects an agent to its tools.",
+        left, 916, span, 24,
+        caption_style(16, "center", INK),
     )
     return page
 

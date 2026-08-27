@@ -2,6 +2,12 @@
 #
 # The project only needs one container. Port 5433 is used rather than the
 # default so that this never collides with a Postgres you already run locally.
+#
+# The project name is pinned rather than derived from the directory, so
+# renaming the checkout does not orphan the container and leave `make db`
+# failing on a name conflict.
+name: atlastrip
+
 services:
   postgres:
     image: postgres:16-alpine

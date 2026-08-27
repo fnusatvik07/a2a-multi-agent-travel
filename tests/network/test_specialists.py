@@ -85,20 +85,37 @@ async def test_skyline_returns_alternatives_not_just_a_recommendation(context_id
 # -- Hearth -----------------------------------------------------------------
 
 
-async def test_hearth_prefers_the_nearest_room_when_the_cap_is_guidance(context_id, trip_ref):
-    """Hearth is allowed to exceed the cap. This is the judgement call that
-    makes the renegotiation in the Concierge necessary."""
-    stay = await source_stay(trip_ref, context_id, enforce=False)
-    assert stay.recommended.name == "Shinagawa Bay Tower"
-    assert stay.recommended.nightly_rate_usd > 280.0
+async def test_hearth_never_exceeds_the_cap_when_told_to_enforce_it(context_id, trip_ref):
+    """The one lodging guarantee the network actually depends on.
 
-
-async def test_hearth_respects_the_cap_when_told_to_enforce_it(context_id, trip_ref):
+    Everything else about Hearth is judgement, and judgement varies: the crew
+    picks from a shortlist and does not always pick the same room. This does
+    not vary, because the cap becomes a filter on the query rather than advice
+    in a prompt.
+    """
     stay = await source_stay(trip_ref, context_id, enforce=True)
     assert stay.recommended.nightly_rate_usd <= 280.0
+    for alternative in stay.alternatives:
+        assert alternative.nightly_rate_usd <= 280.0
 
 
-async def test_hearth_is_still_close_to_the_venue_under_the_cap(context_id, trip_ref):
+async def test_relaxing_the_cap_never_moves_the_traveller_further_away(
+    context_id, trip_ref
+):
+    """Hearth optimises for proximity, so a wider budget can only help.
+
+    Stated as an inequality rather than a named hotel: which room the crew
+    picks is a judgement that legitimately differs run to run, but a larger
+    choice set can never produce a worse answer on the axis Hearth is ranking.
+    """
+    guided = await source_stay(trip_ref, context_id, enforce=False)
+    enforced = await source_stay(trip_ref, context_id, enforce=True)
+    assert guided.recommended.distance_km_to_venue <= (
+        enforced.recommended.distance_km_to_venue + 0.01
+    )
+
+
+async def test_hearth_stays_close_to_the_venue_even_under_the_cap(context_id, trip_ref):
     stay = await source_stay(trip_ref, context_id, enforce=True)
     assert stay.recommended.distance_km_to_venue < 1.0
 
@@ -133,15 +150,38 @@ async def screen(
     return ComplianceVerdict.model_validate(reply.data)
 
 
-async def test_sentinel_catches_the_room_hearth_chose_over_the_cap(context_id, trip_ref):
+async def test_sentinel_catches_a_room_over_the_cap(context_id, trip_ref):
+    """Sentinel's ruling on an over-cap room, pinned independently of Hearth.
+
+    An earlier version of this test sourced the stay live and assumed the crew
+    would pick the expensive room. It usually does, and the test usually
+    passed. Constructing the over-cap stay here tests the thing the name
+    promises, every time.
+    """
     flights = await source_flights(trip_ref, context_id)
-    stay = await source_stay(trip_ref, context_id, enforce=False)
-    verdict = await screen(trip_ref, context_id, flights, stay)
+    stay = await source_stay(trip_ref, context_id, enforce=True)
+    over_cap = stay.model_copy(
+        update={
+            "recommended": stay.recommended.model_copy(
+                update={
+                    "nightly_rate_usd": 298.33,
+                    "total_usd": round(298.33 * stay.recommended.nights, 2),
+                }
+            )
+        }
+    )
+    verdict = await screen(trip_ref, context_id, flights, over_cap)
 
     assert not verdict.compliant
-    assert any(
-        finding.clause_id == "TRV-003" and finding.severity == "violation"
+    breach = [
+        finding
         for finding in verdict.findings
+        if finding.clause_id == "TRV-003" and finding.severity == "violation"
+    ]
+    assert breach, "an over-cap room must break TRV-003"
+    assert "cap of $280.00" in breach[0].detail, (
+        "the finding has to state the cap; the Concierge reads it back out to "
+        "renegotiate"
     )
 
 

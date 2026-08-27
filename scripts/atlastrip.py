@@ -126,9 +126,12 @@ async def cmd_plan(args: argparse.Namespace) -> int:
 
     if not reply.completed:
         rule("Outcome")
-        print(f"  {style(reply.state, RED)}")
+        declined = "declin" in reply.question.lower()
+        print(f"  {style(reply.state, YELLOW if declined else RED)}")
         print(f"  {reply.question}")
-        return 1
+        # A trip the approver turned down is a real answer, not a failure of
+        # the tool, so it exits clean. Only a broken run returns non-zero.
+        return 0 if declined else 1
 
     itinerary = Itinerary.model_validate(reply.data)
     _print_itinerary(itinerary)
@@ -189,6 +192,18 @@ async def cmd_doctor(_: argparse.Namespace) -> int:
 
 
 def _ask_human() -> bool:
+    """Ask at the terminal, if there is one.
+
+    Piped or scripted runs have no stdin to read, and silently answering "no"
+    there looks like the network refused the trip. Say what happened and point
+    at the flag instead.
+    """
+    if not sys.stdin.isatty():
+        print(
+            "  No terminal to ask on, so nothing is approved. "
+            "Use --approve or --decline to answer without a prompt."
+        )
+        return False
     try:
         answer = input("  Approve this spend? [y/N] ").strip().lower()
     except (EOFError, KeyboardInterrupt):

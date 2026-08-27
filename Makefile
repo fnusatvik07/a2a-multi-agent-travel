@@ -7,7 +7,7 @@ COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install db seed reset run demo plan cards trail doctor test test-unit test-network lint diagrams clean
+.PHONY: help install db seed reset run demo demo-yes plan cards trail doctor test test-unit test-network lint diagrams clean
 
 help:  ## Show this help
 	@echo "AtlasTrip"
@@ -43,6 +43,10 @@ run:  ## Start the MCP server and all five agents (Ctrl-C to stop)
 demo:  ## Plan the sample trip against the running network
 	@./scripts/_unhide_pth.sh
 	@$(CORE) scripts/atlastrip.py plan
+
+demo-yes:  ## Plan the sample trip and approve it without prompting
+	@./scripts/_unhide_pth.sh
+	@$(CORE) scripts/atlastrip.py plan --approve
 
 plan:  ## Plan a trip: make plan REQUEST="..."
 	@./scripts/_unhide_pth.sh

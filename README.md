@@ -1,90 +1,69 @@
+<div align="center">
+
 # AtlasTrip
 
-**Five AI agents, five different frameworks, five separate processes, cooperating over the [Agent2Agent (A2A) protocol](https://a2a-protocol.org) to book a corporate trip.**
+**Five AI agents. Five different frameworks. Five separate processes.**
+**They cannot import each other, so they agree on a protocol instead.**
 
-The agents share no runtime and no library. They cannot import each other; their dependency trees are mutually incompatible on purpose. They share a protocol, and that turns out to be enough.
+[![A2A](https://img.shields.io/badge/A2A-spec%201.0-4C51BF?style=for-the-badge)](https://a2a-protocol.org)
+[![MCP](https://img.shields.io/badge/MCP-streamable%20HTTP-2C7A7B?style=for-the-badge)](https://modelcontextprotocol.io)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
+[![Tests](https://img.shields.io/badge/tests-158%20passing-2F855A?style=for-the-badge)](#tests)
+[![License](https://img.shields.io/badge/license-MIT-141413?style=for-the-badge)](LICENSE)
 
-```
-                          you
-                           │  A2A
-                           ▼
-                 ┌───────────────────┐
-                 │     Concierge     │  LangGraph      :8000
-                 │   (orchestrator)  │
-                 └─────────┬─────────┘
-                           │  A2A: one context id, four peers
-        ┌──────────┬───────┴───────┬─────────────┐
-        ▼          ▼               ▼             ▼
-  ┌──────────┐┌──────────┐  ┌────────────┐┌────────────┐
-  │ Skyline  ││  Hearth  │  │  Sentinel  ││   Ledger   │
-  │  flights ││ lodging  │  │   policy   ││   budget   │
-  │Google ADK││  CrewAI  │  │ LlamaIndex ││ Pydantic AI│
-  │   :8001  ││  :8002   │  │   :8003    ││   :8004    │
-  └─────┬────┘└─────┬────┘  └──────┬─────┘└──────┬─────┘
-        └───────────┴──────┬───────┴─────────────┘
-                           │  MCP (streamable HTTP)
-                 ┌───────────────────┐
-                 │ Travel Inventory  │  :8100
-                 │    MCP server     │
-                 └─────────┬─────────┘
-                ┌──────────┴──────────┐
-           PostgreSQL              TinyDB
-      flights, hotels,          policy clauses,
-      people, budgets,          entry rules,
-      A2A task store            audit trail
-```
+[![LangGraph](https://img.shields.io/badge/Concierge-LangGraph-1C3C3C?logo=langchain&logoColor=white)](agents/concierge_langgraph)
+[![Google ADK](https://img.shields.io/badge/Skyline-Google%20ADK-4285F4?logo=google&logoColor=white)](agents/skyline_adk)
+[![CrewAI](https://img.shields.io/badge/Hearth-CrewAI-FF5A50?logo=crewai&logoColor=white)](agents/hearth_crewai)
+[![LlamaIndex](https://img.shields.io/badge/Sentinel-LlamaIndex-8B5CF6)](agents/sentinel_llamaindex)
+[![Pydantic AI](https://img.shields.io/badge/Ledger-Pydantic%20AI-E92063?logo=pydantic&logoColor=white)](agents/ledger_pydanticai)
+
+</div>
+
+<br/>
 
 <p align="center">
-  <img src="docs/diagrams/architecture.png" alt="AtlasTrip architecture" width="900">
+  <img src="docs/diagrams/architecture.png" alt="AtlasTrip architecture: a client talks to the Concierge over A2A; the Concierge commissions four specialist agents; all four read one shared MCP server backed by PostgreSQL and TinyDB" width="100%">
 </p>
 
-Two protocols, two jobs:
+<br/>
 
-- **MCP gives an agent its tools.** One inventory server holds every tool that touches data. All four specialists connect to it, each through its own framework's MCP client.
-- **A2A lets agents give each other work.** The Concierge commissions the specialists, waits on them, renegotiates with them, and pauses the whole network when a human has to decide.
+Most multi-agent demos are one process with a long list of tools. This one cannot be, and that is the point.
 
----
+CrewAI pins `openai>=2.30,<3`. Pydantic AI pins `openai>=3`. Google ADK needs `mcp<2`; LlamaIndex has moved to `mcp>=2`. `uv` refuses to resolve them together, correctly. These five agents have no shared runtime available to them, which is the ordinary state of the Python agent ecosystem and exactly the situation **A2A** exists for.
 
-## The 90 second version
+So they run as five independent services and cooperate over the wire:
+
+- **MCP gives an agent its tools.** One inventory server; all four specialists connect to it, each through its own framework's MCP client.
+- **A2A lets agents give each other work.** Not a function call, but a task with a lifecycle, which the callee can pause when it needs a human.
+
+They negotiate, they overrule each other, and one of them refuses to spend money without a person. Every number in this repository comes from an actual run.
+
+## Watch it first
 
 <p align="center">
   <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4">
-    <img src="docs/media/atlastrip-explainer-poster.png" alt="Watch the AtlasTrip explainer" width="720">
+    <img src="docs/media/atlastrip-explainer-poster.png" alt="Watch the AtlasTrip explainer" width="820">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4"><b>Watch the explainer</b></a>
-  &nbsp;·&nbsp; 2 min 37 &nbsp;·&nbsp; narrated
+  <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4"><b>▶ Watch the explainer</b></a>
+  &nbsp;&nbsp;·&nbsp;&nbsp; 2 min 37 &nbsp;&nbsp;·&nbsp;&nbsp; narrated
 </p>
 
-A company needs one engineer in Tokyo, which is four separate decisions. Five
-agents take them, on five frameworks that cannot share a process. You watch the
-messages travel between them, watch Sentinel refuse a room Hearth had already
-chosen, and watch Ledger stop dead rather than spend money without a human.
+A company needs one engineer in Tokyo, which is four separate decisions. Five agents take them. You watch the messages travel, watch one agent refuse a room another had already chosen, and watch a third stop dead rather than spend money without a person.
 
-Every figure on screen comes from an actual run of the network. The composition
-that produced it is in
-[`videos/atlastrip-a2a-explainer/`](videos/atlastrip-a2a-explainer) and rebuilds
-with `npx hyperframes render`.
+Every figure on screen comes from a real run. The composition that produced it is in [`videos/atlastrip-a2a-explainer/`](videos/atlastrip-a2a-explainer) and rebuilds with `npx hyperframes render`.
+
+---
 
 ## Table of contents
 
-- [The 90 second version](#the-90-second-version)
-- [The scenario](#the-scenario)
-- [Quick start](#quick-start)
-- [What a run looks like](#what-a-run-looks-like)
-- [The five agents](#the-five-agents)
-- [How A2A is actually used](#how-a2a-is-actually-used)
-- [How MCP is actually used](#how-mcp-is-actually-used)
-- [Repository layout](#repository-layout)
-- [The dataset](#the-dataset)
-- [Running without an API key](#running-without-an-api-key)
-- [Tests](#tests)
-- [Design decisions worth arguing about](#design-decisions-worth-arguing-about)
-- [Troubleshooting](#troubleshooting)
-- [Versions](#versions)
-- [License](#license)
+**Start here** &nbsp;·&nbsp; [The scenario](#the-scenario) &nbsp;·&nbsp; [Getting started](#getting-started) &nbsp;·&nbsp; [What a run looks like](#what-a-run-looks-like) &nbsp;·&nbsp; [Building on this](#building-on-this)
+
+**The design** &nbsp;·&nbsp; [The five agents](#the-five-agents) &nbsp;·&nbsp; [How A2A is actually used](#how-a2a-is-actually-used) &nbsp;·&nbsp; [How MCP is actually used](#how-mcp-is-actually-used) &nbsp;·&nbsp; [Why one virtualenv per service](#why-one-virtualenv-per-service) &nbsp;·&nbsp; [Design decisions worth arguing about](#design-decisions-worth-arguing-about)
+
+**Reference** &nbsp;·&nbsp; [Repository layout](#repository-layout) &nbsp;·&nbsp; [The dataset](#the-dataset) &nbsp;·&nbsp; [Running without an API key](#running-without-an-api-key) &nbsp;·&nbsp; [Tests](#tests) &nbsp;·&nbsp; [Troubleshooting](#troubleshooting) &nbsp;·&nbsp; [Versions](#versions)
 
 ---
 
@@ -108,45 +87,140 @@ What happens next is not a single model with ten tools. It is five agents with d
 The interesting part is step 5. Hearth made a defensible judgement, Sentinel overruled it, and the network resolved the disagreement by negotiating rather than by one agent quietly knowing better. That only works because judgement and enforcement live in different agents that can talk to each other.
 
 <p align="center">
-  <img src="docs/diagrams/trip-sequence.png" alt="How one trip is booked" width="960">
+  <img src="docs/diagrams/trip-sequence.png" alt="Sequence diagram of one trip: the Concierge commissions Skyline and Hearth in parallel, Sentinel refuses the room, the Concierge re-asks Hearth, and Ledger pauses for a human" width="100%">
 </p>
 
 ---
 
-## Quick start
+## Getting started
 
-**You need:** Python 3.11 or newer, [uv](https://docs.astral.sh/uv/getting-started/installation/), Docker, and an OpenAI API key.
+Everything below was run from a clean clone before it was written down.
+
+### 1. What you need
+
+| | | |
+|---|---|---|
+| **Python 3.11+** | for the services | `python3 --version` |
+| **[uv](https://docs.astral.sh/uv/getting-started/installation/)** | builds the seven virtualenvs | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| **Docker** | runs PostgreSQL, nothing else | `docker info` |
+| **An OpenAI API key** | the agents' reasoning | [platform.openai.com](https://platform.openai.com/api-keys) |
+
+No key? The network still runs. Skip to [running without an API key](#running-without-an-api-key).
+
+### 2. Set it up
 
 ```bash
 git clone https://github.com/fnusatvik07/a2a-multi-agent-travel.git
 cd a2a-multi-agent-travel
 
-cp .env.example .env          # then put your OPENAI_API_KEY in it
+cp .env.example .env
+$EDITOR .env                  # put your key in OPENAI_API_KEY
 
-make install                  # one virtualenv per service (about 2 minutes)
-make db                       # Postgres in Docker on port 5433
-make seed                     # build the dataset
-
-make run                      # starts the MCP server and all five agents
+make install                  # seven virtualenvs, one per service
+make db                       # PostgreSQL in Docker, on port 5433
+make seed                     # 1,938 flights, 6,042 hotel rates, the policy book
 ```
 
-Then, in a second terminal:
+`make install` takes two or three minutes the first time and a few seconds after
+that, because `uv` caches aggressively. It builds a separate environment for
+every service on purpose; see [why one virtualenv per service](#why-one-virtualenv-per-service).
+
+### 3. Run it
 
 ```bash
+make run                      # the MCP server and all five agents
+```
+
+Leave that running. It prints each agent's card URL and holds the terminal;
+Ctrl-C stops everything. Then in a **second terminal**:
+
+```bash
+make doctor                   # confirm all seven services are up
 make demo                     # plan the sample trip
 ```
 
-Other things to try:
+`make demo` will stop and ask you to approve a spend, because one of the agents
+refuses to commit money without a person. That pause is the most interesting
+thing in the project, so answer it yourself the first time. `make demo-yes`
+approves without prompting, for scripts and CI.
+
+### 4. Look around
 
 ```bash
-make doctor                              # is everything up?
-make cards                               # read all five agent cards
-make trail                               # replay what crossed the wire
+make cards                    # every agent's card, as A2A discovery returns it
+make trail                    # replay what actually crossed the wire
 make plan REQUEST="Deshawn Okafor needs three days in London next month"
-make test                                # 88 unit tests, 70 integration tests
+make test                     # 88 unit tests offline, 70 against the live network
+make lint                     # ruff over every service
 ```
 
-`make` on its own lists every target.
+`make` on its own lists every target with a one-line description.
+
+### If something goes wrong
+
+`make doctor` first: it checks PostgreSQL, the MCP server and all five agents
+separately, so you learn which piece is unhappy before reading any logs. Agent
+logs are in `logs/`. The [troubleshooting section](#troubleshooting) covers the
+failures people actually hit.
+
+---
+
+## Building on this
+
+The repository is laid out so you can take one piece without taking the rest.
+
+**To add a sixth agent**, copy the folder of whichever existing agent is closest
+in shape. Every agent is the same five files:
+
+```
+agents/<name>/src/<pkg>/
+    card.py        what it advertises on its Agent Card
+    service.py     the domain logic. Deterministic, no model, unit tested
+    agent.py       the framework wiring, where the model reasons
+    executor.py    the A2A lifecycle, written out in full
+    __main__.py    puts it on a port
+```
+
+Add it to `packages/atlastrip_core/src/atlastrip_core/registry.py`, give it a
+port, and it is discoverable. Nothing else needs to know it exists.
+
+**To swap a framework**, only `agent.py` changes. `service.py`, `executor.py`
+and the Agent Card are framework-agnostic by construction, which is the whole
+argument the project is making.
+
+**To change the domain**, the travel logic lives in the four `service.py` files,
+the data lives in `data/seed/` as editable JSON, and the policy book is ten
+documents in `data/seed/policies.json`. Nothing about A2A or MCP cares that this
+is travel.
+
+**To reuse just the A2A plumbing**, take
+`packages/atlastrip_core/src/atlastrip_core/` - about 1,000 lines covering Agent
+Card construction, the client, the task store, and a dependency-free MCP client
+written against the wire format.
+
+### What this is and is not
+
+It is a **working reference implementation** of A2A with real framework
+integrations, a real dataset, and a test suite that pins the behaviour down. If
+you are evaluating A2A, or learning it, or want a shape to copy, it is meant
+for exactly that.
+
+It is **not production infrastructure.** Before you ship anything resembling it:
+
+- The approval token is a correlation id, not a credential. Ledger derives it
+  from the trip and the amount so a replay cannot mint a second one, but there
+  is no signature and no identity provider. Real approvals need a signed grant.
+- The Agent Cards advertise no `securitySchemes`. Every agent trusts every
+  caller. A2A supports API keys, HTTP auth, OAuth2 and mTLS; none is wired up.
+- The LangGraph checkpointer is in memory, so a Concierge restart loses trips
+  that are mid-approval. The A2A task in PostgreSQL survives; the graph state
+  does not. Swap `MemorySaver` for the PostgreSQL checkpointer to fix it.
+- Agents talk over plain HTTP on localhost. There is no TLS and no service mesh.
+- There is no rate limiting, no retry policy and no circuit breaker between
+  agents. One slow specialist blocks its caller until the timeout.
+
+None of those are hard to add. They are left out because each one would have
+obscured the thing the project is trying to show.
 
 ---
 
@@ -271,16 +345,10 @@ Nothing on the Concierge's card says "this one orchestrates the others". To a ca
 
 ### The task lifecycle
 
-A2A models work as a task with a state, not as a request and a response. Every executor in this repository walks the same path, written out in full rather than hidden behind a base class:
-
-```
-Task(submitted) ──▶ working ──▶ working ──▶ artifact ──▶ completed
-                                                     └─▶ failed
-                                                     └─▶ input-required ──▶ (resume)
-```
+A2A models work as a task with a state, not as a request and a response. Every executor in this repository walks the same path, written out in full rather than hidden behind a base class.
 
 <p align="center">
-  <img src="docs/diagrams/task-lifecycle.png" alt="The A2A task lifecycle" width="820">
+  <img src="docs/diagrams/task-lifecycle.png" alt="The A2A task lifecycle: submitted, working, and input-required across the top; rejected, failed, completed and canceled as terminal states" width="100%">
 </p>
 
 One detail worth knowing before you write your own: **the first thing enqueued must be the `Task` object itself.** A status update that arrives before it is rejected by the client. That is what `accept_task` exists for.
@@ -472,8 +540,8 @@ What the integration tests actually assert:
 - a task walks submitted, working, artifact, completed
 - a malformed brief is `rejected` (the caller was wrong), an empty route is `failed` (the work could not be done)
 - the raw JSON-RPC binding answers with no client library present, in both 1.0 and 0.3 spellings
-- Hearth exceeds the cap on judgement and respects it when told to enforce it
-- Sentinel catches the room Hearth chose, and clears the replacement
+- Hearth never exceeds the cap when told to enforce it, and relaxing the cap never moves the traveller further from the venue
+- Sentinel breaks TRV-003 on an over-cap room, and states the cap in the finding
 - Ledger pauses, and the approval settles the same task id
 - one sentence produces a confirmed itinerary, with all five agents in the trail and Hearth asked twice
 - declining the approval leaves the ledger untouched
@@ -495,6 +563,8 @@ Honest notes on the choices a reader might push back on.
 **The LangGraph checkpointer is in memory.** Restart the Concierge mid-approval and the graph state is gone, though the A2A task in Postgres survives. Swapping `MemorySaver` for the Postgres checkpointer would fix it; it is left simple because the checkpointer is not what the project is about.
 
 **Every model call can fail without consequence.** That is deliberate, and it is why the split between `service.py` and `agent.py` exists. It also means you can watch the network run correctly with the API key removed, which is a useful thing to be able to demonstrate.
+
+**Integration tests assert invariants, not choices.** Two of them used to name the hotel they expected Hearth to pick. It usually picked it, and they usually passed. A model that is genuinely exercising judgement will not always choose the same thing, so those tests now assert what must always hold: that an enforced cap is never exceeded, and that relaxing a cap never moves the traveller further away. `tests/network/test_specialists.py` says so in its own comments.
 
 **Hearth's ranking uses real units, not normalised scores.** An earlier version min-max normalised price, distance and stars. A test caught that this is scale-blind: it would pay $900 a night to save 400 metres, because it only ever saw "most expensive" and "nearest" rather than how much more and how much nearer. The ranking now scores price as a premium over the cheapest room and distance in kilometres. `tests/agents/hearth/test_ranking.py` keeps it honest.
 
