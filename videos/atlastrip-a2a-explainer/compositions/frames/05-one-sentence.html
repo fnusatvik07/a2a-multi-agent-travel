@@ -1,0 +1,499 @@
+<template>
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+  <style>
+    /* ── fonts: brand families only, declared in-file (local faces; falls back
+       to the stack below when the woff2 set is not staged) ───────────────── */
+    
+    
+    
+    
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      color: #141413;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── layer 0: warm cream ground (full-bleed clip, never on #root) ─────── */
+    .fr05-ground {
+      position: absolute;
+      inset: 0;
+      background: #faf9f5;
+    }
+
+    /* ── layer 1: the settled network from the previous beat — abstract echo,
+       receding + defocusing into the background ──────────────────────────── */
+    .fr05-net {
+      position: absolute;
+      inset: 0;
+    }
+    .fr05-world {
+      --dof: 3px;
+      position: absolute;
+      left: -80px;
+      top: -80px;
+      width: 2080px;
+      height: 1240px;
+      filter: blur(var(--dof));
+      will-change: filter;
+      opacity: 0.5;
+      transform-origin: 50% 50%;
+    }
+    .fr05-wires {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2080px;
+      height: 1240px;
+    }
+    .fr05-node {
+      position: absolute;
+      width: 300px;
+      height: 176px;
+      margin-left: -150px;
+      margin-top: -88px;
+      border-radius: 12px;
+      background: #ece3d4;
+      border: 1px solid rgba(20, 20, 19, 0.18);
+      padding: 26px 24px;
+    }
+    .fr05-chip {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(20, 20, 19, 0.16);
+      margin-bottom: 20px;
+    }
+    .fr05-bar {
+      height: 14px;
+      border-radius: 4px;
+      background: rgba(20, 20, 19, 0.2);
+      margin-bottom: 12px;
+    }
+    .fr05-bar.thin {
+      height: 10px;
+      background: rgba(20, 20, 19, 0.12);
+    }
+    .fr05-hub {
+      position: absolute;
+      width: 96px;
+      height: 96px;
+      margin-left: -48px;
+      margin-top: -48px;
+      border-radius: 9999px;
+      background: #ece3d4;
+      border: 1px solid rgba(20, 20, 19, 0.22);
+    }
+
+    /* ── layer 2: the request ─────────────────────────────────────────────── */
+    .fr05-fg {
+      position: absolute;
+      inset: 0;
+    }
+
+    .fr05-kicker {
+      position: absolute;
+      left: 120px;
+      top: 168px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.62);
+    }
+    .fr05-spike {
+      color: #cc785c;
+      margin-right: 14px;
+    }
+
+    /* the input plate — the 70 of the asymmetric 70/30 */
+    .fr05-plate {
+      position: absolute;
+      left: 120px;
+      top: 336px;
+      width: 1344px;
+      height: 268px;
+      border-radius: 12px;
+      background: #faf9f5;
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      box-shadow:
+        0 1px 3px rgba(20, 20, 19, 0.08),
+        0 4px 16px rgba(20, 20, 19, 0.04);
+    }
+    .fr05-line {
+      position: absolute;
+      left: 56px;
+      top: 48px;
+      width: 1232px;
+      font-size: 44px;
+      line-height: 1.5;
+      font-weight: 400;
+      color: #141413;
+      white-space: pre-wrap;
+    }
+    .fr05-typed {
+      white-space: pre-wrap;
+    }
+    .fr05-caret {
+      display: inline-block;
+      width: 3px;
+      height: 40px;
+      vertical-align: -6px;
+      background: #141413;
+      opacity: 0;
+    }
+    .fr05-sent {
+      position: absolute;
+      right: 40px;
+      bottom: 24px;
+      padding: 9px 18px;
+      border-radius: 9999px;
+      background: #efe9de;
+      border: 1px solid rgba(20, 20, 19, 0.14);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: rgba(20, 20, 19, 0.66);
+      opacity: 0;
+    }
+
+    /* the hairline the plate stands on */
+    .fr05-rule {
+      position: absolute;
+      left: 120px;
+      top: 672px;
+      width: 1344px;
+      height: 1px;
+      background: rgba(20, 20, 19, 0.12);
+      transform-origin: 0% 50%;
+    }
+
+    /* the 30 — mono meta column */
+    .fr05-meta {
+      position: absolute;
+      left: 1560px;
+      top: 336px;
+      width: 240px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+    }
+    .fr05-meta-tag {
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.52);
+    }
+    .fr05-meta-rule {
+      width: 240px;
+      height: 1px;
+      background: rgba(20, 20, 19, 0.12);
+      margin: 20px 0 26px;
+    }
+    .fr05-count {
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: rgba(20, 20, 19, 0.72);
+      font-variant-numeric: tabular-nums;
+    }
+    .fr05-track {
+      width: 240px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(20, 20, 19, 0.1);
+      margin-top: 26px;
+      overflow: hidden;
+    }
+    .fr05-fill {
+      width: 0%;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(20, 20, 19, 0.55);
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="05-one-sentence"
+    data-width="1920"
+    data-height="1080"
+  >
+    <div
+      class="clip fr05-ground"
+      data-start="0"
+      data-duration="6.763"
+      data-track-index="0"
+    ></div>
+
+    <div
+      id="fr05-net"
+      class="clip fr05-net"
+      data-start="0"
+      data-duration="6.763"
+      data-track-index="1"
+    >
+      <div id="fr05-world" class="fr05-world">
+        <svg class="fr05-wires" viewBox="0 0 2080 1240" fill="none">
+          <g stroke="rgba(20,20,19,0.22)" stroke-width="2">
+            <path d="M1040 580 L380 330" />
+            <path d="M1040 580 L940 270" />
+            <path d="M1040 580 L1640 380" />
+            <path d="M1040 580 L600 860" />
+            <path d="M1040 580 L1460 880" />
+            <path d="M380 330 L940 270" />
+            <path d="M600 860 L1460 880" />
+          </g>
+        </svg>
+
+        <div class="fr05-node" style="left: 380px; top: 330px">
+          <div class="fr05-chip"></div>
+          <div class="fr05-bar" style="width: 168px"></div>
+          <div class="fr05-bar thin" style="width: 226px"></div>
+        </div>
+        <div class="fr05-node" style="left: 940px; top: 270px">
+          <div class="fr05-chip"></div>
+          <div class="fr05-bar" style="width: 196px"></div>
+          <div class="fr05-bar thin" style="width: 150px"></div>
+        </div>
+        <div class="fr05-node" style="left: 1640px; top: 380px">
+          <div class="fr05-chip"></div>
+          <div class="fr05-bar" style="width: 148px"></div>
+          <div class="fr05-bar thin" style="width: 214px"></div>
+        </div>
+        <div class="fr05-node" style="left: 600px; top: 860px">
+          <div class="fr05-chip"></div>
+          <div class="fr05-bar" style="width: 210px"></div>
+          <div class="fr05-bar thin" style="width: 132px"></div>
+        </div>
+        <div class="fr05-node" style="left: 1460px; top: 880px">
+          <div class="fr05-chip"></div>
+          <div class="fr05-bar" style="width: 172px"></div>
+          <div class="fr05-bar thin" style="width: 200px"></div>
+        </div>
+        <div class="fr05-hub" style="left: 1040px; top: 580px"></div>
+      </div>
+    </div>
+
+    <div
+      class="clip fr05-fg"
+      data-start="0"
+      data-duration="6.763"
+      data-track-index="2"
+    >
+      <div id="fr05-kicker" class="fr05-kicker">
+        <span class="fr05-spike">&#10033;</span>The ask
+      </div>
+
+      <div id="fr05-plate" class="fr05-plate">
+        <div id="fr05-line" class="fr05-line"><span
+            id="fr05-typed"
+            class="fr05-typed"
+          ></span><span id="fr05-caret" class="fr05-caret"></span></div>
+        <div id="fr05-sent" class="fr05-sent">sent</div>
+      </div>
+
+      <div id="fr05-rule" class="fr05-rule"></div>
+
+      <div id="fr05-meta" class="fr05-meta">
+        <div class="fr05-meta-tag">Request</div>
+        <div class="fr05-meta-rule"></div>
+        <div id="fr05-count" class="fr05-count">000 / 085</div>
+        <div class="fr05-track"><div id="fr05-fill" class="fr05-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var DUR = 6.763;
+      var FULL =
+        "Mira Halvorsen needs to be in Tokyo for the Kaisei customer review, 14 to 17 October.";
+
+      var typedEl = document.getElementById("fr05-typed");
+      var caretEl = document.getElementById("fr05-caret");
+      var countEl = document.getElementById("fr05-count");
+      var fillEl = document.getElementById("fr05-fill");
+      var world = document.getElementById("fr05-world");
+
+      /* ── typing schedule: real rhythm — deliberate on the names, fast on the
+         common words, a beat of pause at the comma. Pure function of time, so
+         every seek (forward or back) renders the same characters. ─────────── */
+      var TYPE_IN = 1.2;
+      var idx = function (s) {
+        return FULL.indexOf(s);
+      };
+      var SEG = [
+        { c0: 0, c1: idx("needs"), d: 0.62 }, // "Mira Halvorsen "
+        { c0: idx("needs"), c1: idx("Tokyo"), d: 0.6 }, // "needs to be in "
+        { c0: idx("Tokyo"), c1: idx("for"), d: 0.34 }, // "Tokyo "
+        { c0: idx("for"), c1: idx("Kaisei"), d: 0.3 }, // "for the "
+        { c0: idx("Kaisei"), c1: idx("customer"), d: 0.4 }, // "Kaisei "
+        { c0: idx("customer"), c1: idx(",") + 1, d: 0.7 }, // "customer review,"
+        { c0: idx(",") + 1, c1: idx("October"), d: 0.5, gapBefore: 0.26 }, // comma pause, then " 14 to 17 "
+        { c0: idx("October"), c1: FULL.length, d: 0.48 } // "October."
+      ];
+      var at = TYPE_IN;
+      for (var i = 0; i < SEG.length; i++) {
+        at += SEG[i].gapBefore || 0;
+        SEG[i].t0 = at;
+        at += SEG[i].d;
+        SEG[i].t1 = at;
+      }
+      var TYPE_END = at; // 5.40s
+
+      function charsAt(t) {
+        if (t <= SEG[0].t0) return 0;
+        if (t >= TYPE_END) return FULL.length;
+        for (var i = SEG.length - 1; i >= 0; i--) {
+          var s = SEG[i];
+          if (t >= s.t1) return s.c1;
+          if (t >= s.t0) {
+            var p = (t - s.t0) / (s.t1 - s.t0);
+            return Math.round(s.c0 + (s.c1 - s.c0) * p);
+          }
+        }
+        return 0;
+      }
+
+      // every character landing is a typing event — baked, so the caret's
+      // solid-while-typing behaviour is identical at any seek direction.
+      var CARET_IN = 0.55;
+      var CARET_OUT = 5.55;
+      var GRACE = 0.16;
+      var BLINK_CYCLES = 8; // whole number over DUR -> period 0.845s
+
+      function pad3(n) {
+        return ("00" + n).slice(-3);
+      }
+
+      var drv = { t: 0 };
+      function render() {
+        var t = drv.t;
+        var n = charsAt(t);
+        typedEl.textContent = FULL.slice(0, n);
+        countEl.textContent = pad3(n) + " / " + pad3(FULL.length);
+        fillEl.style.width = (n / FULL.length) * 100 + "%";
+
+        var o = 0;
+        if (t >= CARET_IN && t < CARET_OUT) {
+          var typing = t >= SEG[0].t0 - GRACE && t <= TYPE_END + GRACE;
+          o = typing
+            ? 1
+            : Math.sin(2 * Math.PI * BLINK_CYCLES * (t / DUR)) > 0
+              ? 1
+              : 0;
+        } else if (t >= CARET_OUT) {
+          o = 0;
+        }
+        caretEl.style.opacity = String(o);
+      }
+      render();
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // one linear driver carries the caret + the typed line + the counter
+      tl.to(drv, { t: DUR, duration: DUR, ease: "none", onUpdate: render }, 0);
+
+      /* ── Scene 1 (0.0–1.2s) — the settled network recedes and defocuses to
+         ~25%; the empty plate seats in, caret blinking ───────────────────── */
+      tl.to(
+        world,
+        {
+          "--dof": "16px",
+          opacity: 0.25,
+          scale: 0.955,
+          duration: 1.2,
+          ease: "power3.out"
+        },
+        0
+      );
+      tl.fromTo(
+        "#fr05-plate",
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.64, ease: "power3.out" },
+        0.08
+      );
+      tl.fromTo(
+        "#fr05-kicker",
+        { opacity: 0, x: -18 },
+        { opacity: 1, x: 0, duration: 0.6, ease: "power3.out" },
+        0.26
+      );
+      tl.fromTo(
+        "#fr05-rule",
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.8, ease: "power3.out" },
+        0.44
+      );
+      tl.fromTo(
+        "#fr05-meta",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+        0.66
+      );
+
+      /* ── Scene 2 (1.2–5.4s) — the request types itself, caret leading.
+         (carried by the driver above) ───────────────────────────────────── */
+
+      /* ── Scene 3 (5.4–6.763s) — the caret stops, the plate goes ink-strong
+         for one beat and settles, `sent` appears at the plate's right edge,
+         and the network behind brightens very slightly, as if waking ─────── */
+      tl.to(
+        "#fr05-plate",
+        {
+          borderColor: "rgba(20,20,19,0.34)",
+          duration: 0.26,
+          ease: "power2.out"
+        },
+        5.42
+      );
+      tl.to(
+        "#fr05-plate",
+        {
+          borderColor: "rgba(20,20,19,0.2)",
+          duration: 0.5,
+          ease: "power3.out"
+        },
+        5.72
+      );
+      tl.fromTo(
+        "#fr05-line",
+        { y: 3 },
+        { y: 0, duration: 0.5, ease: "power3.out" },
+        5.46
+      );
+      tl.fromTo(
+        "#fr05-sent",
+        { opacity: 0, y: 8, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.44, ease: "power3.out" },
+        5.62
+      );
+      tl.to(
+        world,
+        { "--dof": "13px", opacity: 0.32, duration: 0.9, ease: "power2.out" },
+        5.68
+      );
+
+      window.__timelines["05-one-sentence"] = tl;
+    })();
+  </script>
+</template>

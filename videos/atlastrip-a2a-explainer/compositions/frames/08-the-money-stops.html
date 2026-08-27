@@ -1,0 +1,454 @@
+<template>
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      container-type: size;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+      color: #141413;
+    }
+
+    .ground {
+      position: absolute;
+      inset: 0;
+      background: #faf9f5;
+    }
+
+    .mono {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kicker {
+      position: absolute;
+      left: 200px;
+      top: 84px;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.45);
+    }
+
+    .total-label {
+      position: absolute;
+      left: 200px;
+      top: 300px;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.5);
+    }
+
+    .total-wrap {
+      position: absolute;
+      left: 200px;
+      top: 336px;
+      width: 1040px;
+      height: 190px;
+      display: flex;
+      align-items: center;
+    }
+
+    .total {
+      display: inline-block;
+      font-family: "EB Garamond", serif;
+      font-weight: 400;
+      font-size: 180px;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      font-variant-numeric: tabular-nums;
+      color: #141413;
+      transform-origin: left center;
+      white-space: nowrap;
+    }
+
+    .verdict {
+      position: absolute;
+      left: 1460px;
+      top: 382px;
+      width: 260px;
+      height: 92px;
+    }
+
+    .chip {
+      /* Sized by its .chipslot wrapper, not the canvas. Stated explicitly
+         rather than with inset:0 so it cannot read as a full-frame overlay. */
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      border-radius: 8px;
+      font-size: 30px;
+      line-height: 1;
+      transform-origin: center center;
+    }
+
+    .chip-fits {
+      background: #efe9de;
+      border: 1px solid rgba(20, 20, 19, 0.2);
+      color: #141413;
+      letter-spacing: 0.02em;
+    }
+
+    .chip-held {
+      background: #cc785c;
+      border: 1px solid #cc785c;
+      color: #faf9f5;
+      letter-spacing: 0.16em;
+      opacity: 0;
+    }
+
+    .tick {
+      display: block;
+    }
+
+    .bar-wrap {
+      position: absolute;
+      left: 200px;
+      top: 600px;
+      width: 1520px;
+      height: 26px;
+      clip-path: inset(0 0 0 0);
+    }
+
+    .track {
+      position: absolute;
+      inset: 0;
+      background: #ece3d4;
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .fill {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #141413;
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    .fill-cap {
+      position: absolute;
+      left: 935.7px;
+      top: 584px;
+      width: 4px;
+      height: 58px;
+      background: #141413;
+      transform-origin: center center;
+      opacity: 0;
+    }
+
+    .thr-line {
+      position: absolute;
+      left: 799px;
+      top: 546px;
+      width: 2px;
+      height: 110px;
+      background: #141413;
+    }
+
+    .thr-label {
+      position: absolute;
+      left: 820px;
+      top: 668px;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: rgba(20, 20, 19, 0.62);
+      white-space: nowrap;
+    }
+
+    .thr-label .val {
+      color: #141413;
+      margin-left: 20px;
+    }
+
+    .over-label {
+      position: absolute;
+      left: 820px;
+      top: 548px;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: #141413;
+      white-space: nowrap;
+    }
+
+    .budget-label {
+      position: absolute;
+      right: 200px;
+      top: 548px;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: rgba(20, 20, 19, 0.62);
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    .stamp {
+      position: absolute;
+      left: 200px;
+      top: 744px;
+      padding: 20px 30px;
+      border-radius: 8px;
+      background: #181715;
+      border: 1px solid rgba(250, 249, 245, 0.14);
+      color: #faf9f5;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: 0.06em;
+      transform-origin: left center;
+      opacity: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="08-the-money-stops" data-width="1920" data-height="1080">
+    <div
+      class="clip ground"
+      data-start="0"
+      data-duration="7.637"
+      data-track-index="0"
+    ></div>
+
+    <div class="kicker mono" id="mstop-kicker">Ledger · budget check</div>
+
+    <div class="total-label mono" id="mstop-total-label" data-layout-allow-overlap>Trip total</div>
+    <div class="total-wrap" id="mstop-total-wrap">
+      <span class="total" id="mstop-total" data-layout-allow-overlap>$0.00</span>
+    </div>
+
+    <div class="verdict">
+      <div class="chip chip-fits mono" id="mstop-chip-fits">
+        <svg class="tick" width="26" height="20" viewBox="0 0 26 20" fill="none" aria-hidden="true">
+          <path d="M2 11 L9.5 18 L24 2" stroke="#141413" stroke-width="2.4" stroke-linecap="square" fill="none" />
+        </svg>
+        <span>fits</span>
+      </div>
+      <div class="chip chip-held mono" id="mstop-chip-held">
+        <svg class="tick" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <rect x="2" y="2" width="16" height="16" fill="#faf9f5" />
+        </svg>
+        <span>HELD</span>
+      </div>
+    </div>
+
+    <div class="over-label mono" id="mstop-over">+$688.76 over</div>
+    <div class="budget-label mono" id="mstop-budget">$7,600.00 remaining this quarter</div>
+
+    <div class="bar-wrap" id="mstop-bar-wrap">
+      <div class="track">
+        <div class="fill" id="mstop-fill"></div>
+      </div>
+    </div>
+
+    <div class="fill-cap" id="mstop-cap"></div>
+
+    <div class="thr-line" id="mstop-thr-line"></div>
+    <div class="thr-label mono" id="mstop-thr-label">
+      auto-approval threshold<span class="val">$3,000.00</span>
+    </div>
+
+    <div class="stamp mono" id="mstop-stamp">TASK_STATE_INPUT_REQUIRED</div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var TOTAL = 3688.76;
+      var BUDGET = 7600;
+      var FILL_PCT = TOTAL / BUDGET; // 0.4853632 — just under half
+      var COUNT_AT = 2.35;
+      var COUNT_DUR = 1.3;
+      var COUNT_EASE = "power3.out";
+
+      var counter = document.getElementById("mstop-total");
+      var state = { value: 0 };
+
+      function money(v) {
+        var s = v.toFixed(2);
+        var parts = s.split(".");
+        return (
+          "$" + parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + parts[1]
+        );
+      }
+
+      /* ---------- Scene 1 (0.0–2.4s) — the frame clears to cream, the budget bar draws ---------- */
+      tl.fromTo(
+        "#mstop-kicker",
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        0.1
+      );
+
+      // hero lockup present early, held dim until the money is spoken
+      tl.fromTo(
+        "#mstop-total-wrap",
+        { opacity: 0, y: 18 },
+        { opacity: 0.3, y: 0, duration: 0.55, ease: "power3.out" },
+        0.25
+      );
+      tl.fromTo(
+        "#mstop-total-label",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        0.3
+      );
+
+      // the bar draws across the middle (wipe, left → right)
+      tl.fromTo(
+        "#mstop-bar-wrap",
+        { clipPath: "inset(0 100% 0 0)" },
+        { clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power3.out" },
+        0.4
+      );
+      tl.fromTo(
+        "#mstop-budget",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" },
+        1.35
+      );
+
+      /* ---------- Scene 2 (2.4–4.4s) — the total counts up, the fill sweeps, it reads as a yes ---------- */
+      tl.to("#mstop-total-wrap", { opacity: 1, duration: 0.35, ease: "power2.out" }, 2.3);
+
+      tl.to(
+        state,
+        {
+          value: TOTAL,
+          duration: COUNT_DUR,
+          ease: COUNT_EASE,
+          onUpdate: function () {
+            counter.textContent = money(state.value);
+          }
+        },
+        COUNT_AT
+      );
+      tl.fromTo(
+        "#mstop-total",
+        { scale: 0.58 },
+        { scale: 1, duration: COUNT_DUR, ease: COUNT_EASE },
+        COUNT_AT
+      );
+      // the fill shares the count's timing + ease so number and bar land as one beat
+      tl.fromTo(
+        "#mstop-fill",
+        { scaleX: 0 },
+        { scaleX: FILL_PCT, duration: COUNT_DUR, ease: COUNT_EASE },
+        COUNT_AT
+      );
+
+      // "fits" — for one beat this looks like a yes
+      tl.fromTo(
+        "#mstop-chip-fits",
+        { opacity: 0, scale: 1.18, filter: "blur(10px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" },
+        3.75
+      );
+
+      /* ---------- Scene 3 (4.4–7.637s) — the threshold drops, the money stops ---------- */
+      tl.fromTo(
+        "#mstop-thr-line",
+        { opacity: 0, y: -34 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" },
+        4.45
+      );
+      tl.fromTo(
+        "#mstop-thr-label",
+        { opacity: 0, x: -14 },
+        { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" },
+        4.7
+      );
+      tl.fromTo(
+        "#mstop-over",
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
+        4.95
+      );
+
+      // the fill freezes: a hard ink cap slams onto its leading edge
+      tl.fromTo(
+        "#mstop-cap",
+        { opacity: 0, scaleY: 0.2 },
+        { opacity: 1, scaleY: 1, duration: 0.22, ease: "power4.out" },
+        5.15
+      );
+
+      // fits → HELD, cut on the Z axis (inverse zoom-through: an arrival, held)
+      tl.to(
+        "#mstop-chip-fits",
+        { scale: 0.8, filter: "blur(10px)", duration: 0.2, ease: "power3.in" },
+        5.35
+      );
+      tl.to("#mstop-chip-fits", { opacity: 0.15, duration: 0.2, ease: "none" }, 5.35);
+      tl.set("#mstop-chip-fits", { opacity: 0 }, 5.55);
+      tl.set("#mstop-chip-held", { opacity: 0.15, scale: 1.25, filter: "blur(10px)" }, 5.55);
+      tl.to(
+        "#mstop-chip-held",
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" },
+        5.55
+      );
+
+      // the state stamps beneath
+      tl.fromTo(
+        "#mstop-stamp",
+        { opacity: 0, scale: 1.05 },
+        { opacity: 1, scale: 1, duration: 0.26, ease: "power4.out" },
+        5.82
+      );
+
+      /* ---------- Held (6.1–7.637s) — nothing moves but the stamp's jitter ---------- */
+      var jitter = [
+        [0.9, -0.5],
+        [-0.7, 0.6],
+        [0.5, -0.4],
+        [-0.8, 0.3],
+        [0.6, 0.5],
+        [-0.4, -0.6],
+        [0.7, 0.4],
+        [-0.5, -0.3],
+        [0.4, 0.6],
+        [-0.6, -0.4]
+      ];
+      var jAt = 6.1;
+      var jStep = 0.14;
+      for (var i = 0; i < jitter.length; i++) {
+        tl.to(
+          "#mstop-stamp",
+          { x: jitter[i][0], y: jitter[i][1], duration: jStep, ease: "none" },
+          jAt + i * jStep
+        );
+      }
+      tl.to("#mstop-stamp", { x: 0, y: 0, duration: 0.13, ease: "none" }, jAt + jitter.length * jStep);
+
+      window.__timelines["08-the-money-stops"] = tl;
+    })();
+  </script>
+</template>

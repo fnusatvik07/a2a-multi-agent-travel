@@ -1,0 +1,321 @@
+<template>
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <style>
+    /* ── Frame 01 · "Five agents, no shared runtime" ───────────────────────────
+       Code editorial: warm cream ground, ink voice, ONE coral voltage moment
+       (the word `cannot` + its drawn circle). Three statement beats.
+       Root is styled by #root (never a class) — see sub-composition contract. */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      container-type: size;
+      overflow: hidden;
+      color: #141413;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── layer 1 · full-bleed cream ground + hairline ink grid ──────────────── */
+    .nsr01-bg {
+      position: absolute;
+      inset: 0;
+      background-color: #faf9f5;
+    }
+    .nsr01-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          to right,
+          rgba(20, 20, 19, 0.16) 0px,
+          rgba(20, 20, 19, 0.16) 1px,
+          transparent 1px,
+          transparent 120px
+        ),
+        repeating-linear-gradient(
+          to bottom,
+          rgba(20, 20, 19, 0.16) 0px,
+          rgba(20, 20, 19, 0.16) 1px,
+          transparent 1px,
+          transparent 120px
+        );
+      opacity: 0;
+    }
+
+    /* ── layer 2 · the faint tile wash the type sits on (half-step warm) ────── */
+    .nsr01-wash {
+      position: absolute;
+      left: 168px;
+      top: 246px;
+      width: 1584px;
+      height: 566px;
+      background-color: #efe9de;
+      border-radius: 12px;
+      opacity: 0;
+    }
+
+    /* ── layer 3 · the type ─────────────────────────────────────────────────── */
+    .nsr01-stage {
+      position: absolute;
+      inset: 0;
+    }
+
+    /* the two beats share ONE optical centre — they stack in the same slot */
+    .nsr01-beatslot {
+      position: absolute;
+      left: 4.2cqw;
+      right: 4.2cqw;
+      top: 300px;
+      height: 140px;
+    }
+    .nsr01-beat {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      text-align: center;
+      font-family: "EB Garamond", Georgia, serif;
+      font-weight: 400;
+      font-size: 6.6cqw;
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: #141413;
+      white-space: nowrap;
+      opacity: 0;
+    }
+
+    /* the third statement — an asymmetric, stepped stack under the beat */
+    .nsr01-l3 {
+      position: absolute;
+      left: 4.2cqw;
+      right: 4.2cqw;
+      top: 480px;
+      text-align: center;
+      font-family: "EB Garamond", Georgia, serif;
+      font-weight: 400;
+      font-size: 7.3cqw;
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: #141413;
+    }
+    .nsr01-l3row {
+      display: block;
+      white-space: nowrap;
+    }
+    .nsr01-l3row-b {
+      margin-left: 320px;
+    }
+    .nsr01-w {
+      display: inline-block;
+      opacity: 0;
+      margin-right: 0.26em;
+    }
+    .nsr01-w:last-child {
+      margin-right: 0;
+    }
+
+    /* the ONE coral voltage moment */
+    .nsr01-cwrap {
+      position: relative;
+      display: inline-block;
+      color: #cc785c;
+    }
+    .nsr01-ring {
+      position: absolute;
+      left: -7%;
+      top: -26%;
+      width: 114%;
+      height: 152%;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .nsr01-ring path {
+      fill: none;
+      stroke: #cc785c;
+      stroke-width: 3;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
+    }
+  </style>
+
+  <div id="root" data-composition-id="01-no-shared-runtime" data-width="1920" data-height="1080">
+    <!-- ground -->
+    <div class="nsr01-bg clip" data-start="0" data-duration="4.693" data-track-index="0">
+      <div class="nsr01-grid" id="nsr01-grid"></div>
+    </div>
+
+    <!-- type stage -->
+    <div class="nsr01-stage clip" data-start="0" data-duration="4.693" data-track-index="1">
+      <div class="nsr01-wash" id="nsr01-wash"></div>
+
+      <div class="nsr01-beatslot">
+        <div class="nsr01-beat" id="nsr01-b1">Five AI agents.</div>
+        <div class="nsr01-beat" id="nsr01-b2">Five different frameworks.</div>
+      </div>
+
+      <div class="nsr01-l3">
+        <span class="nsr01-l3row">
+          <span class="nsr01-w" data-layout-allow-overlap>And</span><span class="nsr01-w" data-layout-allow-overlap>they</span
+          ><span class="nsr01-w" data-layout-allow-overlap
+            ><span class="nsr01-cwrap" id="nsr01-cwrap"
+              >cannot<svg
+                class="nsr01-ring"
+                viewBox="0 0 290 100"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  id="nsr01-ringpath"
+                  d="M 16 52 C 16 24, 78 9, 146 9 C 218 9, 276 24, 276 52 C 276 79, 214 93, 143 93 C 70 93, 14 80, 14 52 C 14 37, 34 24, 68 16"
+                /></svg></span
+          ></span>
+        </span>
+        <span class="nsr01-l3row nsr01-l3row-b">
+          <span class="nsr01-w" data-layout-allow-overlap>import</span><span class="nsr01-w" data-layout-allow-overlap>each</span
+          ><span class="nsr01-w" data-layout-allow-overlap>other.</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var root = document.querySelector('[data-composition-id="01-no-shared-runtime"]');
+      var q = function (sel) {
+        return root.querySelector(sel);
+      };
+
+      var grid = q("#nsr01-grid");
+      var wash = q("#nsr01-wash");
+      var b1 = q("#nsr01-b1");
+      var b2 = q("#nsr01-b2");
+      var cwrap = q("#nsr01-cwrap");
+      var ringPath = q("#nsr01-ringpath");
+      var words = Array.prototype.slice.call(root.querySelectorAll(".nsr01-w"));
+
+      /* ── ONE tempo grid drives every beat (kinetic-beat-slam) ─────────────── */
+      var PULSE = 0.145; // seconds per sub-beat
+      var BEATS = [PULSE * 1, PULSE * 10, PULSE * 20]; // 0.145 · 1.45 · 2.90
+      var WORD_STEP = PULSE * 1.5; // per-word stagger, on the same grid
+
+      /* ring geometry — deterministic, measured once at build */
+      var RING_LEN = 640;
+      if (ringPath && typeof ringPath.getTotalLength === "function") {
+        var measured = ringPath.getTotalLength();
+        if (measured && isFinite(measured) && measured > 1) RING_LEN = measured;
+      }
+      gsap.set(ringPath, { strokeDasharray: RING_LEN, strokeDashoffset: RING_LEN });
+      gsap.set(cwrap, { transformOrigin: "50% 55%" });
+      gsap.set(q(".nsr01-ring"), { rotation: -2.6, transformOrigin: "50% 50%" });
+
+      /* deterministic start state (seek-safe in both directions) */
+      tl.set(b1, { opacity: 0 }, 0);
+      tl.set(b2, { opacity: 0 }, 0);
+
+      /* ── Scene 1 (0.0–1.4s) — ground, wash, beat-slam ─────────────────────── */
+      tl.fromTo(grid, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0);
+      tl.fromTo(
+        wash,
+        { opacity: 0, scaleX: 0.94 },
+        { opacity: 0.62, scaleX: 1, duration: 0.55, ease: "power3.out" },
+        0,
+      );
+
+      // beat 1 — scale + blur SLAM (entrance A)
+      tl.fromTo(
+        b1,
+        { opacity: 0, scale: 1.42, filter: "blur(14px)" },
+        {
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px)",
+          duration: 0.44,
+          ease: "power4.out",
+        },
+        BEATS[0],
+      );
+
+      /* ── Scene 2 (1.4–2.9s) — hard-cut word-swap in place ─────────────────── */
+      // the swap itself is an INSTANT cut: no fade, no blur, same optical centre
+      tl.set(b1, { opacity: 0 }, BEATS[1]);
+      // beat 2 — flash-in + horizontal squeeze (entrance B, different axis).
+      // A scaleX settle rather than a tracking tween: layout and text-reflow
+      // properties snap to integer device pixels under the seek-by-frame capture
+      // engine and stutter on the ease-out tail.
+      tl.fromTo(
+        b2,
+        { opacity: 1, scaleX: 1.035, scaleY: 1.045 },
+        {
+          opacity: 1,
+          scaleX: 1,
+          scaleY: 1,
+          duration: 0.32,
+          ease: "expo.out",
+        },
+        BEATS[1],
+      );
+      // the wash flinches on the cut — the only thing that moves; the grid holds still
+      tl.fromTo(
+        wash,
+        { scale: 1.014 },
+        { scale: 1, duration: 0.4, ease: "power3.out" },
+        BEATS[1],
+      );
+
+      /* ── Scene 3 (2.9–4.693s) — the third line assembles per word ─────────── */
+      // beat 2 drops back to ~40% ink and becomes the setup line
+      tl.to(b2, { opacity: 0.4, duration: 0.32, ease: "power2.out" }, BEATS[2]);
+
+      // per-word staggered reveal — rise + focus (entrance C)
+      words.forEach(function (w, i) {
+        tl.fromTo(
+          w,
+          { opacity: 0, y: 44, filter: "blur(8px)" },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 0.5,
+            ease: "circ.out",
+          },
+          BEATS[2] + i * WORD_STEP,
+        );
+      });
+
+      // the focal word lands with a small pop as it is spoken
+      var CANNOT_AT = BEATS[2] + 2 * WORD_STEP; // 3.335s
+      tl.fromTo(
+        cwrap,
+        { scale: 1.075 },
+        { scale: 1, duration: 0.42, ease: "power3.out" },
+        CANNOT_AT,
+      );
+
+      // hand-drawn coral circle sweeps around it on the syllable
+      tl.to(
+        ringPath,
+        { strokeDashoffset: 0, duration: 0.62, ease: "power2.inOut" },
+        CANNOT_AT + PULSE * 1.5,
+      );
+
+      // settle STILL on the circled word — no exit (this is not the final frame)
+      window.__timelines["01-no-shared-runtime"] = tl;
+    })();
+  </script>
+</template>

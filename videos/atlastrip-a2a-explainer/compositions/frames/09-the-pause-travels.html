@@ -1,0 +1,653 @@
+<template>
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <style>
+    /* root — styled by #root, never by a class */
+    #root {
+      position: absolute;
+      inset: 0;
+      container-type: size;
+      overflow: hidden;
+      color: #141413;
+      --ink: #141413;
+      --cream: #faf9f5;
+      --tile: #efe9de;
+      --tile-strong: #ece3d4;
+      --coral: #cc785c;
+      --ok: #5db872;
+    }
+
+    /* full-bleed warm ground — its own clip layer, never the root */
+    .f09-ground {
+      position: absolute;
+      inset: 0;
+      background: #faf9f5;
+    }
+
+    /* the camera stage — the world pans inside it */
+    .f09-stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* viewport chrome layer — kicker + display line, off the camera */
+    .f09-chrome {
+      position: absolute;
+      inset: 0;
+    }
+    #f09-world {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 5200px;
+      height: 1080px;
+      transform-origin: 0 0;
+      will-change: transform;
+    }
+
+    /* the connecting rail — the chain the state travels along */
+    #f09-rail {
+      position: absolute;
+      left: 380px;
+      top: 520px;
+      width: 3520px;
+      height: 1px;
+      background: rgba(20, 20, 19, 0.2);
+      transform-origin: 16.48% 50%;
+      opacity: 0;
+    }
+
+    /* — stations: zero-size anchors placed at their world x — */
+    .f09-station {
+      position: absolute;
+      top: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* the two agents get IDENTICAL treatment — the sameness is the argument */
+    .f09-agent-card {
+      position: absolute;
+      left: -280px;
+      top: 578px;
+      width: 560px;
+      height: 168px;
+      padding: 26px 32px;
+      background: var(--tile);
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      border-radius: 12px;
+      box-shadow:
+        0 1px 3px rgba(20, 20, 19, 0.08),
+        0 4px 16px rgba(20, 20, 19, 0.04);
+    }
+    .f09-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      color: rgba(20, 20, 19, 0.45);
+    }
+    .f09-name {
+      margin-top: 26px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 46px;
+      line-height: 1;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+    }
+    .f09-node {
+      position: absolute;
+      left: -5px;
+      top: 515px;
+      width: 10px;
+      height: 10px;
+      background: var(--ink);
+    }
+
+    /* the state stamp — flies the rail, identical geometry on both agents */
+    .f09-chipwrap {
+      position: absolute;
+      top: 0;
+      width: 0;
+      height: 0;
+    }
+    .f09-chip {
+      position: absolute;
+      left: -160px;
+      top: 380px;
+      width: 320px;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--cream);
+      border: 1px solid var(--coral);
+      border-radius: 6px;
+    }
+    .f09-chip-text {
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: 0.1em;
+      color: var(--coral);
+    }
+    .f09-chip.is-done {
+      border-color: var(--ok);
+    }
+    .f09-chip.is-done .f09-chip-text {
+      color: var(--ok);
+    }
+    .f09-stem {
+      position: absolute;
+      left: -0.5px;
+      top: 446px;
+      width: 1px;
+      height: 74px;
+      background: rgba(20, 20, 19, 0.2);
+    }
+
+    /* station three is NOT an agent — no card, no stamp, no chrome */
+    .f09-ring {
+      position: absolute;
+      left: -9px;
+      top: 511px;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid rgba(20, 20, 19, 0.55);
+      border-radius: 50%;
+      background: var(--cream);
+      opacity: 0;
+    }
+    .f09-person-line {
+      position: absolute;
+      left: -80px;
+      white-space: nowrap;
+      font-family: "EB Garamond", Georgia, serif;
+      font-weight: 400;
+      color: var(--ink);
+      opacity: 0;
+    }
+    #f09-person-addr {
+      top: 400px;
+      font-size: 66px;
+      line-height: 1;
+      letter-spacing: -0.012em;
+    }
+    #f09-person-ask {
+      top: 600px;
+      font-size: 88px;
+      line-height: 1.05;
+      letter-spacing: -0.018em;
+      font-style: italic;
+    }
+    #f09-person-yes {
+      top: 736px;
+      font-size: 62px;
+      line-height: 1;
+      letter-spacing: -0.012em;
+      font-style: italic;
+    }
+    #f09-person-rule {
+      position: absolute;
+      left: -80px;
+      top: 816px;
+      width: 260px;
+      height: 1px;
+      background: rgba(20, 20, 19, 0.35);
+      transform-origin: 0 50%;
+      opacity: 0;
+    }
+
+    /* the settled authorization — mono, at station one */
+    #f09-auth {
+      position: absolute;
+      top: 0;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    .f09-auth-box {
+      position: absolute;
+      left: -280px;
+      top: 786px;
+      padding: 14px 22px;
+      white-space: nowrap;
+      background: var(--tile-strong);
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      border-radius: 6px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+    }
+
+    /* the travelling state itself */
+    #f09-pulse {
+      position: absolute;
+      left: 0;
+      top: 520px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    .f09-pulse-bar {
+      position: absolute;
+      left: -90px;
+      top: -3px;
+      width: 180px;
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(
+        90deg,
+        rgba(204, 120, 92, 0) 0%,
+        rgba(204, 120, 92, 0.55) 50%,
+        rgba(204, 120, 92, 0) 100%
+      );
+    }
+    .f09-pulse-dot {
+      position: absolute;
+      left: -7px;
+      top: -7px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+    #f09-pulse.is-done .f09-pulse-bar {
+      background: linear-gradient(
+        90deg,
+        rgba(93, 184, 114, 0) 0%,
+        rgba(93, 184, 114, 0.55) 50%,
+        rgba(93, 184, 114, 0) 100%
+      );
+    }
+    #f09-pulse.is-done .f09-pulse-dot {
+      background: var(--ok);
+    }
+
+    /* — viewport chrome: does not ride the camera — */
+    #f09-kicker {
+      position: absolute;
+      left: 80px;
+      top: 84px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0.16em;
+      color: var(--ink);
+    }
+    #f09-headline {
+      position: absolute;
+      left: 80px;
+      top: 166px;
+      width: 1500px;
+      font-family: "EB Garamond", Georgia, serif;
+      font-weight: 400;
+      font-size: 132px;
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--ink);
+      opacity: 0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="09-the-pause-travels"
+    data-width="1920"
+    data-height="1080" data-duration="8.969"
+  >
+    <!-- ground -->
+    <div class="clip f09-ground" data-start="0" data-duration="8.969" data-track-index="0"></div>
+
+    <!-- the oversized canvas, traversed by one virtual camera -->
+    <div class="clip f09-stage" data-start="0" data-duration="8.969" data-track-index="1">
+      <div id="f09-world">
+        <div id="f09-rail"></div>
+
+        <!-- station one — LEDGER -->
+        <div class="f09-station" id="f09-st1" style="left: 960px">
+          <div class="f09-agent-card">
+            <div class="f09-tag">AGENT</div>
+            <div class="f09-name">LEDGER</div>
+          </div>
+          <div class="f09-node"></div>
+        </div>
+
+        <!-- station two — CONCIERGE (identical treatment) -->
+        <div class="f09-station" id="f09-st2" style="left: 2100px; opacity: 0">
+          <div class="f09-agent-card">
+            <div class="f09-tag">AGENT</div>
+            <div class="f09-name">CONCIERGE</div>
+          </div>
+          <div class="f09-node"></div>
+        </div>
+
+        <!-- station three — a person. no card, no stamp. -->
+        <div class="f09-station" id="f09-st3" style="left: 3240px">
+          <div class="f09-ring" id="f09-ring"></div>
+          <div class="f09-person-line" id="f09-person-addr">elena.marchetti@</div>
+          <div class="f09-person-line" id="f09-person-ask">approve $3,688.76?</div>
+          <div class="f09-person-line" id="f09-person-yes">approved</div>
+          <div id="f09-person-rule"></div>
+        </div>
+
+        <!-- the two state stamps — same box, same type, same everything -->
+        <div class="f09-chipwrap" id="f09-chip1" style="left: 960px">
+          <div class="f09-chip" id="f09-chip1-box">
+            <span class="f09-chip-text" id="f09-chip1-text">INPUT_REQUIRED</span>
+          </div>
+          <div class="f09-stem"></div>
+        </div>
+        <div class="f09-chipwrap" id="f09-chip2" style="left: 2100px; opacity: 0">
+          <div class="f09-chip" id="f09-chip2-box">
+            <span class="f09-chip-text" id="f09-chip2-text">INPUT_REQUIRED</span>
+          </div>
+          <div class="f09-stem"></div>
+        </div>
+
+        <!-- the authorization that closes it -->
+        <div id="f09-auth" style="left: 960px">
+          <div class="f09-auth-box">AUTH-351693FF2A</div>
+        </div>
+
+        <!-- the state in transit -->
+        <div id="f09-pulse">
+          <div class="f09-pulse-bar"></div>
+          <div class="f09-pulse-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- viewport chrome -->
+    <div class="clip f09-chrome" data-start="0" data-duration="8.969" data-track-index="2">
+      <div id="f09-kicker">
+        <svg width="19" height="19" viewBox="0 0 20 20" aria-hidden="true">
+          <g stroke="#CC785C" stroke-width="2" stroke-linecap="round">
+            <line x1="10" y1="2" x2="10" y2="18" />
+            <line x1="3" y1="6" x2="17" y2="14" />
+            <line x1="3" y1="14" x2="17" y2="6" />
+          </g>
+        </svg>
+        <span>STATE PROPAGATION</span>
+      </div>
+      <div id="f09-headline"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var DUR = 8.969; /* frame window (voice 8.469 + tail) */
+
+      var world = document.getElementById("f09-world");
+      var rail = document.getElementById("f09-rail");
+      var headline = document.getElementById("f09-headline");
+      var st2 = document.getElementById("f09-st2");
+      var ring = document.getElementById("f09-ring");
+      var addr = document.getElementById("f09-person-addr");
+      var ask = document.getElementById("f09-person-ask");
+      var yes = document.getElementById("f09-person-yes");
+      var yesRule = document.getElementById("f09-person-rule");
+      var chip2 = document.getElementById("f09-chip2");
+      var chip1Box = document.getElementById("f09-chip1-box");
+      var chip2Box = document.getElementById("f09-chip2-box");
+      var chip1Text = document.getElementById("f09-chip1-text");
+      var chip2Text = document.getElementById("f09-chip2-text");
+      var auth = document.getElementById("f09-auth");
+      var pulse = document.getElementById("f09-pulse");
+
+      /* ---------------- virtual camera (viewport-change, PAN mode) ----------------
+         One .world wrapper, transform-origin 0 0, transform = translate(x,y) scale(S).
+         CSS applies scale first, so screen = (S*wx + x, S*wy + y). Locking the rail
+         (world y 520) to screen y 520 gives camY = 520 - S*520; centring a station at
+         screen ANCHOR gives camX = ANCHOR - S*stationX. Micro-drift is added in the
+         single writer so the camera never sits perfectly dead. */
+      var RAIL_Y = 520;
+      var cam = { s: 1.3, x: -288 };
+      var drift = { p: 0 };
+
+      function applyCamera() {
+        var s = cam.s;
+        var x = cam.x + Math.sin(drift.p) * 6;
+        var y = RAIL_Y - s * RAIL_Y + Math.sin(drift.p * 1.3) * 4;
+        world.style.transform = "translate(" + x + "px, " + y + "px) scale(" + s + ")";
+      }
+
+      /* the travelling state — its own writer, never gsap-transformed directly */
+      var pw = { x: 960 };
+      var po = { o: 0 };
+      var wob = { p: 0 };
+      function applyPulse() {
+        pulse.style.transform = "translate(" + pw.x + "px, 0px)";
+        pulse.style.opacity = String(po.o * (0.62 + 0.38 * Math.cos(wob.p)));
+      }
+
+      applyCamera();
+      applyPulse();
+
+      /* ---------------- discrete state (driven off absolute time) ---------------- */
+      var HEADLINE = [
+        { t: 0.0, text: "" },
+        { t: 0.18, text: "Not fails." },
+        { t: 0.98, text: "" },
+        { t: 1.16, text: "Stops, and waits." }
+      ];
+      var FLIP_2 = 7.4;
+      var FLIP_1 = 7.95;
+      var APPROVE_AT = 6.5;
+
+      function textAt(time) {
+        for (var i = HEADLINE.length - 1; i >= 0; i--) {
+          if (time >= HEADLINE[i].t) return HEADLINE[i].text;
+        }
+        return "";
+      }
+      function setChip(box, label, done) {
+        var cls = done ? "f09-chip is-done" : "f09-chip";
+        if (box.className !== cls) box.className = cls;
+        if (label.textContent !== (done ? "COMPLETED" : "INPUT_REQUIRED")) {
+          label.textContent = done ? "COMPLETED" : "INPUT_REQUIRED";
+        }
+      }
+      var driver = { t: 0 };
+      function renderStates() {
+        var t = driver.t;
+        var h = textAt(t);
+        if (headline.textContent !== h) headline.textContent = h;
+        setChip(chip1Box, chip1Text, t >= FLIP_1);
+        setChip(chip2Box, chip2Text, t >= FLIP_2);
+        var cls = t >= APPROVE_AT ? "is-done" : "";
+        if (pulse.className !== cls) pulse.className = cls;
+      }
+      renderStates();
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* full-span state driver + camera micro-drift */
+      tl.to(driver, { t: DUR, duration: DUR, ease: "none", onUpdate: renderStates }, 0);
+      tl.to(
+        drift,
+        { p: Math.PI * 2 * 1.15, duration: DUR, ease: "none", onUpdate: applyCamera },
+        0
+      );
+
+      /* ===== Scene 1 (0.0–2.0) — pull back off the stamp; the word swap ===== */
+      tl.to(
+        cam,
+        { s: 1.0, x: -300, duration: 1.15, ease: "power2.inOut", onUpdate: applyCamera },
+        0.05
+      );
+      tl.fromTo(
+        rail,
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.95, ease: "power3.out" },
+        0.15
+      );
+      tl.fromTo(
+        headline,
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" },
+        0.18
+      );
+      /* pre-placed stations, unlit */
+      tl.fromTo(st2, { opacity: 0 }, { opacity: 0.24, duration: 0.5, ease: "power2.out" }, 0.85);
+      tl.fromTo(ring, { opacity: 0 }, { opacity: 0.35, duration: 0.5, ease: "power2.out" }, 1.05);
+      /* hard-cut word swap: the line clears, the next one replaces it */
+      tl.to(headline, { opacity: 0, duration: 0.1, ease: "none" }, 0.98);
+      tl.fromTo(
+        headline,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" },
+        1.16
+      );
+
+      /* ===== Scene 2 (2.0–4.6) — the pause travels right to CONCIERGE =====
+         cut-the-curve: the line rips LEFT at 2.02, the camera pans right (world
+         moves left) at 2.20 — same direction, matched velocity across the seam. */
+      tl.to(headline, { x: -230, duration: 0.34, ease: "power4.in" }, 2.02);
+      tl.to(headline, { opacity: 0, duration: 0.28, ease: "power1.in" }, 2.02);
+      tl.to(po, { o: 1, duration: 0.28, ease: "power2.out", onUpdate: applyPulse }, 2.1);
+      tl.to(
+        cam,
+        { x: -820, duration: 0.95, ease: "power2.inOut", onUpdate: applyCamera },
+        2.2
+      );
+      tl.to(
+        pw,
+        { x: 2100, duration: 0.95, ease: "power2.inOut", onUpdate: applyPulse },
+        2.2
+      );
+      tl.to(st2, { opacity: 1, duration: 0.45, ease: "power2.out" }, 2.85);
+      /* the identical stamp lands on the second agent */
+      tl.fromTo(chip2, { opacity: 0 }, { opacity: 1, duration: 0.26, ease: "power2.out" }, 3.3);
+      tl.fromTo(
+        chip2Box,
+        { scale: 0.88 },
+        { scale: 1, duration: 0.34, ease: "power3.out" },
+        3.3
+      );
+
+      /* ===== Scene 3 (4.6–6.4) — on to the person. no card, no stamp. ===== */
+      tl.to(
+        cam,
+        { x: -2400, duration: 0.95, ease: "power2.inOut", onUpdate: applyCamera },
+        4.45
+      );
+      tl.to(
+        pw,
+        { x: 3240, duration: 0.95, ease: "power2.inOut", onUpdate: applyPulse },
+        4.45
+      );
+      tl.to(ring, { opacity: 1, duration: 0.3, ease: "power2.out" }, 5.05);
+      tl.fromTo(
+        addr,
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" },
+        5.15
+      );
+      tl.fromTo(
+        ask,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+        5.55
+      );
+      /* it sits alone, waiting — a low-amplitude breathe on the pooled state */
+      tl.to(
+        wob,
+        { p: Math.PI * 4, duration: 1.05, ease: "none", onUpdate: applyPulse },
+        5.45
+      );
+
+      /* ===== Scene 4 (6.4–8.469) — they approve, and it comes back ===== */
+      tl.fromTo(
+        yes,
+        { opacity: 0, y: 12, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.34, ease: "power3.out" },
+        6.5
+      );
+      tl.fromTo(
+        yesRule,
+        { scaleX: 0, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.34, ease: "power2.out" },
+        6.62
+      );
+
+      /* THE RETURN SWEEP — ONE tween drives camera + state together, so the trip
+         back is a single unbroken move. The pulse rides at screen ~840→660 while
+         the world streams past it and lands exactly on station one. */
+      var sweep = { p: 0 };
+      tl.to(
+        sweep,
+        {
+          p: 1,
+          duration: 1.1,
+          ease: "power2.inOut",
+          onUpdate: function () {
+            var p = sweep.p;
+            cam.x = -2400 + 2100 * p;
+            pw.x = 3240 - 2280 * p;
+            applyCamera();
+            applyPulse();
+          }
+        },
+        6.85
+      );
+      /* the stamps flip as the sweep passes them (labels come off the driver) */
+      tl.fromTo(
+        chip2Box,
+        { scale: 1.07 },
+        { scale: 1, duration: 0.3, ease: "power3.out" },
+        FLIP_2
+      );
+      tl.fromTo(
+        chip1Box,
+        { scale: 1.07 },
+        { scale: 1, duration: 0.3, ease: "power3.out" },
+        FLIP_1
+      );
+      /* lands on station one */
+      tl.fromTo(
+        auth,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.34, ease: "power3.out" },
+        7.98
+      );
+      /* settle — a breath of push-in that keeps station one anchored at screen 660 */
+      tl.to(
+        cam,
+        {
+          s: 1.045,
+          x: -343.2,
+          duration: 1.0,
+          ease: "power2.out",
+          onUpdate: applyCamera
+        },
+        7.95
+      );
+
+      window.__timelines["09-the-pause-travels"] = tl;
+    })();
+  </script>
+</template>

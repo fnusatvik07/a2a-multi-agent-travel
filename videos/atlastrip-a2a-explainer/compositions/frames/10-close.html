@@ -1,0 +1,385 @@
+<template id="10-close-template" data-composition-id="10-close" data-width="1920" data-height="1080">
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+<style>
+  #root {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    container-type: size;
+    --ink: #141413;
+    --cream: #FAF9F5;
+    --tile: #EFE9DE;
+    --coral: #CC785C;
+    --font-display: "EB Garamond", Georgia, "Times New Roman", serif;
+    --font-body: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+
+  /* ---------- ground ---------- */
+  .close-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--cream);
+  }
+
+  /* ---------- the settled five-agent assembly (background, dim) ---------- */
+  .close-assembly {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 270px;
+    height: 300px;
+    opacity: 0;
+  }
+  .close-bus {
+    position: absolute;
+    left: 188px;
+    width: 1544px;
+    top: 149px;
+    height: 1px;
+    background: rgba(20, 20, 19, 0.16);
+  }
+  .close-row {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 36px;
+  }
+  .close-card {
+    position: relative;
+    width: 280px;
+    background: var(--tile);
+    border: 1px solid rgba(20, 20, 19, 0.12);
+    border-radius: 12px;
+    padding: 28px 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .close-card-name {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 2.1cqw;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    color: rgba(20, 20, 19, 0.55);
+  }
+  .close-card-fw {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 1.05cqw;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(20, 20, 19, 0.62);
+  }
+  .close-card-foot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .close-node {
+    width: 9px;
+    height: 9px;
+    border-radius: 2px;
+    background: rgba(20, 20, 19, 0.45);
+  }
+  .close-card-rule {
+    flex: 1;
+    height: 1px;
+    background: rgba(20, 20, 19, 0.12);
+  }
+
+  /* ---------- the station rail (recedes) ---------- */
+  .close-rail {
+    position: absolute;
+    left: 188px;
+    width: 1544px;
+    top: 736px;
+    height: 60px;
+  }
+  .close-rail-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 29px;
+    height: 1px;
+    background: rgba(20, 20, 19, 0.14);
+  }
+  .close-rail-ticks {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .close-tick {
+    width: 1px;
+    height: 26px;
+    background: rgba(20, 20, 19, 0.2);
+  }
+
+  /* ---------- the claim ---------- */
+  .close-claim {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 288px;
+  }
+  .close-line-a {
+    margin: 0 auto;
+    max-width: 62cqw;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 4.6cqw;
+    line-height: 1.06;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+  }
+  .close-word {
+    display: inline-block;
+    opacity: 0;
+  }
+  .close-line-b {
+    margin: 84px auto 0;
+    text-align: center;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 6.6cqw;
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    opacity: 0;
+  }
+
+  /* ---------- the lockup ---------- */
+  .close-lockup {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 356px;
+    text-align: center;
+  }
+  .close-wordmark-row {
+    display: block;
+  }
+  .close-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.3em;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 7.3cqw;
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    opacity: 0;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+  .close-spike {
+    font-size: 0.52em;
+    color: var(--coral);
+    line-height: 1;
+  }
+  .close-repo {
+    position: relative;
+    display: inline-block;
+    margin-top: 58px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 1.62cqw;
+    letter-spacing: 0.02em;
+    color: rgba(20, 20, 19, 0.66);
+    white-space: pre;
+    opacity: 0;
+  }
+  .close-repo-ghost {
+    visibility: hidden;
+  }
+  .close-repo-live {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: pre;
+  }
+  .close-caret {
+    display: inline-block;
+    width: 0.62em;
+    height: 1.02em;
+    vertical-align: -0.16em;
+    background: rgba(20, 20, 19, 0.55);
+    opacity: 0;
+  }
+</style>
+
+<div id="root" data-composition-id="10-close" data-width="1920" data-height="1080">
+
+  <div class="close-bg clip" data-start="0" data-duration="6.123" data-track-index="0"></div>
+
+  <div id="close-assembly" class="close-assembly clip" data-start="0" data-duration="6.123" data-track-index="1">
+    <div class="close-bus"></div>
+    <div class="close-row">
+      <div class="close-card" data-layout-allow-overlap>
+        <div>
+          <div class="close-card-name" data-layout-allow-overlap>Concierge</div>
+        </div>
+        <div class="close-card-fw" data-layout-allow-overlap>LangGraph</div>
+        <div class="close-card-foot" data-layout-allow-overlap><span class="close-node"></span><span class="close-card-rule"></span></div>
+      </div>
+      <div class="close-card" data-layout-allow-overlap>
+        <div>
+          <div class="close-card-name" data-layout-allow-overlap>Skyline</div>
+        </div>
+        <div class="close-card-fw" data-layout-allow-overlap>Google ADK</div>
+        <div class="close-card-foot" data-layout-allow-overlap><span class="close-node"></span><span class="close-card-rule"></span></div>
+      </div>
+      <div class="close-card" data-layout-allow-overlap>
+        <div>
+          <div class="close-card-name" data-layout-allow-overlap>Hearth</div>
+        </div>
+        <div class="close-card-fw" data-layout-allow-overlap>CrewAI</div>
+        <div class="close-card-foot" data-layout-allow-overlap><span class="close-node"></span><span class="close-card-rule"></span></div>
+      </div>
+      <div class="close-card" data-layout-allow-overlap>
+        <div>
+          <div class="close-card-name" data-layout-allow-overlap>Sentinel</div>
+        </div>
+        <div class="close-card-fw" data-layout-allow-overlap>LlamaIndex</div>
+        <div class="close-card-foot" data-layout-allow-overlap><span class="close-node"></span><span class="close-card-rule"></span></div>
+      </div>
+      <div class="close-card" data-layout-allow-overlap>
+        <div>
+          <div class="close-card-name" data-layout-allow-overlap>Ledger</div>
+        </div>
+        <div class="close-card-fw" data-layout-allow-overlap>Pydantic AI</div>
+        <div class="close-card-foot" data-layout-allow-overlap><span class="close-node"></span><span class="close-card-rule"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="close-rail" class="close-rail clip" data-start="0" data-duration="1.4" data-track-index="2">
+    <div class="close-rail-line"></div>
+    <div class="close-rail-ticks">
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+      <span class="close-tick"></span>
+    </div>
+  </div>
+
+  <div class="close-claim clip" data-start="0" data-duration="4.75" data-track-index="3">
+    <div id="close-line-a" class="close-line-a"><span class="close-word">Nothing</span> <span class="close-word">here</span> <span class="close-word">is</span> <span class="close-word">one</span> <span class="close-word">process</span> <span class="close-word">pretending</span> <span class="close-word">to</span> <span class="close-word">be</span> <span class="close-word">a</span> <span class="close-word">team.</span></div>
+    <div id="close-line-b" class="close-line-b">It&rsquo;s five, on a protocol.</div>
+  </div>
+
+  <div class="close-lockup clip" data-start="3.9" data-duration="2.223" data-track-index="4">
+    <div class="close-wordmark-row"><span id="close-wordmark" class="close-wordmark"><span class="close-spike">&#10033;</span><span>AtlasTrip</span></span></div>
+    <div id="close-repo" class="close-repo"><span class="close-repo-ghost">github.com/fnusatvik07/a2a-multi-agent-travel</span><span class="close-repo-live"><span id="close-repo-text"></span><span id="close-caret" class="close-caret"></span></span></div>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    window.__timelines = window.__timelines || {};
+    var tl = gsap.timeline({ paused: true });
+
+    var root = document.querySelector('[data-composition-id="10-close"]');
+    var words = root.querySelectorAll('#close-line-a .close-word');
+    var cards = root.querySelectorAll('#close-assembly .close-card');
+    var repoText = root.querySelector('#close-repo-text');
+    var REPO = 'github.com/fnusatvik07/a2a-multi-agent-travel';
+
+    /* ---- Scene 1 (0.0-2.2s): the rail recedes, the assembly returns, the claim assembles ---- */
+
+    // station rail recedes (final frame: the stage clears for the mark)
+    tl.fromTo('#close-rail',
+      { opacity: 1, y: 0 },
+      { opacity: 0, y: 26, duration: 0.7, ease: 'power2.in' }, 0.05);
+
+    // the Frame 4 assembly returns behind it, complete and still, at ~30%
+    tl.fromTo('#close-assembly',
+      { opacity: 0 },
+      { opacity: 0.16, duration: 0.9, ease: 'power2.out' }, 0.1);
+
+    // per-word staggered reveal of the claim
+    words.forEach(function (w, i) {
+      tl.fromTo(w,
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        0.18 + i * 0.11);
+    });
+
+    /* ---- Scene 2 (2.2-4.0s): the claim recedes to 40% ink, the payoff line lands ---- */
+
+    tl.to('#close-line-a', { color: 'rgba(20, 20, 19, 0.4)', duration: 0.5, ease: 'power2.out' }, 2.2);
+
+    tl.fromTo('#close-line-b',
+      { opacity: 0, y: 26 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 2.25);
+
+    // the five cards flash their hairline border once, in sequence, then go quiet
+    cards.forEach(function (c, i) {
+      var at = 2.6 + i * 0.17;
+      tl.to(c, { borderColor: 'rgba(20, 20, 19, 0.42)', duration: 0.16, ease: 'power2.out' }, at);
+      tl.to(c, { borderColor: 'rgba(20, 20, 19, 0.12)', duration: 0.28, ease: 'power2.inOut' }, at + 0.16);
+    });
+
+    /* ---- Scene 3 (4.0-6.1s): both lines clear upward, the lockup lands and holds ---- */
+
+    tl.to('#close-line-a', { opacity: 0, y: -62, duration: 0.46, ease: 'power2.in' }, 4.0);
+    tl.to('#close-line-b', { opacity: 0, y: -62, duration: 0.46, ease: 'power2.in' }, 4.06);
+    tl.to('#close-assembly', { opacity: 0.12, duration: 0.7, ease: 'power2.out' }, 4.05);
+
+    // the single overshoot in the film — kept small
+    tl.fromTo('#close-wordmark',
+      { opacity: 0, scale: 0.62 },
+      { opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(1.25)' }, 4.35);
+
+    // the repo line types on beneath it, in mono, with a caret
+    tl.fromTo('#close-repo', { opacity: 0 }, { opacity: 1, duration: 0.22, ease: 'power2.out' }, 4.82);
+    tl.fromTo('#close-caret', { opacity: 0 }, { opacity: 1, duration: 0.01, ease: 'none' }, 4.86);
+
+    var typed = { n: 0 };
+    tl.to(typed, {
+      n: REPO.length,
+      duration: 0.68,
+      ease: 'none',
+      snap: { n: 1 },
+      onUpdate: function () {
+        repoText.textContent = REPO.slice(0, Math.round(typed.n));
+      }
+    }, 4.9);
+
+    // the caret retires; nothing moves after this
+    tl.to('#close-caret', { opacity: 0, duration: 0.16, ease: 'none' }, 5.62);
+
+    // held to the end — no drift, no glow, no outro sting
+    tl.to({}, { duration: 0.34 }, 5.78);
+
+    window.__timelines['10-close'] = tl;
+  })();
+</script>
+</template>

@@ -1,0 +1,500 @@
+<template>
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+  <style>
+    /* — Code editorial faces (licensed webfont sources; latin subsets) — */
+    
+    
+    
+
+    /* the frame ground — styled by id, never by a class on the root */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      container-type: size;
+      font-family: "Inter", sans-serif;
+      color: #141413;
+    }
+
+    /* full-bleed warm cream ground on its own clip layer */
+    #c4-ground {
+      position: absolute;
+      inset: 0;
+      background: #faf9f5;
+    }
+
+    #c4-stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* three depth layers — each written by the single camera writer */
+    .c4-layer {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 44%;
+      will-change: transform;
+    }
+
+    #c4-grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    #c4-wires {
+      position: absolute;
+      inset: 0;
+    }
+    #c4-wires path {
+      fill: none;
+      stroke: rgba(20, 20, 19, 0.26);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* — chrome — */
+    .c4-kicker {
+      position: absolute;
+      top: 70px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.52);
+      opacity: 0;
+    }
+    #c4-kicker-left {
+      left: 80px;
+    }
+    #c4-kicker-right {
+      right: 80px;
+      color: rgba(20, 20, 19, 0.52);
+    }
+
+    /* — the hairline cards — */
+    .c4-card {
+      position: absolute;
+      border-radius: 12px;
+      background: #faf9f5;
+      border: 1px solid rgba(20, 20, 19, 0.26);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 26px 30px 26px;
+      opacity: 0;
+    }
+    .c4-lift {
+      position: absolute;
+      inset: -1px;
+      border-radius: 12px;
+      box-shadow:
+        0 1px 3px rgba(20, 20, 19, 0.08),
+        0 4px 16px rgba(20, 20, 19, 0.04);
+      opacity: 0;
+    }
+    .c4-name {
+      position: relative;
+      font-family: "EB Garamond", Georgia, serif;
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.018em;
+      color: #141413;
+      opacity: 0;
+    }
+    .c4-fw {
+      position: relative;
+      margin-top: 14px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.22cqw;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.52);
+      opacity: 0;
+    }
+    .c4-port {
+      position: absolute;
+      top: 20px;
+      right: 26px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.1cqw;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: rgba(20, 20, 19, 0.52);
+      opacity: 0;
+    }
+
+    #c4-card-hub {
+      left: 720px;
+      top: 140px;
+      width: 480px;
+      height: 176px;
+    }
+    #c4-card-hub .c4-name {
+      font-size: 3.9cqw;
+    }
+    .c4-spec {
+      top: 440px;
+      width: 368px;
+      height: 190px;
+    }
+    .c4-spec .c4-name {
+      font-size: 3.2cqw;
+    }
+    #c4-card-0 {
+      left: 134px;
+    }
+    #c4-card-1 {
+      left: 562px;
+    }
+    #c4-card-2 {
+      left: 990px;
+    }
+    #c4-card-3 {
+      left: 1418px;
+    }
+
+    /* — the shared MCP plate: a slab under the row, not a sixth peer — */
+    #c4-plate {
+      position: absolute;
+      left: 100px;
+      top: 740px;
+      width: 1720px;
+      height: 108px;
+      border-radius: 12px;
+      background: #ece3d4;
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      opacity: 0;
+    }
+    #c4-plate-name {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 2cqw;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: #141413;
+      opacity: 0;
+    }
+    #c4-plate-port {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: rgba(20, 20, 19, 0.52);
+      opacity: 0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="04-the-cast"
+    data-start="0"
+    data-duration="14.976"
+    data-width="1920"
+    data-height="1080"
+  >
+    <!-- full-bleed ground on its own clip layer -->
+    <div
+      id="c4-ground"
+      class="clip"
+      data-start="0"
+      data-duration="14.976"
+      data-track-index="0"
+    ></div>
+
+    <div
+      id="c4-stage"
+      class="clip"
+      data-start="0"
+      data-duration="14.976"
+      data-track-index="1"
+    >
+      <!-- layer 1 — background hairline grid -->
+      <div class="c4-layer" id="c4-layer-bg">
+        <svg id="c4-grid" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="c4-grid-cell" width="80" height="80" patternUnits="userSpaceOnUse">
+              <path
+                d="M 80 0 L 0 0 0 80"
+                fill="none"
+                stroke="rgba(20,20,19,0.15)"
+                stroke-width="1"
+              />
+            </pattern>
+          </defs>
+          <rect width="1920" height="1080" fill="url(#c4-grid-cell)" />
+        </svg>
+      </div>
+
+      <!-- layer 2 — the drawn connectors -->
+      <div class="c4-layer" id="c4-layer-mid">
+        <svg id="c4-wires" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+          <path id="c4-wire-stem" d="M 960 318 L 960 374" data-len="56" />
+          <path id="c4-wire-up-0" d="M 318 436 L 318 375 L 956 375" data-len="699" />
+          <path id="c4-wire-up-1" d="M 746 436 L 746 375 L 956 375" data-len="271" />
+          <path id="c4-wire-up-2" d="M 1174 436 L 1174 375 L 964 375" data-len="271" />
+          <path id="c4-wire-up-3" d="M 1602 436 L 1602 375 L 964 375" data-len="699" />
+          <path id="c4-wire-dn-0" d="M 318 634 L 318 738" data-len="104" />
+          <path id="c4-wire-dn-1" d="M 746 634 L 746 738" data-len="104" />
+          <path id="c4-wire-dn-2" d="M 1174 634 L 1174 738" data-len="104" />
+          <path id="c4-wire-dn-3" d="M 1602 634 L 1602 738" data-len="104" />
+        </svg>
+      </div>
+
+      <!-- layer 3 — the cards, the plate, the mono chrome -->
+      <div class="c4-layer" id="c4-layer-fg">
+        <div class="c4-kicker" id="c4-kicker-left">Service topology</div>
+        <div class="c4-kicker" id="c4-kicker-right">AtlasTrip</div>
+
+        <div class="c4-card" id="c4-card-hub">
+          <div class="c4-lift"></div>
+          <div class="c4-port">:8000</div>
+          <div class="c4-name">Concierge</div>
+          <div class="c4-fw">LangGraph</div>
+        </div>
+
+        <div class="c4-card c4-spec" id="c4-card-0">
+          <div class="c4-lift"></div>
+          <div class="c4-port">:8001</div>
+          <div class="c4-name">Skyline</div>
+          <div class="c4-fw">Google ADK</div>
+        </div>
+        <div class="c4-card c4-spec" id="c4-card-1">
+          <div class="c4-lift"></div>
+          <div class="c4-port">:8002</div>
+          <div class="c4-name">Hearth</div>
+          <div class="c4-fw">CrewAI</div>
+        </div>
+        <div class="c4-card c4-spec" id="c4-card-2">
+          <div class="c4-lift"></div>
+          <div class="c4-port">:8003</div>
+          <div class="c4-name">Sentinel</div>
+          <div class="c4-fw">LlamaIndex</div>
+        </div>
+        <div class="c4-card c4-spec" id="c4-card-3">
+          <div class="c4-lift"></div>
+          <div class="c4-port">:8004</div>
+          <div class="c4-name">Ledger</div>
+          <div class="c4-fw">Pydantic AI</div>
+        </div>
+
+        <div id="c4-plate">
+          <div id="c4-plate-name">TRAVEL INVENTORY MCP</div>
+          <div id="c4-plate-port">:8100</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var D = 14.976;
+      var q = function (s) {
+        return document.querySelector(s);
+      };
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* ---------------------------------------------------------------
+         Scene 1 (0.0–2.6s) — "Five services, five ports, five frameworks."
+         Ground + hairline grid, then five EMPTY hairline outlines pop into
+         their final positions in one staggered cascade (smooth power3
+         settle, no overshoot — this film's motion grammar).
+      --------------------------------------------------------------- */
+      tl.fromTo("#c4-grid", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out" }, 0);
+      tl.fromTo(
+        "#c4-kicker-left",
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+        0.05,
+      );
+      tl.fromTo(
+        "#c4-kicker-right",
+        { opacity: 0, y: -8 },
+        { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+        0.22,
+      );
+
+      var POP = [
+        { sel: "#c4-card-hub", at: 0.18 },
+        { sel: "#c4-card-0", at: 0.75 },
+        { sel: "#c4-card-1", at: 1.15 },
+        { sel: "#c4-card-2", at: 1.55 },
+        { sel: "#c4-card-3", at: 1.95 },
+      ];
+      POP.forEach(function (p) {
+        tl.fromTo(
+          p.sel,
+          { scale: 0.86, opacity: 0, y: 16 },
+          { scale: 1, opacity: 0.78, y: 0, duration: 0.78, ease: "power3.out" },
+          p.at,
+        );
+      });
+
+      /* ---------------------------------------------------------------
+         SVG self-draw setup — measured lengths, dash pattern per path.
+      --------------------------------------------------------------- */
+      var wires = document.querySelectorAll("#c4-wires path");
+      var LEN = {};
+      wires.forEach(function (p) {
+        var len =
+          typeof p.getTotalLength === "function" ? p.getTotalLength() : Number(p.dataset.len);
+        if (!len || !isFinite(len)) len = Number(p.dataset.len);
+        LEN[p.id] = len;
+        p.style.strokeDasharray = String(len);
+        p.style.strokeDashoffset = String(len);
+      });
+      var draw = function (id, at, dur) {
+        tl.fromTo(
+          "#" + id,
+          { strokeDashoffset: LEN[id] },
+          { strokeDashoffset: 0, duration: dur, ease: "power2.out", immediateRender: false },
+          at,
+        );
+      };
+
+      /* ---------------------------------------------------------------
+         "Filling" a card — it comes FORWARD (0.78 → full, cream → tile, hairline lift),
+         and its type arrives on the spoken word that names it.
+      --------------------------------------------------------------- */
+      var fill = function (sel, cardAt, nameAt, fwAt, portAt) {
+        tl.fromTo(
+          sel,
+          { opacity: 0.78 },
+          { opacity: 1, duration: 0.5, ease: "power3.out", immediateRender: false },
+          cardAt,
+        );
+        tl.fromTo(
+          sel,
+          { backgroundColor: "#faf9f5" },
+          { backgroundColor: "#efe9de", duration: 0.6, ease: "power2.out", immediateRender: false },
+          cardAt,
+        );
+        tl.fromTo(
+          sel + " .c4-lift",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.7, ease: "power2.out", immediateRender: false },
+          cardAt,
+        );
+        tl.fromTo(
+          sel + " .c4-name",
+          { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", immediateRender: false },
+          nameAt,
+        );
+        tl.fromTo(
+          sel + " .c4-fw",
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.45, ease: "power3.out", immediateRender: false },
+          fwAt,
+        );
+        tl.fromTo(
+          sel + " .c4-port",
+          { opacity: 0 },
+          { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false },
+          portAt,
+        );
+      };
+
+      /* Scene 2 (2.6–5.0s) — "A concierge on LangGraph."
+         The top card fills and its stem draws DOWN toward the row. */
+      fill("#c4-card-hub", 3.02, 3.07, 3.89, 4.34);
+      draw("c4-wire-stem", 4.3, 0.55);
+
+      /* Scene 3 (5.0–10.2s) — the four specialists fill left to right, each
+         exactly on its spoken cue, each connector drawing UP to the Concierge.
+         Unfilled cards stay back as empty cream outlines: asymmetric depth. */
+      var SPECS = [
+        { sel: "#c4-card-0", card: 4.74, name: 4.78, fw: 5.59, port: 6.15, wire: 5.85 },
+        { sel: "#c4-card-1", card: 6.71, name: 6.75, fw: 7.62, port: 8.05, wire: 7.8 },
+        { sel: "#c4-card-2", card: 8.4, name: 8.44, fw: 9.08, port: 9.64, wire: 9.4 },
+        { sel: "#c4-card-3", card: 10.23, name: 10.27, fw: 10.79, port: 11.52, wire: 11.3 },
+      ];
+      SPECS.forEach(function (s, i) {
+        fill(s.sel, s.card, s.name, s.fw, s.port);
+        draw("c4-wire-up-" + i, s.wire, 0.75);
+      });
+
+      /* Scene 4 (10.2–15.0s) — "All four specialists read one MCP server."
+         The four lift together, then a wide plate slides UP beneath the row
+         and four connectors draw down into it at once. */
+      tl.fromTo(
+        "#c4-card-0, #c4-card-1, #c4-card-2, #c4-card-3",
+        { y: 0 },
+        { y: -6, duration: 0.55, ease: "power2.out", immediateRender: false },
+        12.15,
+      );
+      tl.fromTo(
+        "#c4-plate",
+        { opacity: 0, y: 48 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", immediateRender: false },
+        13.05,
+      );
+      tl.fromTo(
+        "#c4-plate-name",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false },
+        13.55,
+      );
+      tl.fromTo(
+        "#c4-plate-port",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power2.out", immediateRender: false },
+        13.98,
+      );
+      for (var i = 0; i < 4; i++) draw("c4-wire-dn-" + i, 13.9, 0.7);
+
+      /* ---------------------------------------------------------------
+         Camera — one slow ~2% push-in under the last beat, plus a barely
+         perceptible drift. Three layers move at different rates (0.42 /
+         0.72 / 1.0), which is what makes the depth read. Single writer.
+      --------------------------------------------------------------- */
+      var layers = [
+        { el: q("#c4-layer-bg"), f: 0.42 },
+        { el: q("#c4-layer-mid"), f: 0.72 },
+        { el: q("#c4-layer-fg"), f: 1 },
+      ];
+      var cam = { s: 1 };
+      var drift = { p: 0 };
+      var write = function () {
+        var dx = Math.sin(drift.p) * 3;
+        var dy = Math.sin(drift.p * 1.3) * 2;
+        for (var k = 0; k < layers.length; k++) {
+          var l = layers[k];
+          if (!l.el) continue;
+          var s = 1 + (cam.s - 1) * l.f;
+          l.el.style.transform =
+            "scale(" + s + ") translate(" + dx * l.f + "px," + dy * l.f + "px)";
+        }
+      };
+      write();
+
+      tl.to(cam, { s: 1.02, duration: 1.9, ease: "power2.inOut", onUpdate: write }, 12.6);
+      tl.to(drift, { p: Math.PI * 2 * 0.6, duration: D, ease: "none", onUpdate: write }, 0);
+
+      window.__timelines["04-the-cast"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,749 @@
+<template>
+<style>
+/* Fonts ship as local files in assets/fonts/, so preview, snapshot and render
+   all resolve them offline and identically. */
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+  <style>
+    
+    
+    
+    
+    
+    
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      container-type: size;
+      overflow: hidden;
+      color: #141413;
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── ground: warm cream paper + the ghost of Frame 6's two lanes ───────── */
+    .f07-ground {
+      position: absolute;
+      inset: 0;
+      background-color: #faf9f5;
+      background-image: radial-gradient(rgba(20, 20, 19, 0.05) 1.5px, transparent 1.6px);
+      background-size: 48px 48px;
+    }
+    .f07-stage {
+      position: absolute;
+      inset: 0;
+    }
+
+    .f07-ghost {
+      position: absolute;
+      inset: 0;
+    }
+    .f07-ghost-rule {
+      position: absolute;
+      left: 960px;
+      top: 150px;
+      width: 1px;
+      height: 730px;
+      background: rgba(20, 20, 19, 0.1);
+    }
+    .f07-ghost-band {
+      position: absolute;
+      top: 150px;
+      height: 730px;
+      background: rgba(20, 20, 19, 0.018);
+    }
+
+    /* ── top chrome ───────────────────────────────────────────────────────── */
+    .f07-kicker {
+      position: absolute;
+      left: 80px;
+      top: 58px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.46cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #141413;
+    }
+    .f07-spike {
+      width: 26px;
+      height: 26px;
+      display: block;
+    }
+    .f07-topline {
+      position: absolute;
+      left: 80px;
+      top: 132px;
+      width: 1760px;
+      height: 1px;
+      background: rgba(20, 20, 19, 0.12);
+      transform-origin: 0% 50%;
+    }
+    .f07-concierge {
+      position: absolute;
+      left: 1105px;
+      top: 58px;
+      width: 300px;
+      text-align: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(20, 20, 19, 0.62);
+    }
+    .f07-node {
+      position: absolute;
+      left: 1251px;
+      top: 128px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #141413;
+    }
+
+    /* ── the re-ask wire ──────────────────────────────────────────────────── */
+    .f07-wire {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+    }
+    .f07-wire path {
+      fill: none;
+      stroke: rgba(20, 20, 19, 0.55);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .f07-payload {
+      position: absolute;
+      left: 330px;
+      top: 790px;
+      white-space: nowrap;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.67cqw;
+      font-weight: 500;
+      color: #141413;
+    }
+    .f07-payload .dim {
+      color: rgba(20, 20, 19, 0.52);
+    }
+
+    /* ── lanes ────────────────────────────────────────────────────────────── */
+    .f07-lane-hearth {
+      position: absolute;
+      left: 80px;
+      top: 812px;
+      width: 190px;
+      height: 60px;
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      border-radius: 9999px;
+      background: #efe9de;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: rgba(20, 20, 19, 0.52);
+    }
+    .f07-lane-skyline {
+      position: absolute;
+      left: 1560px;
+      top: 812px;
+      width: 280px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: rgba(20, 20, 19, 0.52);
+    }
+
+    /* ── Hearth's own justification ───────────────────────────────────────── */
+    .f07-justify {
+      position: absolute;
+      left: 80px;
+      top: 728px;
+      height: 42px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.67cqw;
+      font-weight: 400;
+      color: rgba(20, 20, 19, 0.52);
+      white-space: nowrap;
+    }
+    .f07-caret {
+      position: absolute;
+      left: 80px;
+      top: 730px;
+      width: 2px;
+      height: 36px;
+      background: rgba(20, 20, 19, 0.35);
+    }
+
+    /* ── the lodging card (old + replacement share one footprint) ─────────── */
+    .f07-cardwrap {
+      position: absolute;
+      left: 80px;
+      top: 190px;
+      width: 1070px;
+      height: 510px;
+    }
+    .f07-card {
+      /* Sized by .f07-cardwrap (1070x510), not the canvas. Stated explicitly
+         rather than with inset:0 so it cannot read as a full-frame overlay. */
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #efe9de;
+      border: 1px solid rgba(20, 20, 19, 0.12);
+      border-radius: 12px;
+      box-shadow:
+        0 1px 3px rgba(20, 20, 19, 0.08),
+        0 4px 16px rgba(20, 20, 19, 0.04);
+      transform-origin: 50% 50%;
+    }
+    .f07-card-new {
+      z-index: 2;
+      opacity: 0;
+    }
+    .f07-card-head {
+      position: absolute;
+      left: 48px;
+      top: 38px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      color: rgba(20, 20, 19, 0.52);
+    }
+    .f07-chip {
+      position: absolute;
+      right: 48px;
+      top: 28px;
+      padding: 10px 22px;
+      border: 1px solid rgba(20, 20, 19, 0.2);
+      border-radius: 9999px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.2cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: rgba(20, 20, 19, 0.62);
+      transform-origin: 50% 50%;
+    }
+    .f07-card-title {
+      position: absolute;
+      left: 48px;
+      top: 92px;
+      font-size: 2.3cqw;
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: -0.005em;
+      color: #141413;
+    }
+    .f07-card-meta {
+      position: absolute;
+      left: 48px;
+      top: 158px;
+      font-size: 1.5cqw;
+      font-weight: 400;
+      line-height: 1.5;
+      color: rgba(20, 20, 19, 0.55);
+    }
+    .f07-card-rule {
+      position: absolute;
+      left: 48px;
+      top: 226px;
+      width: 974px;
+      height: 1px;
+      background: rgba(20, 20, 19, 0.12);
+    }
+    .f07-price {
+      position: absolute;
+      left: 48px;
+      top: 250px;
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+    }
+    .f07-fig {
+      font-family: "EB Garamond", serif;
+      font-size: 6.4cqw;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      color: #141413;
+    }
+    .f07-unit {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 2.08cqw;
+      font-weight: 500;
+      line-height: 1;
+      color: rgba(20, 20, 19, 0.52);
+    }
+    .f07-measure {
+      position: absolute;
+      inset: 0;
+      width: 1070px;
+      height: 510px;
+    }
+    .f07-measure path {
+      fill: none;
+      stroke: rgba(20, 20, 19, 0.55);
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+    .f07-cap {
+      position: absolute;
+      left: 786px;
+      top: 372px;
+      /* An explicit line box: the default one ran into .f07-diff below. */
+      line-height: 1;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.46cqw;
+      font-weight: 500;
+      color: rgba(20, 20, 19, 0.62);
+    }
+    .f07-diff {
+      position: absolute;
+      left: 786px;
+      top: 424px;
+      font-family: "EB Garamond", serif;
+      font-size: 3.1cqw;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: rgb(194, 114, 88);
+    }
+
+    /* ── Sentinel's finding rail ──────────────────────────────────────────── */
+    .f07-rail {
+      position: absolute;
+      left: 1360px;
+      top: 190px;
+      width: 480px;
+      height: 510px;
+      background: #181715;
+      border: 1px solid rgba(250, 249, 245, 0.14);
+      border-radius: 8px;
+    }
+    .f07-rail-head {
+      position: absolute;
+      left: 40px;
+      top: 36px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.35cqw;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: rgba(250, 249, 245, 0.75);
+    }
+    .f07-rail-rule {
+      position: absolute;
+      left: 40px;
+      top: 92px;
+      width: 400px;
+      height: 1px;
+      background: rgba(250, 249, 245, 0.14);
+      transform-origin: 0% 50%;
+    }
+    .f07-rail-code {
+      position: absolute;
+      left: 40px;
+      top: 122px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.77cqw;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #faf9f5;
+    }
+    .f07-rail-sub {
+      position: absolute;
+      left: 40px;
+      top: 180px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 1.25cqw;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: rgba(250, 249, 245, 0.55);
+    }
+    .f07-rail-hair {
+      position: absolute;
+      left: 40px;
+      top: 250px;
+      width: 160px;
+      height: 1px;
+      background: rgba(250, 249, 245, 0.2);
+      transform-origin: 0% 50%;
+    }
+    .f07-finding {
+      position: absolute;
+      left: 40px;
+      top: 280px;
+      width: 400px;
+      height: 70px;
+    }
+    .f07-finding div {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 2.4cqw;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0.1em;
+      transform-origin: 0% 50%;
+    }
+    .f07-violation {
+      color: rgb(194, 114, 88);
+    }
+    .f07-cleared {
+      color: #faf9f5;
+      opacity: 0;
+      z-index: 2;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="07-the-negotiation"
+    data-start="0"
+    data-duration="13.044"
+    data-width="1920"
+    data-height="1080"
+  >
+    <div
+      class="clip f07-ground"
+      id="f07-ground"
+      data-start="0"
+      data-duration="13.044"
+      data-track-index="0"
+    ></div>
+
+    <div
+      class="clip f07-stage"
+      id="f07-stage"
+      data-start="0"
+      data-duration="13.044"
+      data-track-index="1"
+    >
+      <!-- the two lanes of Frame 6, dimmed to background -->
+      <div class="f07-ghost" id="f07-ghost">
+        <div class="f07-ghost-band" style="left: 80px; width: 860px"></div>
+        <div class="f07-ghost-band" style="left: 980px; width: 860px"></div>
+        <div class="f07-ghost-rule"></div>
+      </div>
+
+      <!-- the re-ask: drawn past the card, never into it -->
+      <svg class="f07-wire" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <path
+          id="f07-wire-path"
+          data-len="1670"
+          d="M 1255 140 L 1255 782 Q 1255 842 1195 842 L 258 842"
+        />
+        <path id="f07-wire-arrow" data-len="52" d="M 278 830 L 256 842 L 278 854" />
+      </svg>
+
+      <div class="f07-payload" id="f07-payload">
+        <span class="dim">source_stay</span>&nbsp;&nbsp;enforce_cap = true
+      </div>
+
+      <div class="f07-lane-hearth" id="f07-lane-hearth">HEARTH</div>
+      <div class="f07-lane-skyline">SKYLINE</div>
+
+      <div class="f07-justify"><span id="f07-justify-text">210 m from the customer’s door</span></div>
+      <div class="f07-caret" id="f07-caret"></div>
+
+      <div class="f07-cardwrap">
+        <div class="f07-card" id="f07-card-old">
+          <div class="f07-card-head">HEARTH · LODGING</div>
+          <div class="f07-chip" id="f07-chip">ACCEPTED</div>
+          <div class="f07-card-title">Shinagawa Bay Tower</div>
+          <div class="f07-card-meta">0.21 km from the venue</div>
+          <div class="f07-card-rule"></div>
+          <div class="f07-price">
+            <span class="f07-fig">$298.33</span><span class="f07-unit">/ night</span>
+          </div>
+          <svg class="f07-measure" viewBox="0 0 1070 510" xmlns="http://www.w3.org/2000/svg">
+            <path id="f07-m-top" data-len="300" d="M 470 296 L 770 296" />
+            <path id="f07-m-vert" data-len="100" d="M 650 296 L 650 396" />
+            <path id="f07-m-bot" data-len="160" d="M 610 396 L 770 396" />
+          </svg>
+          <div class="f07-cap" id="f07-cap">cap $280.00</div>
+          <div class="f07-diff" id="f07-diff">+$18.33</div>
+        </div>
+
+        <div class="f07-card f07-card-new" id="f07-card-new">
+          <div class="f07-card-head">HEARTH · LODGING</div>
+          <div class="f07-card-title">Konan Garden Hotel</div>
+          <div class="f07-card-meta">0.56 km</div>
+          <div class="f07-card-rule"></div>
+          <div class="f07-price" id="f07-price-new">
+            <span class="f07-fig">$189.96</span><span class="f07-unit">/ night</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="f07-rail" id="f07-rail">
+        <div class="f07-rail-head" id="f07-rail-head">SENTINEL</div>
+        <div class="f07-rail-rule" id="f07-rail-rule"></div>
+        <div class="f07-rail-code" id="f07-rail-code">TRV-003</div>
+        <div class="f07-rail-sub" id="f07-rail-sub">LODGING NIGHTLY CAP</div>
+        <div class="f07-rail-hair" id="f07-rail-hair"></div>
+        <div class="f07-finding">
+          <div class="f07-violation" id="f07-violation">VIOLATION</div>
+          <div class="f07-cleared" id="f07-cleared">CLEARED</div>
+        </div>
+      </div>
+
+      <div class="f07-kicker">
+        <svg class="f07-spike" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#cc785c" stroke-width="2.6" stroke-linecap="round">
+            <path d="M 12 2.6 L 12 21.4" />
+            <path d="M 3.85 7.3 L 20.15 16.7" />
+            <path d="M 3.85 16.7 L 20.15 7.3" />
+          </g>
+        </svg>
+        <span>SOURCE_STAY</span>
+      </div>
+      <div class="f07-topline" id="f07-topline"></div>
+      <div class="f07-concierge">CONCIERGE</div>
+      <div class="f07-node" id="f07-node"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="07-the-negotiation"]') || document;
+      var $ = function (sel) {
+        return root.querySelector(sel);
+      };
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      // ── stroke self-draw helper (measured geometry, authored fallback) ────
+      function draw(sel, at, dur, ease) {
+        var el = $(sel);
+        var len = 0;
+        try {
+          len = el.getTotalLength();
+        } catch (e) {
+          len = 0;
+        }
+        if (!len) len = Number(el.getAttribute("data-len")) || 1000;
+        el.style.strokeDasharray = String(len);
+        el.style.strokeDashoffset = String(len);
+        tl.fromTo(
+          el,
+          { strokeDashoffset: len },
+          { strokeDashoffset: 0, duration: dur, ease: ease || "none" },
+          at,
+        );
+      }
+
+      // ── SCENE 1 — the judgement (VO 0.04 "That room is $18 over policy") ──
+      // The hotel card carries over from Frame 6's right lane into the left 70.
+      tl.fromTo(
+        "#f07-card-old",
+        { x: 56, opacity: 0.55 },
+        { x: 0, opacity: 1, duration: 0.5, ease: "power3.out" },
+        0,
+      );
+      tl.fromTo(
+        [".f07-kicker", ".f07-concierge"],
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+        0.05,
+      );
+      tl.fromTo(
+        "#f07-topline",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.6, ease: "power2.out" },
+        0.15,
+      );
+      tl.fromTo("#f07-node", { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" }, 0.5);
+      // the two lanes of Frame 6 recede to background
+      tl.fromTo("#f07-ghost", { opacity: 1 }, { opacity: 0.4, duration: 0.7, ease: "power2.out" }, 0.3);
+      tl.fromTo(
+        [".f07-lane-hearth", ".f07-lane-skyline"],
+        { opacity: 0 },
+        { opacity: 1, duration: 0.6, ease: "power1.out" },
+        0.35,
+      );
+
+      // the measurement: price → cap, drawn (VO "is $18 over policy" 0.90–2.72)
+      draw("#f07-m-top", 0.8, 0.28);
+      draw("#f07-m-vert", 1.0, 0.34);
+      draw("#f07-m-bot", 1.3, 0.24);
+      tl.fromTo(
+        "#f07-cap",
+        { opacity: 0, x: 14 },
+        { opacity: 1, x: 0, duration: 0.36, ease: "power2.out" },
+        1.45,
+      );
+      // the difference sets in coral
+      tl.fromTo(
+        "#f07-diff",
+        { opacity: 0, y: 16, scale: 0.94 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.46, ease: "power3.out" },
+        1.62,
+      );
+      // "Hearth took it anyway" (2.76) — Hearth's own state on Hearth's own card
+      tl.fromTo(
+        "#f07-chip",
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" },
+        2.8,
+      );
+
+      // Hearth's justification types beneath the card (VO 3.72–6.68)
+      var jt = $("#f07-justify-text");
+      var src = jt.textContent;
+      jt.textContent = "";
+      var chars = [];
+      for (var i = 0; i < src.length; i++) {
+        var sp = document.createElement("span");
+        sp.textContent = src.charAt(i) === " " ? " " : src.charAt(i);
+        jt.appendChild(sp);
+        chars.push(sp);
+      }
+      var TYPE_AT = 3.95;
+      var TYPE_DUR = 2.2;
+      var STEP = TYPE_DUR / chars.length;
+      tl.fromTo(
+        chars,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.01, stagger: STEP, ease: "none" },
+        TYPE_AT,
+      );
+      tl.fromTo(
+        "#f07-caret",
+        { x: 0, opacity: 0 },
+        { opacity: 1, duration: 0.12, ease: "none" },
+        TYPE_AT - 0.12,
+      );
+      tl.to("#f07-caret", { x: 576, duration: TYPE_DUR, ease: "none" }, TYPE_AT);
+      tl.to("#f07-caret", { opacity: 0, duration: 0.24, ease: "none" }, TYPE_AT + TYPE_DUR);
+
+      // ── SCENE 2 — the overrule (VO 6.72 "Sentinel overrules it") ──────────
+      tl.fromTo(
+        "#f07-rail",
+        { x: 540, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.52, ease: "power3.out" },
+        6.68,
+      );
+      tl.fromTo(
+        "#f07-rail-head",
+        { opacity: 0, x: 16 },
+        { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" },
+        7.02,
+      );
+      tl.fromTo("#f07-rail-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.34, ease: "power2.out" }, 7.14);
+      tl.fromTo(
+        "#f07-rail-code",
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.32, ease: "power3.out" },
+        7.28,
+      );
+      tl.fromTo(
+        "#f07-rail-sub",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.32, ease: "power3.out" },
+        7.46,
+      );
+      tl.fromTo("#f07-rail-hair", { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: "power2.out" }, 7.7);
+      // the ruling lands on the card: coral edge, and the card drops back in depth
+      tl.fromTo(
+        "#f07-card-old",
+        { borderColor: "rgba(20,20,19,0.12)" },
+        { borderColor: "rgb(194, 114, 88)", duration: 0.4, ease: "power2.out" },
+        7.55,
+      );
+      tl.fromTo(
+        "#f07-card-old",
+        { scale: 1, opacity: 1 },
+        { scale: 0.94, opacity: 0.92, duration: 0.55, ease: "power2.out" },
+        7.55,
+      );
+      // the finding stamps
+      tl.fromTo(
+        "#f07-violation",
+        { opacity: 0, scale: 1.14 },
+        { opacity: 1, scale: 1, duration: 0.38, ease: "power3.out" },
+        7.95,
+      );
+
+      // ── SCENE 3 — the re-ask (VO 8.40 "The concierge doesn't pick a side") ─
+      // The wire leaves the Concierge node, passes the card, and lands on Hearth.
+      // Nothing about the card changes: nothing was chosen here.
+      draw("#f07-wire-path", 8.55, 1.65);
+      tl.fromTo(
+        "#f07-payload",
+        { opacity: 0, x: 430 },
+        { opacity: 1, x: 0, duration: 0.8, ease: "power2.out" },
+        10.3,
+      );
+      draw("#f07-wire-arrow", 10.98, 0.22, "power2.out");
+      tl.fromTo(
+        "#f07-lane-hearth",
+        { borderColor: "rgba(20,20,19,0.12)", color: "rgba(20,20,19,0.52)" },
+        {
+          borderColor: "rgba(20,20,19,0.42)",
+          color: "rgba(20,20,19,0.9)",
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        11.12,
+      );
+
+      // ── SCENE 4 — the replacement (VO 11.23 "with the cap enforced") ──────
+      tl.to(
+        "#f07-card-old",
+        { scale: 0.76, opacity: 0, duration: 0.38, ease: "power2.in" },
+        11.4,
+      );
+      tl.fromTo(
+        "#f07-card-new",
+        { scale: 0.78, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.52, ease: "power3.out" },
+        11.62,
+      );
+      // the coral drains and the rail stamps the cleared state
+      tl.to("#f07-violation", { opacity: 0, scale: 0.82, duration: 0.26, ease: "power2.in" }, 12.0);
+      tl.fromTo(
+        "#f07-cleared",
+        { opacity: 0, scale: 0.88 },
+        { opacity: 1, scale: 1, duration: 0.36, ease: "power3.out" },
+        12.14,
+      );
+      // the new nightly rate is the last thing to arrive
+      tl.fromTo(
+        "#f07-price-new",
+        { opacity: 0, y: 18 },
+        { opacity: 1, y: 0, duration: 0.36, ease: "power3.out" },
+        12.16,
+      );
+
+      window.__timelines["07-the-negotiation"] = tl;
+    })();
+  </script>
+</template>

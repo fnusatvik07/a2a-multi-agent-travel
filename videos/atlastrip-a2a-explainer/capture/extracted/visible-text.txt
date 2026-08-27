@@ -1,0 +1,124 @@
+ATLASTRIP: five agents on five frameworks, cooperating over the A2A protocol
+Repository: github.com/fnusatvik07/a2a-multi-agent-travel
+
+THE PROBLEM THIS EXISTS TO SHOW
+
+Almost every multi-agent demo is one process with a long list of tools. The
+interesting question is what happens when it cannot be one process: when the
+agents belong to different teams, run on different frameworks, and cannot be
+persuaded to share a virtualenv.
+
+In this project that is not hypothetical. A single shared environment cannot
+exist:
+
+  crewai 1.15.17      requires openai>=2.30,<3
+  pydantic-ai 2.35.1  requires openai>=3
+
+  google-adk 2.8.0        requires mcp<2
+  llama-index-tools-mcp   ships against mcp>=2
+
+uv refuses to resolve them together, correctly. This is the ordinary state of
+the Python agent ecosystem, not a constraint invented for a demo. It is
+precisely the situation A2A exists for: when agents cannot share a process,
+they can still share a protocol.
+
+THE TWO PROTOCOLS
+
+MCP gives an agent its tools.       One tool call, returns immediately.
+A2A lets agents give each other     One task, which has a lifecycle, and which
+work.                                the callee can pause.
+
+The clearest difference is the approval. A tool call cannot say "hold on, I
+need a human". A task can, by moving to input-required and staying there.
+
+THE FIVE AGENTS
+
+  Concierge   LangGraph     :8000   orchestrates the trip, talks to the person
+  Skyline     Google ADK    :8001   sources and ranks flights
+  Hearth      CrewAI        :8002   finds lodging near the meeting venue
+  Sentinel    LlamaIndex    :8003   rules on travel policy and entry rules
+  Ledger      Pydantic AI   :8004   authorises spend against a cost centre
+
+All four specialists read one shared MCP server on :8100, each through its own
+framework's MCP client. PostgreSQL holds the flight and hotel inventory, the
+people, the budget ledger, and the A2A task store. TinyDB holds the policy
+clauses, the entry rulebook, and the audit trail.
+
+The agents share no runtime and no library. The only code they have in common
+is a small package of pydantic models that defines what a message means.
+
+ONE REAL RUN
+
+An engineer types one sentence:
+
+  "Mira Halvorsen needs to be at the Kaisei Robotics quarterly business review
+   in Tokyo from 14 October 2026 to 17 October 2026."
+
+1. Concierge parses it, resolves Mira in the directory (grade IC5, US
+   passport, cost centre CC-ROBOTICS-APAC), and commissions two agents at once.
+
+2. Skyline searches live fare inventory. The flight is eleven hours, so it
+   offers premium economy where the fare is within a defensible multiple of
+   economy: UA 837 out, UA 838 back, $3,110.48. It does not know whether Mira
+   is allowed premium economy, and its agent card says so.
+
+3. Hearth searches lodging. The nearest hotel to the customer's office is the
+   Shinagawa Bay Tower at $298.33 a night, against a $280 cap. It takes it
+   anyway, because it is 210 metres from the front door, and it flags that it
+   went over.
+
+4. Sentinel screens the assembled trip against the corporate travel policy and
+   the entry rulebook. It rules the hotel a violation of clause TRV-003 and
+   states the cap in its finding.
+
+5. The Concierge does not overrule anybody. It reads the cap out of Sentinel's
+   finding and goes back to Hearth with the cap as a hard constraint. Hearth
+   returns the Konan Garden Hotel at $189.96 a night, 560 metres away.
+   Sentinel screens again and clears it.
+
+6. Ledger checks the cost centre. The trip is $3,688.76 against $7,600.00
+   remaining in the quarter. It fits, but it is over the $3,000 auto-approval
+   threshold, so Ledger moves its A2A task into input-required and stops. No
+   money moves.
+
+7. That pause propagates. The Concierge's own task goes to input-required too,
+   and the person who asked for the trip sees the question.
+
+8. On approval, both tasks resume where they left off. Ledger commits the
+   money to Postgres and issues an authorisation code. The itinerary is
+   written.
+
+WHY STEP 5 IS THE INTERESTING ONE
+
+Hearth made a defensible judgement. Sentinel overruled it. The network
+resolved the disagreement by negotiating, rather than by one agent quietly
+knowing better than another.
+
+That only works because judgement and enforcement live in different agents
+that can talk to each other. The Concierge holds no copy of the policy; it
+acts only on what it was told.
+
+WHY THE INTERRUPT IS THE OTHER INTERESTING ONE
+
+Ledger is the only agent on the network that changes anything. Everyone else
+reads inventory and forms opinions. So the authority to say yes lives in plain
+code, and when policy says a human must sign off, the task pauses rather than
+failing.
+
+The interruption travels from the agent that needs the answer, through the
+orchestrator, out to the person who can give it, and no agent in that chain
+special-cases the others. It is a property of the protocol, not something any
+of these agents had to invent.
+
+WHAT IS IN THE REPOSITORY
+
+Seven virtualenvs, one per service. A seeded dataset: 1,938 flights, 6,042
+hotel rates, 10 policy clauses, 12 entry rules. 87 unit tests that run offline
+with no API key, and 70 integration tests against the live network. Three
+generated architecture diagrams. A CLI that reads every agent card and replays
+the whole exchange.
+
+The whole network runs with no model at all: set
+ATLASTRIP_REASONING=deterministic and every agent skips its model and calls its
+own service layer directly. The A2A traffic, the MCP calls, the task
+lifecycle, the interrupt and the database writes are unchanged.

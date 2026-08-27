@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "youtube",
+      "confirmed_in": [
+        "atlastrip-a2a-explainer"
+      ],
+      "updated_at": "2026-08-27T19:45:42.966Z"
+    },
+    "aspect": {
+      "value": "16:9",
+      "confirmed_in": [
+        "atlastrip-a2a-explainer"
+      ],
+      "updated_at": "2026-08-27T19:45:42.991Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "atlastrip-a2a-explainer"
+      ],
+      "updated_at": "2026-08-27T19:45:43.015Z"
+    },
+    "style_preset.faceless-explainer": {
+      "value": "code-editorial",
+      "confirmed_in": [
+        "atlastrip-a2a-explainer"
+      ],
+      "updated_at": "2026-08-27T19:46:50.376Z"
+    }
+  },
+  "sightings": {}
+}

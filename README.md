@@ -45,8 +45,28 @@ Two protocols, two jobs:
 
 ---
 
+## The 90 second version
+
+<p align="center">
+  <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4">
+    <img src="docs/media/atlastrip-explainer-poster.png" alt="Watch the AtlasTrip explainer" width="720">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4"><b>Watch the explainer</b></a>
+  &nbsp;·&nbsp; 89 seconds &nbsp;·&nbsp; narrated
+</p>
+
+It covers the dependency constraint that makes a single process impossible, the
+split between MCP and A2A, the five agents, the negotiation between Hearth and
+Sentinel, and the approval interrupt. The composition that produced it is in
+[`videos/atlastrip-a2a-explainer/`](videos/atlastrip-a2a-explainer) and rebuilds
+with `npx hyperframes render`.
+
 ## Table of contents
 
+- [The 90 second version](#the-90-second-version)
 - [The scenario](#the-scenario)
 - [Quick start](#quick-start)
 - [What a run looks like](#what-a-run-looks-like)
