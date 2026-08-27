@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Annotated, Any, TypedDict
+from typing import Annotated, TypedDict
 
 from atlastrip_core.models import (
     BudgetVerdict,

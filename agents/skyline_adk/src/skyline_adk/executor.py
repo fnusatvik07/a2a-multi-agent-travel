@@ -14,18 +14,17 @@ The caller sees each of those as an event on its stream.
 
 from __future__ import annotations
 
-from atlastrip_core import audit
-from atlastrip_core.a2a_support import accept_task, data_part, read_request
-from atlastrip_core.config import settings
-from atlastrip_core.console import get_logger
-from atlastrip_core.models import FlightBrief
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
 from a2a.types import Part
 
-from . import agent, service
+from atlastrip_core import audit
+from atlastrip_core.a2a_support import accept_task, data_part, read_request
+from atlastrip_core.console import get_logger
+from atlastrip_core.models import FlightBrief
 
+from . import agent, service
 
 log = get_logger("skyline")
 
@@ -42,7 +41,7 @@ class SkylineExecutor(AgentExecutor):
             event_queue, context.task_id or "", context.context_id or ""
         )
 
-        instruction, payload = read_request(context)
+        _, payload = read_request(context)
         try:
             brief = FlightBrief.model_validate(payload)
         except Exception as error:

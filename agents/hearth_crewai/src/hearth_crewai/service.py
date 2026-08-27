@@ -19,7 +19,6 @@ from typing import Any
 from atlastrip_core.mcp_http import MCPClient
 from atlastrip_core.models import HotelOffer, StayBrief, StayProposal
 
-
 # How Hearth trades off the three things it cares about.
 #
 # The units are chosen so the weights mean something. Price is scored as the

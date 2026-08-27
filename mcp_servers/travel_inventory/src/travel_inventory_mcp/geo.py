@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from math import asin, cos, radians, sin, sqrt
 
-
 EARTH_RADIUS_KM = 6371.0088
 
 

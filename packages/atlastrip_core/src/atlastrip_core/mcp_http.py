@@ -20,14 +20,12 @@ depending on what the server feels like doing, so both are handled.
 from __future__ import annotations
 
 import json
-
 from types import TracebackType
 from typing import Any
 
 import httpx
 
 from .config import settings
-
 
 PROTOCOL_VERSION = "2025-06-18"
 

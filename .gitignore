@@ -23,3 +23,15 @@ dist/
 .DS_Store
 .idea/
 .vscode/
+
+# HyperFrames video project: keep the source (storyboard, script, frames,
+# design spec, fonts), drop what is regenerated from it.
+videos/*/node_modules/
+videos/*/renders/
+videos/*/snapshots/
+videos/*/.hyperframes/frame-packets/
+videos/*/assets/voice/
+videos/*/assets/audio/
+videos/*/audio_meta.json
+videos/*/audio_engine_meta.json
+videos/*/caption_groups.json

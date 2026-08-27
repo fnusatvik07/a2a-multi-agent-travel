@@ -15,12 +15,10 @@ from __future__ import annotations
 
 import itertools
 import threading
-
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from . import documents
-
 
 _sequence = itertools.count()
 _lock = threading.Lock()
@@ -54,7 +52,7 @@ def record(
         summary: One line a human can read without unpacking the payload.
     """
     entry = {
-        "at": datetime.now(timezone.utc).isoformat(timespec="microseconds"),
+        "at": datetime.now(UTC).isoformat(timespec="microseconds"),
         "seq": next(_sequence),
         "agent": agent,
         "direction": direction,

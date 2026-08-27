@@ -2,17 +2,17 @@
 
 from __future__ import annotations
 
-from atlastrip_core import audit
-from atlastrip_core.a2a_support import accept_task, data_part, read_request
-from atlastrip_core.console import get_logger
-from atlastrip_core.models import ScreeningRequest
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
 from a2a.types import Part
 
-from . import agent, service
+from atlastrip_core import audit
+from atlastrip_core.a2a_support import accept_task, data_part, read_request
+from atlastrip_core.console import get_logger
+from atlastrip_core.models import ScreeningRequest
 
+from . import agent, service
 
 log = get_logger("sentinel")
 
@@ -89,17 +89,11 @@ class SentinelExecutor(AgentExecutor):
             name="compliance_verdict",
             last_chunk=True,
         )
+        standing = "Within policy" if verdict.compliant else "Not within policy"
+        approval = "required" if verdict.requires_manager_approval else "not required"
         await updater.complete(
             updater.new_agent_message(
-                [
-                    Part(
-                        text=(
-                            f"{'Within policy' if verdict.compliant else 'Not within policy'}"
-                            f"; manager approval "
-                            f"{'required' if verdict.requires_manager_approval else 'not required'}."
-                        )
-                    )
-                ]
+                [Part(text=f"{standing}; manager approval {approval}.")]
             )
         )
         audit.record(

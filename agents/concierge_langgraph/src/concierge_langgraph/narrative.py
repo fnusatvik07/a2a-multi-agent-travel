@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+from langchain_openai import ChatOpenAI
+
 from atlastrip_core.config import settings
 from atlastrip_core.console import get_logger
 from atlastrip_core.models import Itinerary
-from langchain_openai import ChatOpenAI
-
 
 log = get_logger("concierge")
 

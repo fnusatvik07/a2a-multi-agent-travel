@@ -8,6 +8,9 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
+from concierge_langgraph import executor, graph
+from langgraph.graph import END
+
 from atlastrip_core.models import (
     BudgetVerdict,
     ComplianceVerdict,
@@ -19,8 +22,6 @@ from atlastrip_core.models import (
     TravellerProfile,
     TripRequest,
 )
-from concierge_langgraph import executor, graph
-from langgraph.graph import END
 
 
 def verdict(compliant: bool, findings: list[PolicyFinding], approval: bool = False):

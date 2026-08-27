@@ -5,9 +5,9 @@ from __future__ import annotations
 from datetime import date
 
 import pytest
+from hearth_crewai import service
 
 from atlastrip_core.models import StayBrief
-from hearth_crewai import service
 
 
 def brief(**overrides) -> StayBrief:

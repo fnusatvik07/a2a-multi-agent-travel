@@ -28,8 +28,11 @@ the pause is visible all the way out to whoever asked for the trip.
 from __future__ import annotations
 
 import asyncio
+from datetime import UTC, date
 
-from datetime import date
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import END, START, StateGraph
+from langgraph.types import interrupt
 
 from atlastrip_core.console import get_logger
 from atlastrip_core.models import (
@@ -43,13 +46,9 @@ from atlastrip_core.models import (
     StayBrief,
     StayProposal,
 )
-from langgraph.checkpoint.memory import MemorySaver
-from langgraph.graph import END, START, StateGraph
-from langgraph.types import interrupt
 
 from . import intake, narrative, network
 from .state import TripState
-
 
 log = get_logger("concierge")
 
@@ -423,7 +422,7 @@ def _breached_lodging_cap(verdict: ComplianceVerdict) -> float | None:
 
 
 def build_itinerary(state: TripState) -> Itinerary:
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     budget = state.get("budget")
     compliance = state.get("compliance")
@@ -452,7 +451,7 @@ def build_itinerary(state: TripState) -> Itinerary:
         compliance=compliance,
         budget=budget,
         total_usd=total,
-        generated_at=datetime.now(timezone.utc),
+        generated_at=datetime.now(UTC),
     )
 
 

@@ -16,7 +16,6 @@ import asyncpg
 
 from .config import settings
 
-
 _pool: asyncpg.Pool | None = None
 
 

@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from datetime import date
 
-import pytest
-
 from atlastrip_core import a2a_client
 from atlastrip_core.models import (
     BudgetVerdict,
@@ -20,7 +18,6 @@ from atlastrip_core.models import (
     TripRequest,
 )
 from atlastrip_core.registry import HEARTH, LEDGER, SENTINEL, SKYLINE
-
 
 TRAVELLER = TravellerProfile(
     employee_id=1,

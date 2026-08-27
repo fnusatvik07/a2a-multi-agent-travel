@@ -9,13 +9,12 @@ can open in an editor while the demo runs.
 
 from __future__ import annotations
 
-from functools import lru_cache
+from functools import cache
 from typing import Any
 
 from tinydb import Query, TinyDB
 
 from .config import settings
-
 
 POLICIES = "policies"
 VISA_RULES = "visa_rules"
@@ -24,7 +23,7 @@ VENUES = "venues"
 SEEDED_COLLECTIONS = (POLICIES, VISA_RULES, VENUES)
 
 
-@lru_cache(maxsize=None)
+@cache
 def _db(collection: str) -> TinyDB:
     directory = settings().tinydb_dir
     directory.mkdir(parents=True, exist_ok=True)

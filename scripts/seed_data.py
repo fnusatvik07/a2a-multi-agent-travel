@@ -19,16 +19,13 @@ from __future__ import annotations
 import asyncio
 import json
 import random
-
 from datetime import date, datetime, time, timedelta
-from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import asyncpg
 
 from atlastrip_core import documents
 from atlastrip_core.config import REPO_ROOT, settings
-
 
 SEED_DIR = REPO_ROOT / "data" / "seed"
 SCHEMA = REPO_ROOT / "packages" / "atlastrip_core" / "src" / "atlastrip_core" / "schema.sql"

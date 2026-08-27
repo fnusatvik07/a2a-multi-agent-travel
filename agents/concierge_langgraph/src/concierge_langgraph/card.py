@@ -8,10 +8,10 @@ implementation detail on the far side of the interface.
 
 from __future__ import annotations
 
-from atlastrip_core.a2a_support import build_agent_card
-from atlastrip_core.registry import CONCIERGE
 from a2a.types import AgentCard, AgentSkill
 
+from atlastrip_core.a2a_support import build_agent_card
+from atlastrip_core.registry import CONCIERGE
 
 DESCRIPTION = (
     "Plans a corporate trip end to end. Reads a request in plain English, "

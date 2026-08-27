@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import date, datetime
 
 import pytest
+from pydantic import ValidationError
 
 from atlastrip_core.models import (
     BudgetVerdict,
@@ -14,7 +15,6 @@ from atlastrip_core.models import (
     SpendRequest,
     TripRequest,
 )
-from pydantic import ValidationError
 
 
 def test_trip_request_counts_nights_not_days():

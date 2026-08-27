@@ -20,7 +20,6 @@ from atlastrip_core.models import (
 )
 from atlastrip_core.registry import HEARTH, LEDGER, SENTINEL, SKYLINE
 
-
 CALLER = "concierge"
 
 

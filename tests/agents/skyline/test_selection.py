@@ -5,9 +5,9 @@ from __future__ import annotations
 from datetime import date
 
 import pytest
+from skyline_adk import agent, service
 
 from atlastrip_core.models import FlightBrief
-from skyline_adk import agent, service
 
 
 def brief(**overrides) -> FlightBrief:

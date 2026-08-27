@@ -13,17 +13,17 @@ of the protocol rather than something this agent had to invent.
 
 from __future__ import annotations
 
-from atlastrip_core import audit
-from atlastrip_core.a2a_support import accept_task, data_part, read_request
-from atlastrip_core.console import get_logger
-from atlastrip_core.models import SpendRequest
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
 from a2a.types import Part
 
-from . import agent, service
+from atlastrip_core import audit
+from atlastrip_core.a2a_support import accept_task, data_part, read_request
+from atlastrip_core.console import get_logger
+from atlastrip_core.models import SpendRequest
 
+from . import agent, service
 
 log = get_logger("ledger")
 

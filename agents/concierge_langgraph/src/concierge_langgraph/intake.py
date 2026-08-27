@@ -11,13 +11,13 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field
+
 from atlastrip_core.config import settings
 from atlastrip_core.console import get_logger
 from atlastrip_core.mcp_http import MCPClient
 from atlastrip_core.models import TravellerProfile, TripRequest
-from langchain_openai import ChatOpenAI
-from pydantic import BaseModel, Field
-
 
 log = get_logger("concierge")
 

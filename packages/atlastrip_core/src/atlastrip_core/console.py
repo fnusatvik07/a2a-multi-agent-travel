@@ -12,7 +12,6 @@ import sys
 
 from .config import settings
 
-
 _COLOURS = {
     "concierge": "\033[95m",
     "skyline": "\033[96m",

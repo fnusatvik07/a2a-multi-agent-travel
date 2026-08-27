@@ -17,10 +17,8 @@ Open it at https://app.diagrams.net or in the draw.io desktop app.
 from __future__ import annotations
 
 import html
-
 from pathlib import Path
 from xml.sax.saxutils import escape
-
 
 OUT = Path(__file__).resolve().parents[1] / "docs" / "diagrams"
 

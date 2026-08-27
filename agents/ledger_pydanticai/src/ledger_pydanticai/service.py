@@ -21,7 +21,6 @@ from atlastrip_core.console import get_logger
 from atlastrip_core.mcp_http import MCPClient
 from atlastrip_core.models import BudgetVerdict, SpendRequest
 
-
 log = get_logger("ledger")
 
 

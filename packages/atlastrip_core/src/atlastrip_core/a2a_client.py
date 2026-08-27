@@ -9,12 +9,10 @@ still an ordinary agent to whoever calls it.
 from __future__ import annotations
 
 import uuid
-
 from dataclasses import dataclass, field
 from typing import Any
 
 import httpx
-
 from a2a.client import ClientConfig, create_client
 from a2a.helpers import get_data_parts, get_message_text, get_text_parts
 from a2a.types import AgentCard, Message, Part, Role, SendMessageRequest, TaskState

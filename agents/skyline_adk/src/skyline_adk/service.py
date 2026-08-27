@@ -15,7 +15,6 @@ from typing import Any
 from atlastrip_core.mcp_http import MCPClient
 from atlastrip_core.models import FlightBrief, FlightOffer, FlightProposal
 
-
 LONG_HAUL_MINUTES = 480
 """Eight hours. Past this, a wider seat starts to be worth paying for."""
 

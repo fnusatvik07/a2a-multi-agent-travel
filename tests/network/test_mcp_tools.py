@@ -6,7 +6,6 @@ import pytest
 
 from atlastrip_core.mcp_http import MCPClient
 
-
 EXPECTED_TOOLS = {
     "search_flights",
     "list_airports",

@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+from a2a.server.request_handlers import DefaultRequestHandler
+
 from atlastrip_core.a2a_support import build_app, run
 from atlastrip_core.config import settings
 from atlastrip_core.console import get_logger
 from atlastrip_core.db import build_task_store
 from atlastrip_core.registry import HEARTH
-from a2a.server.request_handlers import DefaultRequestHandler
 
 from .card import agent_card
 from .executor import HearthExecutor

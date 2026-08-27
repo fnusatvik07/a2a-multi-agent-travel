@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import date, datetime
 
-import pytest
+from sentinel_llamaindex import rules
 
 from atlastrip_core.models import (
     FlightOffer,
@@ -20,8 +20,6 @@ from atlastrip_core.models import (
     TravellerProfile,
     TripRequest,
 )
-from sentinel_llamaindex import rules
-
 
 BOOKED_ON = date(2026, 8, 27)
 DEPARTS_ON = date(2026, 10, 14)

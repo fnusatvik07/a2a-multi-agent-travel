@@ -1,0 +1,25 @@
+# Lint and format settings shared by every service.
+#
+#   uvx ruff check .          find problems
+#   uvx ruff check --fix .    fix the mechanical ones
+#   uvx ruff format .         format
+
+line-length = 100
+target-version = "py311"
+
+exclude = [".venv", "**/.venv", "videos", "data/tinydb"]
+
+[lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[lint.isort]
+# `a2a` is a third-party SDK and `atlastrip_core` is our own shared package,
+# but they read as one group in an import block and separating them makes the
+# imports harder to scan, not easier.
+known-first-party = ["atlastrip_core"]
+
+[lint.per-file-ignores]
+# Test names are deliberately long sentences; that is the point of them.
+"tests/**" = ["E501"]
+# The diagram generator holds table-shaped data whose rows read better whole.
+"scripts/make_diagrams.py" = ["E501"]

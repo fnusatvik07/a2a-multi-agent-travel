@@ -14,7 +14,6 @@ from contextlib import asynccontextmanager
 from typing import Any
 
 import uvicorn
-
 from a2a.helpers import get_data_parts, get_text_parts, new_data_part
 from a2a.server.agent_execution import RequestContext
 from a2a.server.events import EventQueue
@@ -42,7 +41,6 @@ from starlette.routing import Route
 from . import db
 from .config import settings
 from .registry import JSONRPC_PATH, REST_PREFIX, AgentEndpoint
-
 
 PROTOCOL_VERSION = "1.0"
 ORGANISATION = "Nimbus Robotics (AtlasTrip)"

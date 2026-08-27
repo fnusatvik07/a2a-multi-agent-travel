@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from atlastrip_core.a2a_support import build_agent_card
-from atlastrip_core.registry import SKYLINE
 from a2a.types import AgentCard, AgentSkill
 
+from atlastrip_core.a2a_support import build_agent_card
+from atlastrip_core.registry import SKYLINE
 
 DESCRIPTION = (
     "Sources and ranks air travel for a round trip. Reads live fare inventory "

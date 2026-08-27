@@ -7,9 +7,9 @@ the inventory server. The live path is covered by tests/network.
 from __future__ import annotations
 
 import pytest
+from ledger_pydanticai import service
 
 from atlastrip_core.models import SpendRequest
-from ledger_pydanticai import service
 
 
 @pytest.fixture

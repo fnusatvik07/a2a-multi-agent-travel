@@ -7,7 +7,7 @@ COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install db seed reset run demo cards trail doctor test test-unit test-network fmt clean
+.PHONY: help install db seed reset run demo plan cards trail doctor test test-unit test-network lint diagrams clean
 
 help:  ## Show this help
 	@echo "AtlasTrip"
@@ -68,6 +68,12 @@ test-unit:  ## Unit tests, each in its own agent's virtualenv
 test-network:  ## Integration tests against the running network
 	@./scripts/_unhide_pth.sh
 	$(CORE) -m pytest tests/network -q
+
+lint:  ## Lint every service with ruff
+	uvx ruff check .
+
+diagrams:  ## Regenerate the draw.io diagrams and their PNGs
+	./scripts/export_diagrams.sh
 
 clean:  ## Remove virtualenvs, logs and the Postgres volume
 	rm -rf packages/*/.venv agents/*/.venv mcp_servers/*/.venv logs

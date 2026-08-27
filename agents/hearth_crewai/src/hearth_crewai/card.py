@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from atlastrip_core.a2a_support import build_agent_card
-from atlastrip_core.registry import HEARTH
 from a2a.types import AgentCard, AgentSkill
 
+from atlastrip_core.a2a_support import build_agent_card
+from atlastrip_core.registry import HEARTH
 
 DESCRIPTION = (
     "Finds somewhere to stay near where the traveller has to be. Weighs "

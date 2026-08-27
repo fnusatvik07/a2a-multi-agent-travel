@@ -7,7 +7,6 @@ Every service in the network reads the same settings object, so a single
 from __future__ import annotations
 
 import os
-
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path

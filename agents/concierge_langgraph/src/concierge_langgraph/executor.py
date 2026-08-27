@@ -16,21 +16,20 @@ to the person who can give it, without any of them special-casing the others.
 from __future__ import annotations
 
 import uuid
-
 from typing import Any
 
-from atlastrip_core import audit
-from atlastrip_core.a2a_support import accept_task, data_part, read_request
-from atlastrip_core.console import get_logger
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 from a2a.server.tasks import TaskUpdater
 from a2a.types import Part
 from langgraph.types import Command
 
+from atlastrip_core import audit
+from atlastrip_core.a2a_support import accept_task, data_part, read_request
+from atlastrip_core.console import get_logger
+
 from . import graph as trip_graph
 from .narrative import plain
-
 
 log = get_logger("concierge")
 
@@ -201,7 +200,11 @@ class ConciergeExecutor(AgentExecutor):
             if isinstance(request, dict)
             else str(request)
         )
-        approver = request.get("approver", "the cost centre owner") if isinstance(request, dict) else ""
+        approver = (
+            request.get("approver", "the cost centre owner")
+            if isinstance(request, dict)
+            else "the cost centre owner"
+        )
         await updater.requires_input(
             updater.new_agent_message(
                 [

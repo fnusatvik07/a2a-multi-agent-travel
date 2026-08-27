@@ -15,9 +15,6 @@ from __future__ import annotations
 
 from functools import lru_cache
 
-from atlastrip_core.config import settings
-from atlastrip_core.console import get_logger
-from atlastrip_core.models import ComplianceVerdict, ScreeningRequest
 from llama_index.core import Document, Settings, VectorStoreIndex
 from llama_index.core.agent.workflow import FunctionAgent
 from llama_index.core.tools import FunctionTool
@@ -25,8 +22,11 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
 from pydantic import BaseModel, Field
 
-from . import rules
+from atlastrip_core.config import settings
+from atlastrip_core.console import get_logger
+from atlastrip_core.models import ComplianceVerdict, ScreeningRequest
 
+from . import rules
 
 log = get_logger("sentinel")
 

@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from atlastrip_core.a2a_support import build_agent_card
-from atlastrip_core.registry import SENTINEL
 from a2a.types import AgentCard, AgentSkill
 
+from atlastrip_core.a2a_support import build_agent_card
+from atlastrip_core.registry import SENTINEL
 
 DESCRIPTION = (
     "Rules on whether a trip may proceed. Evaluates the corporate travel "

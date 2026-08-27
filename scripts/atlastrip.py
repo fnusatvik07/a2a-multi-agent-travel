@@ -18,15 +18,12 @@ import asyncio
 import sys
 import uuid
 
-from typing import Any
-
 import httpx
 
 from atlastrip_core import a2a_client, audit
 from atlastrip_core.config import settings
 from atlastrip_core.models import Itinerary
 from atlastrip_core.registry import ALL_AGENTS, CONCIERGE, MCP_PORT
-
 
 BOLD = "\033[1m"
 DIM = "\033[2m"
@@ -156,9 +153,10 @@ async def cmd_trail(args: argparse.Namespace) -> int:
             "failed": RED,
             "completed": GREEN,
         }.get(entry["event"], DIM)
+        event = f"{entry['event']:<9}"
         print(
             f"  {entry['at'][11:19]}  {entry['agent']:<10}  "
-            f"{entry['direction']:<9}  {style(f'{entry['event']:<9}', colour)}  "
+            f"{entry['direction']:<9}  {style(event, colour)}  "
             f"{(entry['summary'] or '')[:64]}"
         )
     print(f"\n  {len(entries)} exchanges.\n")

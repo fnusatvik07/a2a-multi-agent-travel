@@ -10,9 +10,8 @@ import json
 import socket
 import uuid
 
-import pytest
-
 import asyncpg
+import pytest
 
 from atlastrip_core.config import REPO_ROOT, settings
 from atlastrip_core.registry import ALL_AGENTS, MCP_PORT

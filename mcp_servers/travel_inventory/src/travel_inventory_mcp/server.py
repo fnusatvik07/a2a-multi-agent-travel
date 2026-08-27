@@ -17,12 +17,12 @@ from __future__ import annotations
 from datetime import date, datetime, timedelta
 from typing import Any
 
-from atlastrip_core import db, documents
-from atlastrip_core.console import get_logger
 from mcp.server import MCPServer
 
-from .geo import haversine_km
+from atlastrip_core import db, documents
+from atlastrip_core.console import get_logger
 
+from .geo import haversine_km
 
 log = get_logger("mcp")
 

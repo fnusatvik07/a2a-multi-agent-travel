@@ -14,7 +14,6 @@ from atlastrip_core import a2a_client, audit
 from atlastrip_core.models import Itinerary
 from atlastrip_core.registry import CONCIERGE
 
-
 REQUEST = (
     "Mira Halvorsen needs to be at the Kaisei Robotics quarterly business "
     "review in Tokyo from 14 October 2026 to 17 October 2026."
