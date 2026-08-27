@@ -1,0 +1,12 @@
+[
+  {"venue_id": "KAISEI-HQ", "name": "Kaisei Robotics HQ", "customer": "Kaisei Robotics", "city": "Tokyo", "country": "Japan",
+   "address": "2-16-3 Konan, Minato City, Tokyo", "latitude": 35.628400, "longitude": 139.738700, "nearest_airport": "HND"},
+  {"venue_id": "THAMESIDE-DC", "name": "Thameside Logistics Distribution Centre", "customer": "Thameside Logistics", "city": "London", "country": "United Kingdom",
+   "address": "Silvertown Way, London E16", "latitude": 51.508500, "longitude": 0.023600, "nearest_airport": "LHR"},
+  {"venue_id": "MARINA-SYS", "name": "Marina Systems Integration Lab", "customer": "Marina Systems", "city": "Singapore", "country": "Singapore",
+   "address": "1 Marina Boulevard, Singapore", "latitude": 1.281900, "longitude": 103.854700, "nearest_airport": "SIN"},
+  {"venue_id": "NIMBUS-HQ", "name": "Nimbus Robotics Headquarters", "customer": "Nimbus Robotics", "city": "San Francisco", "country": "United States",
+   "address": "660 Bryant Street, San Francisco, CA", "latitude": 37.780900, "longitude": -122.398500, "nearest_airport": "SFO"},
+  {"venue_id": "HUDSON-YARD", "name": "Hudson Yard Automation Centre", "customer": "Meridian Freight", "city": "New York", "country": "United States",
+   "address": "451 Tenth Avenue, New York, NY", "latitude": 40.754600, "longitude": -73.999100, "nearest_airport": "JFK"}
+]

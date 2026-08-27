@@ -1,0 +1,65 @@
+[
+  {
+    "origin": "SFO", "dest": "HND", "duration_minutes": 675, "distance_km": 8280, "window": ["2026-10-10", "2026-10-22"],
+    "services": [
+      {"carrier": "NH", "carrier_name": "All Nippon Airways", "flight_no": "NH 007", "depart_local": "11:20", "aircraft": "Boeing 777-300ER", "preferred": true,  "cabins": {"economy": 940, "premium_economy": 1480, "business": 4120}},
+      {"carrier": "JL", "carrier_name": "Japan Airlines",     "flight_no": "JL 001", "depart_local": "13:35", "aircraft": "Boeing 787-9",     "preferred": true,  "cabins": {"economy": 985, "premium_economy": 1395, "business": 4360}},
+      {"carrier": "UA", "carrier_name": "United Airlines",    "flight_no": "UA 837", "depart_local": "10:55", "aircraft": "Boeing 777-200ER", "preferred": true,  "cabins": {"economy": 905, "premium_economy": 1290, "business": 3980}},
+      {"carrier": "ZG", "carrier_name": "ZIPAIR Tokyo",       "flight_no": "ZG 025", "depart_local": "16:40", "aircraft": "Boeing 787-8",     "preferred": false, "cabins": {"economy": 620, "premium_economy": 1105}}
+    ],
+    "returns": [
+      {"carrier": "NH", "carrier_name": "All Nippon Airways", "flight_no": "NH 008", "depart_local": "17:05", "aircraft": "Boeing 777-300ER", "preferred": true,  "cabins": {"economy": 960, "premium_economy": 1450, "business": 4180}},
+      {"carrier": "JL", "carrier_name": "Japan Airlines",     "flight_no": "JL 002", "depart_local": "19:20", "aircraft": "Boeing 787-9",     "preferred": true,  "cabins": {"economy": 1005, "premium_economy": 1370, "business": 4400}},
+      {"carrier": "UA", "carrier_name": "United Airlines",    "flight_no": "UA 838", "depart_local": "15:30", "aircraft": "Boeing 777-200ER", "preferred": true,  "cabins": {"economy": 925, "premium_economy": 1265, "business": 4020}},
+      {"carrier": "ZG", "carrier_name": "ZIPAIR Tokyo",       "flight_no": "ZG 026", "depart_local": "21:50", "aircraft": "Boeing 787-8",     "preferred": false, "cabins": {"economy": 645, "premium_economy": 1120}}
+    ]
+  },
+  {
+    "origin": "SFO", "dest": "LHR", "duration_minutes": 620, "distance_km": 8620, "window": ["2026-11-01", "2026-11-14"],
+    "services": [
+      {"carrier": "BA", "carrier_name": "British Airways", "flight_no": "BA 284", "depart_local": "16:25", "aircraft": "Boeing 777-300ER", "preferred": true,  "cabins": {"economy": 780, "premium_economy": 1240, "business": 3650}},
+      {"carrier": "VS", "carrier_name": "Virgin Atlantic", "flight_no": "VS 020", "depart_local": "18:50", "aircraft": "Airbus A350-1000", "preferred": false, "cabins": {"economy": 745, "premium_economy": 1180, "business": 3480}},
+      {"carrier": "UA", "carrier_name": "United Airlines", "flight_no": "UA 900", "depart_local": "14:10", "aircraft": "Boeing 787-9",     "preferred": true,  "cabins": {"economy": 715, "premium_economy": 1095, "business": 3390}}
+    ],
+    "returns": [
+      {"carrier": "BA", "carrier_name": "British Airways", "flight_no": "BA 285", "depart_local": "11:15", "aircraft": "Boeing 777-300ER", "preferred": true,  "cabins": {"economy": 795, "premium_economy": 1265, "business": 3700}},
+      {"carrier": "VS", "carrier_name": "Virgin Atlantic", "flight_no": "VS 041", "depart_local": "09:40", "aircraft": "Airbus A350-1000", "preferred": false, "cabins": {"economy": 760, "premium_economy": 1195, "business": 3520}},
+      {"carrier": "UA", "carrier_name": "United Airlines", "flight_no": "UA 901", "depart_local": "13:00", "aircraft": "Boeing 787-9",     "preferred": true,  "cabins": {"economy": 730, "premium_economy": 1110, "business": 3430}}
+    ]
+  },
+  {
+    "origin": "SFO", "dest": "SIN", "duration_minutes": 1035, "distance_km": 13580, "window": ["2026-09-20", "2026-10-05"],
+    "services": [
+      {"carrier": "SQ", "carrier_name": "Singapore Airlines", "flight_no": "SQ 033", "depart_local": "09:15", "aircraft": "Airbus A350-900ULR", "preferred": true,  "cabins": {"economy": 1180, "premium_economy": 1990, "business": 5480}},
+      {"carrier": "UA", "carrier_name": "United Airlines",    "flight_no": "UA 001", "depart_local": "22:40", "aircraft": "Boeing 787-9",       "preferred": true,  "cabins": {"economy": 1090, "premium_economy": 1780, "business": 5120}}
+    ],
+    "returns": [
+      {"carrier": "SQ", "carrier_name": "Singapore Airlines", "flight_no": "SQ 034", "depart_local": "18:30", "aircraft": "Airbus A350-900ULR", "preferred": true,  "cabins": {"economy": 1205, "premium_economy": 2020, "business": 5560}},
+      {"carrier": "UA", "carrier_name": "United Airlines",    "flight_no": "UA 002", "depart_local": "08:05", "aircraft": "Boeing 787-9",       "preferred": true,  "cabins": {"economy": 1115, "premium_economy": 1810, "business": 5190}}
+    ]
+  },
+  {
+    "origin": "BLR", "dest": "SFO", "duration_minutes": 1120, "distance_km": 13860, "window": ["2026-09-25", "2026-10-08"],
+    "services": [
+      {"carrier": "AI", "carrier_name": "Air India",       "flight_no": "AI 175", "depart_local": "02:10", "aircraft": "Boeing 777-200LR", "preferred": true,  "cabins": {"economy": 890, "premium_economy": 1520, "business": 4290}},
+      {"carrier": "EK", "carrier_name": "Emirates",        "flight_no": "EK 569", "depart_local": "04:30", "aircraft": "Boeing 777-300ER", "preferred": false, "stops": 1, "cabins": {"economy": 760, "business": 3640}}
+    ],
+    "returns": [
+      {"carrier": "AI", "carrier_name": "Air India",       "flight_no": "AI 176", "depart_local": "23:45", "aircraft": "Boeing 777-200LR", "preferred": true,  "cabins": {"economy": 910, "premium_economy": 1545, "business": 4340}},
+      {"carrier": "EK", "carrier_name": "Emirates",        "flight_no": "EK 226", "depart_local": "16:20", "aircraft": "Boeing 777-300ER", "preferred": false, "stops": 1, "cabins": {"economy": 780, "business": 3690}}
+    ]
+  },
+  {
+    "origin": "SFO", "dest": "JFK", "duration_minutes": 330, "distance_km": 4150, "window": ["2026-09-15", "2026-09-30"],
+    "services": [
+      {"carrier": "UA", "carrier_name": "United Airlines", "flight_no": "UA 500", "depart_local": "07:00", "aircraft": "Boeing 757-200",  "preferred": true,  "cabins": {"economy": 310, "premium_economy": 505, "business": 1180}},
+      {"carrier": "B6", "carrier_name": "JetBlue",         "flight_no": "B6 916", "depart_local": "09:35", "aircraft": "Airbus A321neo",  "preferred": false, "cabins": {"economy": 268, "premium_economy": 440, "business": 995}},
+      {"carrier": "DL", "carrier_name": "Delta Air Lines", "flight_no": "DL 400", "depart_local": "13:15", "aircraft": "Airbus A330-900", "preferred": true,  "cabins": {"economy": 322, "premium_economy": 520, "business": 1240}}
+    ],
+    "returns": [
+      {"carrier": "UA", "carrier_name": "United Airlines", "flight_no": "UA 501", "depart_local": "17:40", "aircraft": "Boeing 757-200",  "preferred": true,  "cabins": {"economy": 318, "premium_economy": 515, "business": 1195}},
+      {"carrier": "B6", "carrier_name": "JetBlue",         "flight_no": "B6 917", "depart_local": "20:05", "aircraft": "Airbus A321neo",  "preferred": false, "cabins": {"economy": 274, "premium_economy": 448, "business": 1010}},
+      {"carrier": "DL", "carrier_name": "Delta Air Lines", "flight_no": "DL 401", "depart_local": "06:50", "aircraft": "Airbus A330-900", "preferred": true,  "cabins": {"economy": 330, "premium_economy": 532, "business": 1265}}
+    ]
+  }
+]

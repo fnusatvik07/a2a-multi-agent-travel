@@ -1,0 +1,59 @@
+{
+  "_default": {
+    "1": {
+      "venue_id": "KAISEI-HQ",
+      "name": "Kaisei Robotics HQ",
+      "customer": "Kaisei Robotics",
+      "city": "Tokyo",
+      "country": "Japan",
+      "address": "2-16-3 Konan, Minato City, Tokyo",
+      "latitude": 35.6284,
+      "longitude": 139.7387,
+      "nearest_airport": "HND"
+    },
+    "2": {
+      "venue_id": "THAMESIDE-DC",
+      "name": "Thameside Logistics Distribution Centre",
+      "customer": "Thameside Logistics",
+      "city": "London",
+      "country": "United Kingdom",
+      "address": "Silvertown Way, London E16",
+      "latitude": 51.5085,
+      "longitude": 0.0236,
+      "nearest_airport": "LHR"
+    },
+    "3": {
+      "venue_id": "MARINA-SYS",
+      "name": "Marina Systems Integration Lab",
+      "customer": "Marina Systems",
+      "city": "Singapore",
+      "country": "Singapore",
+      "address": "1 Marina Boulevard, Singapore",
+      "latitude": 1.2819,
+      "longitude": 103.8547,
+      "nearest_airport": "SIN"
+    },
+    "4": {
+      "venue_id": "NIMBUS-HQ",
+      "name": "Nimbus Robotics Headquarters",
+      "customer": "Nimbus Robotics",
+      "city": "San Francisco",
+      "country": "United States",
+      "address": "660 Bryant Street, San Francisco, CA",
+      "latitude": 37.7809,
+      "longitude": -122.3985,
+      "nearest_airport": "SFO"
+    },
+    "5": {
+      "venue_id": "HUDSON-YARD",
+      "name": "Hudson Yard Automation Centre",
+      "customer": "Meridian Freight",
+      "city": "New York",
+      "country": "United States",
+      "address": "451 Tenth Avenue, New York, NY",
+      "latitude": 40.7546,
+      "longitude": -73.9991,
+      "nearest_airport": "JFK"
+    }
+  }
+}

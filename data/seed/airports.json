@@ -1,0 +1,12 @@
+[
+  {"iata": "SFO", "name": "San Francisco International", "city": "San Francisco", "country": "United States", "timezone": "America/Los_Angeles"},
+  {"iata": "HND", "name": "Tokyo Haneda", "city": "Tokyo", "country": "Japan", "timezone": "Asia/Tokyo"},
+  {"iata": "NRT", "name": "Tokyo Narita", "city": "Tokyo", "country": "Japan", "timezone": "Asia/Tokyo"},
+  {"iata": "LHR", "name": "London Heathrow", "city": "London", "country": "United Kingdom", "timezone": "Europe/London"},
+  {"iata": "SIN", "name": "Singapore Changi", "city": "Singapore", "country": "Singapore", "timezone": "Asia/Singapore"},
+  {"iata": "BLR", "name": "Kempegowda International", "city": "Bengaluru", "country": "India", "timezone": "Asia/Kolkata"},
+  {"iata": "JFK", "name": "New York John F. Kennedy", "city": "New York", "country": "United States", "timezone": "America/New_York"},
+  {"iata": "FRA", "name": "Frankfurt am Main", "city": "Frankfurt", "country": "Germany", "timezone": "Europe/Berlin"},
+  {"iata": "DXB", "name": "Dubai International", "city": "Dubai", "country": "United Arab Emirates", "timezone": "Asia/Dubai"},
+  {"iata": "SYD", "name": "Sydney Kingsford Smith", "city": "Sydney", "country": "Australia", "timezone": "Australia/Sydney"}
+]

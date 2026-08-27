@@ -1,0 +1,30 @@
+[
+  {
+    "id": "CC-ROBOTICS-APAC",
+    "name": "Robotics Platform, APAC Field Engineering",
+    "owner_email": "elena.marchetti@nimbusrobotics.example",
+    "fiscal_quarter": "FY26-Q4",
+    "quarterly_budget_usd": 60000.0
+  },
+  {
+    "id": "CC-SALES-EMEA",
+    "name": "Commercial, EMEA",
+    "owner_email": "tomas.b@nimbusrobotics.example",
+    "fiscal_quarter": "FY26-Q4",
+    "quarterly_budget_usd": 85000.0
+  },
+  {
+    "id": "CC-RESEARCH",
+    "name": "Advanced Research",
+    "owner_email": "sunita.rao@nimbusrobotics.example",
+    "fiscal_quarter": "FY26-Q4",
+    "quarterly_budget_usd": 40000.0
+  },
+  {
+    "id": "CC-SUPPORT-NA",
+    "name": "Customer Support, North America",
+    "owner_email": "elena.marchetti@nimbusrobotics.example",
+    "fiscal_quarter": "FY26-Q4",
+    "quarterly_budget_usd": 25000.0
+  }
+]

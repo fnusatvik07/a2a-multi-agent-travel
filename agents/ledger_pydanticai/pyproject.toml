@@ -1,0 +1,23 @@
+[project]
+name = "atlastrip-ledger"
+version = "0.1.0"
+description = "Budget and approvals agent, built on Pydantic AI."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "atlastrip-core",
+    "pydantic-ai-slim[openai,mcp]>=2.35",
+]
+
+[project.scripts]
+atlastrip-ledger = "ledger_pydanticai.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ledger_pydanticai"]
+
+[tool.uv.sources]
+atlastrip-core = { path = "../../packages/atlastrip_core", editable = true }

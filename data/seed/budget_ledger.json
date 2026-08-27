@@ -1,0 +1,79 @@
+[
+  {
+    "cost_center_id": "CC-ROBOTICS-APAC",
+    "trip_ref": "TRIP-2026-0031",
+    "description": "Osaka integration visit, Okafor",
+    "amount_usd": 3820.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-ROBOTICS-APAC",
+    "trip_ref": "TRIP-2026-0034",
+    "description": "Seoul customer workshop, Halvorsen",
+    "amount_usd": 4110.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-ROBOTICS-APAC",
+    "trip_ref": "TRIP-2026-0036",
+    "description": "Taipei supplier audit, Marchetti",
+    "amount_usd": 5240.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-ROBOTICS-APAC",
+    "trip_ref": "TRIP-2026-0038",
+    "description": "APAC field engineering offsite (8 travellers)",
+    "amount_usd": 26400.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-ROBOTICS-APAC",
+    "trip_ref": "TRIP-2026-0040",
+    "description": "Sydney deployment, Okafor, committed",
+    "amount_usd": 6890.0,
+    "kind": "commitment"
+  },
+  {
+    "cost_center_id": "CC-ROBOTICS-APAC",
+    "trip_ref": "TRIP-2026-0041",
+    "description": "Shenzhen parts qualification, committed",
+    "amount_usd": 5940.0,
+    "kind": "commitment"
+  },
+  {
+    "cost_center_id": "CC-SALES-EMEA",
+    "trip_ref": "TRIP-2026-0029",
+    "description": "Munich trade show, Demir",
+    "amount_usd": 7150.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-SALES-EMEA",
+    "trip_ref": "TRIP-2026-0035",
+    "description": "Paris account reviews",
+    "amount_usd": 4380.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-RESEARCH",
+    "trip_ref": "TRIP-2026-0028",
+    "description": "NeurIPS travel, Nair",
+    "amount_usd": 5620.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-SUPPORT-NA",
+    "trip_ref": "TRIP-2026-0033",
+    "description": "Chicago escalation, Fitzgerald",
+    "amount_usd": 1980.0,
+    "kind": "actual"
+  },
+  {
+    "cost_center_id": "CC-SUPPORT-NA",
+    "trip_ref": "TRIP-2026-0037",
+    "description": "Dallas on-site week",
+    "amount_usd": 21400.0,
+    "kind": "commitment"
+  }
+]

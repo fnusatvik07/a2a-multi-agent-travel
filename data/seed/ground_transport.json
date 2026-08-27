@@ -1,0 +1,15 @@
+[
+  {"city": "Tokyo", "mode": "train", "provider": "Keikyu Airport Line", "description": "Haneda Airport to Shinagawa, 13 minutes, runs every 6 minutes", "price_usd": 4.20, "duration_minutes": 13},
+  {"city": "Tokyo", "mode": "shared_ride", "provider": "Airport Limousine Bus", "description": "Haneda Airport to Minato City hotels", "price_usd": 9.50, "duration_minutes": 35},
+  {"city": "Tokyo", "mode": "taxi", "provider": "Nihon Kotsu", "description": "Metered taxi, Haneda to Shinagawa", "price_usd": 48.00, "duration_minutes": 25},
+  {"city": "Tokyo", "mode": "transit_pass", "provider": "Tokyo Metro", "description": "72-hour unlimited subway pass", "price_usd": 10.90, "duration_minutes": 0},
+  {"city": "London", "mode": "train", "provider": "Heathrow Express", "description": "Heathrow to Paddington, 15 minutes", "price_usd": 32.00, "duration_minutes": 15},
+  {"city": "London", "mode": "transit_pass", "provider": "Transport for London", "description": "Contactless pay-as-you-go, daily cap", "price_usd": 11.40, "duration_minutes": 0},
+  {"city": "London", "mode": "taxi", "provider": "Black Cab", "description": "Heathrow to Canary Wharf", "price_usd": 96.00, "duration_minutes": 55},
+  {"city": "Singapore", "mode": "train", "provider": "SMRT", "description": "Changi to Marina Bay via East West Line", "price_usd": 1.80, "duration_minutes": 42},
+  {"city": "Singapore", "mode": "shared_ride", "provider": "Grab", "description": "Changi to Marina Bay, shared", "price_usd": 17.00, "duration_minutes": 24},
+  {"city": "San Francisco", "mode": "train", "provider": "BART", "description": "SFO to Montgomery Street", "price_usd": 10.20, "duration_minutes": 32},
+  {"city": "San Francisco", "mode": "shared_ride", "provider": "Lyft Shared", "description": "SFO to SoMa", "price_usd": 28.00, "duration_minutes": 27},
+  {"city": "New York", "mode": "train", "provider": "AirTrain + LIRR", "description": "JFK to Penn Station", "price_usd": 15.25, "duration_minutes": 48},
+  {"city": "New York", "mode": "shared_ride", "provider": "Uber Pool", "description": "JFK to Midtown", "price_usd": 62.00, "duration_minutes": 55}
+]

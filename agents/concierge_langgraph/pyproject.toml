@@ -1,0 +1,25 @@
+[project]
+name = "atlastrip-concierge"
+version = "0.1.0"
+description = "Concierge orchestrator agent, built on LangGraph."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "atlastrip-core",
+    "langgraph>=1.2",
+    "langchain>=1.3",
+    "langchain-openai>=1.0",
+]
+
+[project.scripts]
+atlastrip-concierge = "concierge_langgraph.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/concierge_langgraph"]
+
+[tool.uv.sources]
+atlastrip-core = { path = "../../packages/atlastrip_core", editable = true }

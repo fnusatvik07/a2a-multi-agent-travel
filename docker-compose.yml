@@ -1,0 +1,24 @@
+# Postgres for AtlasTrip.
+#
+# The project only needs one container. Port 5433 is used rather than the
+# default so that this never collides with a Postgres you already run locally.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: atlastrip-postgres
+    environment:
+      POSTGRES_USER: atlastrip
+      POSTGRES_PASSWORD: atlastrip
+      POSTGRES_DB: atlastrip
+    ports:
+      - "5433:5432"
+    volumes:
+      - atlastrip-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlastrip -d atlastrip"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  atlastrip-pgdata:

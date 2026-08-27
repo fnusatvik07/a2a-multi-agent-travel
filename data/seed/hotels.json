@@ -1,0 +1,320 @@
+[
+  {
+    "name": "Shinagawa Bay Tower",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "2-18-1 Konan, Minato City",
+    "latitude": 35.6271,
+    "longitude": 139.7404,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-JP",
+    "base_rate": 315,
+    "amenities": [
+      "wifi",
+      "gym",
+      "laundry",
+      "desk",
+      "airport_shuttle"
+    ]
+  },
+  {
+    "name": "Konan Garden Hotel",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "3-2-16 Konan, Minato City",
+    "latitude": 35.6249,
+    "longitude": 139.7431,
+    "star_rating": 3,
+    "corporate_code": "NIMBUS-JP",
+    "base_rate": 196,
+    "amenities": [
+      "wifi",
+      "laundry",
+      "desk"
+    ]
+  },
+  {
+    "name": "The Meridian Shinagawa",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "4-10-30 Takanawa, Minato City",
+    "latitude": 35.6302,
+    "longitude": 139.7339,
+    "star_rating": 5,
+    "corporate_code": null,
+    "base_rate": 412,
+    "amenities": [
+      "wifi",
+      "gym",
+      "pool",
+      "spa",
+      "concierge",
+      "desk"
+    ]
+  },
+  {
+    "name": "Tennozu Isle Residences",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "2-2-33 Higashi-Shinagawa",
+    "latitude": 35.6208,
+    "longitude": 139.7501,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-JP",
+    "base_rate": 244,
+    "amenities": [
+      "wifi",
+      "kitchenette",
+      "laundry",
+      "desk"
+    ]
+  },
+  {
+    "name": "Hamamatsucho Business Inn",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "1-9-15 Hamamatsucho, Minato City",
+    "latitude": 35.6553,
+    "longitude": 139.7569,
+    "star_rating": 3,
+    "corporate_code": null,
+    "base_rate": 158,
+    "amenities": [
+      "wifi",
+      "desk"
+    ]
+  },
+  {
+    "name": "Marunouchi Crown",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "1-9-1 Marunouchi, Chiyoda City",
+    "latitude": 35.6812,
+    "longitude": 139.7671,
+    "star_rating": 5,
+    "corporate_code": "NIMBUS-JP",
+    "base_rate": 386,
+    "amenities": [
+      "wifi",
+      "gym",
+      "pool",
+      "concierge",
+      "desk"
+    ]
+  },
+  {
+    "name": "Shibaura Canal Hotel",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "3-4-1 Shibaura, Minato City",
+    "latitude": 35.6413,
+    "longitude": 139.7504,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-JP",
+    "base_rate": 302,
+    "amenities": [
+      "wifi",
+      "gym",
+      "laundry",
+      "desk",
+      "breakfast"
+    ]
+  },
+  {
+    "name": "Oimachi Station Lodge",
+    "city": "Tokyo",
+    "country": "Japan",
+    "address": "1-1-2 Oi, Shinagawa City",
+    "latitude": 35.6064,
+    "longitude": 139.7341,
+    "star_rating": 3,
+    "corporate_code": null,
+    "base_rate": 142,
+    "amenities": [
+      "wifi",
+      "desk"
+    ]
+  },
+  {
+    "name": "Royal Docks Court",
+    "city": "London",
+    "country": "United Kingdom",
+    "address": "12 Western Gateway, London E16",
+    "latitude": 51.5081,
+    "longitude": 0.0179,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-UK",
+    "base_rate": 238,
+    "amenities": [
+      "wifi",
+      "gym",
+      "desk",
+      "breakfast"
+    ]
+  },
+  {
+    "name": "Canary Wharf Executive",
+    "city": "London",
+    "country": "United Kingdom",
+    "address": "22 Hertsmere Road, London E14",
+    "latitude": 51.5054,
+    "longitude": -0.0234,
+    "star_rating": 5,
+    "corporate_code": null,
+    "base_rate": 372,
+    "amenities": [
+      "wifi",
+      "gym",
+      "pool",
+      "concierge",
+      "desk"
+    ]
+  },
+  {
+    "name": "Greenwich Meridian Inn",
+    "city": "London",
+    "country": "United Kingdom",
+    "address": "5 Creek Road, London SE8",
+    "latitude": 51.4812,
+    "longitude": -0.0246,
+    "star_rating": 3,
+    "corporate_code": "NIMBUS-UK",
+    "base_rate": 164,
+    "amenities": [
+      "wifi",
+      "desk"
+    ]
+  },
+  {
+    "name": "Stratford City Suites",
+    "city": "London",
+    "country": "United Kingdom",
+    "address": "3 Montfichet Road, London E20",
+    "latitude": 51.5438,
+    "longitude": -0.0083,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-UK",
+    "base_rate": 212,
+    "amenities": [
+      "wifi",
+      "gym",
+      "kitchenette",
+      "desk"
+    ]
+  },
+  {
+    "name": "Marina Bay Anchorage",
+    "city": "Singapore",
+    "country": "Singapore",
+    "address": "10 Marina Boulevard",
+    "latitude": 1.2799,
+    "longitude": 103.8559,
+    "star_rating": 5,
+    "corporate_code": "NIMBUS-SG",
+    "base_rate": 344,
+    "amenities": [
+      "wifi",
+      "gym",
+      "pool",
+      "concierge",
+      "desk"
+    ]
+  },
+  {
+    "name": "Tanjong Pagar Residences",
+    "city": "Singapore",
+    "country": "Singapore",
+    "address": "88 Peck Seah Street",
+    "latitude": 1.2764,
+    "longitude": 103.8441,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-SG",
+    "base_rate": 226,
+    "amenities": [
+      "wifi",
+      "gym",
+      "kitchenette",
+      "desk"
+    ]
+  },
+  {
+    "name": "Clarke Quay Lodge",
+    "city": "Singapore",
+    "country": "Singapore",
+    "address": "3 River Valley Road",
+    "latitude": 1.2906,
+    "longitude": 103.8465,
+    "star_rating": 3,
+    "corporate_code": null,
+    "base_rate": 168,
+    "amenities": [
+      "wifi",
+      "desk"
+    ]
+  },
+  {
+    "name": "SoMa Union Hotel",
+    "city": "San Francisco",
+    "country": "United States",
+    "address": "701 Bryant Street",
+    "latitude": 37.7798,
+    "longitude": -122.3996,
+    "star_rating": 4,
+    "corporate_code": "NIMBUS-US",
+    "base_rate": 289,
+    "amenities": [
+      "wifi",
+      "gym",
+      "desk",
+      "breakfast"
+    ]
+  },
+  {
+    "name": "Mission Bay Stay",
+    "city": "San Francisco",
+    "country": "United States",
+    "address": "1230 Fourth Street",
+    "latitude": 37.7708,
+    "longitude": -122.3902,
+    "star_rating": 3,
+    "corporate_code": "NIMBUS-US",
+    "base_rate": 204,
+    "amenities": [
+      "wifi",
+      "desk"
+    ]
+  },
+  {
+    "name": "Hudson Yard Grand",
+    "city": "New York",
+    "country": "United States",
+    "address": "500 Tenth Avenue",
+    "latitude": 40.7553,
+    "longitude": -73.9984,
+    "star_rating": 5,
+    "corporate_code": null,
+    "base_rate": 398,
+    "amenities": [
+      "wifi",
+      "gym",
+      "pool",
+      "concierge",
+      "desk"
+    ]
+  },
+  {
+    "name": "Chelsea Works Inn",
+    "city": "New York",
+    "country": "United States",
+    "address": "215 West 28th Street",
+    "latitude": 40.7475,
+    "longitude": -73.9947,
+    "star_rating": 3,
+    "corporate_code": "NIMBUS-US",
+    "base_rate": 232,
+    "amenities": [
+      "wifi",
+      "desk"
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "full_name": "Mira Halvorsen", "email": "mira.halvorsen@nimbusrobotics.example",
+    "title": "Staff Robotics Engineer", "grade": "IC5",
+    "home_city": "San Francisco", "home_iata": "SFO", "passport_country": "United States",
+    "cost_center_id": "CC-ROBOTICS-APAC", "manager_email": "elena.marchetti@nimbusrobotics.example"
+  },
+  {
+    "full_name": "Deshawn Okafor", "email": "deshawn.okafor@nimbusrobotics.example",
+    "title": "Field Applications Engineer", "grade": "IC3",
+    "home_city": "San Francisco", "home_iata": "SFO", "passport_country": "United States",
+    "cost_center_id": "CC-ROBOTICS-APAC", "manager_email": "elena.marchetti@nimbusrobotics.example"
+  },
+  {
+    "full_name": "Elena Marchetti", "email": "elena.marchetti@nimbusrobotics.example",
+    "title": "Director, Field Engineering", "grade": "M3",
+    "home_city": "San Francisco", "home_iata": "SFO", "passport_country": "Italy",
+    "cost_center_id": "CC-ROBOTICS-APAC", "manager_email": "priya.venkatesan@nimbusrobotics.example"
+  },
+  {
+    "full_name": "Yusuf Demir", "email": "yusuf.demir@nimbusrobotics.example",
+    "title": "Enterprise Account Executive", "grade": "IC4",
+    "home_city": "New York", "home_iata": "JFK", "passport_country": "United States",
+    "cost_center_id": "CC-SALES-EMEA", "manager_email": "tomas.b@nimbusrobotics.example"
+  },
+  {
+    "full_name": "Anjali Nair", "email": "anjali.nair@nimbusrobotics.example",
+    "title": "Research Scientist", "grade": "IC4",
+    "home_city": "Bengaluru", "home_iata": "BLR", "passport_country": "India",
+    "cost_center_id": "CC-RESEARCH", "manager_email": "sunita.rao@nimbusrobotics.example"
+  },
+  {
+    "full_name": "Rowan Fitzgerald", "email": "rowan.fitzgerald@nimbusrobotics.example",
+    "title": "Support Engineer", "grade": "IC2",
+    "home_city": "San Francisco", "home_iata": "SFO", "passport_country": "Ireland",
+    "cost_center_id": "CC-SUPPORT-NA", "manager_email": "elena.marchetti@nimbusrobotics.example"
+  }
+]

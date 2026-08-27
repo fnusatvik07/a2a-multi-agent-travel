@@ -1,0 +1,147 @@
+{
+  "_default": {
+    "1": {
+      "clause_id": "TRV-001",
+      "title": "Cabin entitlement",
+      "category": "air",
+      "text": "All Nimbus Robotics travel is booked in economy class by default. On a single flight segment scheduled at eight hours or longer, employees at grade IC4 and IC5 may book premium economy, and employees at grade M3 and above may book business class. Upgrades purchased with personal funds or loyalty points are always permitted and are never reimbursed. Booking a cabin above entitlement is a policy violation and requires written approval from the cost centre owner before ticketing.",
+      "hard_rule": true,
+      "rule": {
+        "type": "cabin_entitlement",
+        "default_cabin": "economy",
+        "long_haul_minutes": 480,
+        "long_haul_entitlement": {
+          "IC4": "premium_economy",
+          "IC5": "premium_economy",
+          "M3": "business",
+          "M4": "business",
+          "M5": "business"
+        },
+        "cabin_rank": {
+          "economy": 0,
+          "premium_economy": 1,
+          "business": 2,
+          "first": 3
+        }
+      }
+    },
+    "2": {
+      "clause_id": "TRV-002",
+      "title": "Preferred carriers",
+      "category": "air",
+      "text": "Nimbus Robotics holds negotiated corporate fares with All Nippon Airways, Japan Airlines, United Airlines, British Airways, Singapore Airlines, Delta Air Lines and Air India. Bookings on these carriers earn the corporate discount and are covered by our duty-of-care insurance. A booking on any other carrier is permitted but must carry a one line justification, and is flagged for the cost centre owner in the monthly review.",
+      "hard_rule": false,
+      "rule": {
+        "type": "preferred_carrier",
+        "carriers": [
+          "NH",
+          "JL",
+          "UA",
+          "BA",
+          "SQ",
+          "DL",
+          "AI"
+        ]
+      }
+    },
+    "3": {
+      "clause_id": "TRV-003",
+      "title": "Lodging nightly cap",
+      "category": "lodging",
+      "text": "Room rates are capped per city, excluding tax and any breakfast component. The caps are 280 USD in Tokyo, 260 USD in London, 250 USD in Singapore, 300 USD in San Francisco, 320 USD in New York and 220 USD everywhere else. Where no compliant room is available within three kilometres of the meeting venue, the traveller may exceed the cap by up to twenty percent with the cost centre owner's approval. Nights beyond the cap without approval are recharged to the traveller.",
+      "hard_rule": true,
+      "rule": {
+        "type": "lodging_cap",
+        "caps": {
+          "Tokyo": 280,
+          "London": 260,
+          "Singapore": 250,
+          "San Francisco": 300,
+          "New York": 320
+        },
+        "default_cap": 220,
+        "overage_tolerance_pct": 20
+      }
+    },
+    "4": {
+      "clause_id": "TRV-004",
+      "title": "Advance purchase",
+      "category": "booking",
+      "text": "Flights must be ticketed at least fourteen days before departure. Bookings made inside fourteen days attract materially higher fares and require the cost centre owner's approval, except where the travel is a customer escalation logged in the support system.",
+      "hard_rule": true,
+      "rule": {
+        "type": "advance_purchase",
+        "minimum_days": 14
+      }
+    },
+    "5": {
+      "clause_id": "TRV-005",
+      "title": "Trip authorisation threshold",
+      "category": "finance",
+      "text": "A trip whose total committed cost is below three thousand US dollars is authorised automatically against the cost centre, provided budget remains. At or above three thousand US dollars the trip requires explicit approval from the cost centre owner before any component is ticketed. The threshold applies to the total of air, lodging and ground transport.",
+      "hard_rule": true,
+      "rule": {
+        "type": "spend_threshold",
+        "auto_approve_below_usd": 3000
+      }
+    },
+    "6": {
+      "clause_id": "TRV-006",
+      "title": "Fare flexibility",
+      "category": "air",
+      "text": "Non-refundable fares are preferred for their lower cost. Within seven days of departure, or where the trip depends on a customer date that is not yet confirmed, a refundable or changeable fare should be selected instead.",
+      "hard_rule": false,
+      "rule": {
+        "type": "refundable_window",
+        "days_before_departure": 7
+      }
+    },
+    "7": {
+      "clause_id": "TRV-007",
+      "title": "Ground transport",
+      "category": "ground",
+      "text": "Use scheduled rail, transit passes or shared rides between the airport and the hotel wherever a service exists. Private taxis are reimbursed only outside service hours, when carrying demonstration hardware, or where a shared option would exceed the scheduled journey time by more than forty five minutes. Ground transport is capped at one hundred and fifty US dollars per trip.",
+      "hard_rule": true,
+      "rule": {
+        "type": "ground_cap",
+        "cap_usd": 150,
+        "preferred_modes": [
+          "train",
+          "transit_pass",
+          "shared_ride"
+        ]
+      }
+    },
+    "8": {
+      "clause_id": "TRV-008",
+      "title": "Carbon ceiling",
+      "category": "sustainability",
+      "text": "Nimbus Robotics reports travel emissions quarterly. A round trip whose modelled emissions exceed two thousand five hundred kilograms of carbon dioxide equivalent is flagged in the sustainability report and the traveller is asked to record why a lower emission option was not viable. Non-stop routings are preferred over connections on the same city pair where the fare difference is under fifteen percent.",
+      "hard_rule": false,
+      "rule": {
+        "type": "carbon_ceiling",
+        "round_trip_kg": 2500
+      }
+    },
+    "9": {
+      "clause_id": "TRV-009",
+      "title": "Weekend stay-over",
+      "category": "booking",
+      "text": "Where staying over a Saturday night reduces the total trip cost by more than the cost of the additional nights, the traveller may extend the trip and claim the additional lodging. This is at the traveller's discretion and needs no approval.",
+      "hard_rule": false,
+      "rule": {
+        "type": "informational"
+      }
+    },
+    "10": {
+      "clause_id": "TRV-010",
+      "title": "Entry documentation",
+      "category": "compliance",
+      "text": "The traveller is responsible for holding valid entry documentation for the destination, including any visa, electronic travel authorisation or transit permission, and for a passport valid at least six months beyond the date of entry. Travel Operations screens every itinerary against the entry rulebook and will not release tickets where the lead time for a required document is shorter than the processing time on file.",
+      "hard_rule": true,
+      "rule": {
+        "type": "entry_documents"
+      }
+    }
+  }
+}

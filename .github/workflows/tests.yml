@@ -1,0 +1,81 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Build one virtualenv per service
+        run: ./scripts/install.sh
+
+      # No database, no MCP server, no API key. The unit suites run each
+      # agent's own service layer directly, which is what
+      # ATLASTRIP_REASONING=deterministic is for.
+      - name: Unit tests
+        env:
+          ATLASTRIP_REASONING: deterministic
+        run: ./scripts/run_tests.sh
+
+  integration:
+    name: Integration tests
+    runs-on: ubuntu-latest
+    # The integration suite needs a live network and a model, so it only runs
+    # where an API key is available. Forks get the unit suite, which is the
+    # part that catches regressions anyway.
+    if: github.event_name == 'push'
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: atlastrip
+          POSTGRES_PASSWORD: atlastrip
+          POSTGRES_DB: atlastrip
+        ports: ["5433:5432"]
+        options: >-
+          --health-cmd "pg_isready -U atlastrip -d atlastrip"
+          --health-interval 3s --health-timeout 3s --health-retries 20
+    env:
+      ATLASTRIP_POSTGRES_DSN: postgresql://atlastrip:atlastrip@127.0.0.1:5433/atlastrip
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ATLASTRIP_REASONING: ${{ secrets.OPENAI_API_KEY && 'llm' || 'deterministic' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - run: ./scripts/install.sh
+      - run: ./scripts/seed_data.py
+        shell: bash
+        env:
+          PYTHONPATH: packages/atlastrip_core/src
+
+      - name: Start the network
+        run: |
+          nohup ./scripts/run_network.sh > /tmp/network.log 2>&1 &
+          for _ in $(seq 1 90); do
+            if curl -fsS -m 2 http://127.0.0.1:8000/healthz >/dev/null 2>&1 \
+            && curl -fsS -m 2 http://127.0.0.1:8004/healthz >/dev/null 2>&1; then
+              echo "ready"; exit 0
+            fi
+            sleep 2
+          done
+          echo "network did not come up"; cat /tmp/network.log; exit 1
+
+      - run: make test-network
+
+      - name: Show agent logs on failure
+        if: failure()
+        run: tail -n 60 logs/*.log

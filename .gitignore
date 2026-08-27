@@ -1,0 +1,25 @@
+# Environments, one per service
+.venv/
+*/.venv/
+**/.venv/
+
+# Secrets
+.env
+
+# Runtime output
+logs/
+data/tinydb/audit_*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Editors and platforms
+.DS_Store
+.idea/
+.vscode/

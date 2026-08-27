@@ -1,0 +1,88 @@
+{
+  "_default": {
+    "1": {
+      "passport_country": "United States",
+      "destination_country": "Japan",
+      "requirement": "visa_free",
+      "processing_days": 0,
+      "notes": "Visa-free entry for stays up to 90 days for tourism or business. Passport must be valid for the duration of the stay."
+    },
+    "2": {
+      "passport_country": "United States",
+      "destination_country": "United Kingdom",
+      "requirement": "electronic_authorisation",
+      "processing_days": 3,
+      "notes": "An Electronic Travel Authorisation must be obtained before departure. Approval is usually granted within three working days."
+    },
+    "3": {
+      "passport_country": "United States",
+      "destination_country": "Singapore",
+      "requirement": "visa_free",
+      "processing_days": 0,
+      "notes": "Visa-free entry for stays up to 90 days. An SG Arrival Card must be submitted within three days of arrival."
+    },
+    "4": {
+      "passport_country": "United States",
+      "destination_country": "India",
+      "requirement": "e_visa",
+      "processing_days": 5,
+      "notes": "Business e-Visa required. Apply at least five working days before departure."
+    },
+    "5": {
+      "passport_country": "India",
+      "destination_country": "United States",
+      "requirement": "visa_required",
+      "processing_days": 30,
+      "notes": "A B-1 business visa is required. Interview appointment lead times vary by consulate; allow at least thirty days."
+    },
+    "6": {
+      "passport_country": "India",
+      "destination_country": "Japan",
+      "requirement": "visa_required",
+      "processing_days": 7,
+      "notes": "Short-stay business visa required, applied for through an accredited agency. Allow seven working days."
+    },
+    "7": {
+      "passport_country": "India",
+      "destination_country": "Singapore",
+      "requirement": "visa_required",
+      "processing_days": 4,
+      "notes": "Entry visa required, usually issued within four working days through an authorised visa agent."
+    },
+    "8": {
+      "passport_country": "Italy",
+      "destination_country": "Japan",
+      "requirement": "visa_free",
+      "processing_days": 0,
+      "notes": "Visa-free entry for stays up to 90 days."
+    },
+    "9": {
+      "passport_country": "Italy",
+      "destination_country": "United States",
+      "requirement": "electronic_authorisation",
+      "processing_days": 3,
+      "notes": "ESTA authorisation required under the Visa Waiver Programme."
+    },
+    "10": {
+      "passport_country": "Ireland",
+      "destination_country": "Japan",
+      "requirement": "visa_free",
+      "processing_days": 0,
+      "notes": "Visa-free entry for stays up to 90 days."
+    },
+    "11": {
+      "passport_country": "Ireland",
+      "destination_country": "United States",
+      "requirement": "electronic_authorisation",
+      "processing_days": 3,
+      "notes": "ESTA authorisation required under the Visa Waiver Programme."
+    },
+    "12": {
+      "passport_country": "United States",
+      "destination_country": "United States",
+      "requirement": "domestic",
+      "processing_days": 0,
+      "notes": "Domestic travel. Government-issued photo identification is required at security."
+    }
+  }
+}
