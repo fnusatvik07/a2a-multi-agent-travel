@@ -1,0 +1,431 @@
+<template>
+  <div
+    id="root"
+    data-composition-id="09-second-answer"
+    data-start="0"
+    data-duration="6.2"
+    data-width="1920"
+    data-height="1080"
+  >
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+    <style>
+      @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+      @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+      @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+      @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+      @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+      @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+      #root {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        container-type: size;
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ── background: warm cream paper, no grid, no voltage ── */
+      #sa-ground {
+        background-color: #faf9f5;
+      }
+
+      /* ── chrome ── */
+      #sa-kicker {
+        position: absolute;
+        left: 160px;
+        top: 96px;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 1.35cqw;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(20, 20, 19, 0.62);
+      }
+      #sa-floor {
+        position: absolute;
+        left: 150px;
+        top: 846px;
+        width: 1620px;
+        height: 1px;
+        background: rgba(20, 20, 19, 0.1);
+      }
+
+      /* ── the agent row (supporting / ground) ── */
+      .sa-agent {
+        position: absolute;
+        top: 678px;
+        width: 84px;
+        height: 84px;
+      }
+      .sa-agent svg {
+        display: block;
+        width: 84px;
+        height: 84px;
+        fill: none;
+        stroke: #141413;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      #sa-hearth { left: 298px; }
+      #sa-concierge { left: 918px; }
+      #sa-sentinel { left: 1538px; }
+
+      .sa-agent-label {
+        position: absolute;
+        top: 784px;
+        width: 320px;
+        text-align: center;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 1.15cqw;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(20, 20, 19, 0.62);
+      }
+      #sa-label-hearth { left: 180px; }
+      #sa-label-concierge { left: 800px; }
+      #sa-label-sentinel { left: 1420px; }
+
+      /* the "clear" mark that sets beside the shield */
+      #sa-clear {
+        position: absolute;
+        left: 1646px;
+        top: 700px;
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 1.56cqw;
+        letter-spacing: 0.02em;
+        color: #141413;
+      }
+
+      /* ── the footprint the rejected card occupied ── */
+      #sa-footprint {
+        position: absolute;
+        left: 580px;
+        top: 200px;
+        width: 760px;
+        height: 366px;
+        border: 1px dashed rgba(20, 20, 19, 0.18);
+        border-radius: 12px;
+      }
+
+      /* ── the returning envelope (an ANSWER: hollow) ── */
+      #sa-envelope {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 120px;
+        height: 48px;
+      }
+      #sa-envelope svg {
+        display: block;
+        width: 120px;
+        height: 48px;
+        fill: #faf9f5;
+        stroke: #141413;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      /* ── the replacement card (foreground subject) ── */
+      #sa-card {
+        position: absolute;
+        left: 580px;
+        top: 200px;
+        width: 760px;
+        height: 366px;
+        padding: 42px 48px;
+        background: #efe9de;
+        border: 1px solid rgba(20, 20, 19, 0.12);
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(20, 20, 19, 0.08), 0 4px 16px rgba(20, 20, 19, 0.04);
+      }
+      #sa-eyebrow {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 1.25cqw;
+        letter-spacing: 0.02em;
+        line-height: 1;
+        color: rgba(20, 20, 19, 0.62);
+      }
+      #sa-rate {
+        margin-top: 18px;
+        display: flex;
+        align-items: baseline;
+        gap: 18px;
+      }
+      #sa-figure {
+        font-family: "EB Garamond", Georgia, serif;
+        font-weight: 400;
+        font-size: 6.9cqw;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        color: #141413;
+      }
+      #sa-unit {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-weight: 500;
+        font-size: 1.98cqw;
+        line-height: 1;
+        color: rgba(20, 20, 19, 0.62);
+      }
+      #sa-cardrule {
+        margin-top: 24px;
+        width: 100%;
+        height: 1px;
+        background: rgba(20, 20, 19, 0.14);
+        transform-origin: left center;
+      }
+      #sa-distance {
+        margin-top: 20px;
+        font-family: "Inter", system-ui, sans-serif;
+        font-weight: 400;
+        font-size: 1.93cqw;
+        line-height: 1.35;
+        color: #141413;
+      }
+
+      /* ── the hairline handoff to Sentinel ── */
+      #sa-link {
+        position: absolute;
+        inset: 0;
+        width: 1920px;
+        height: 1080px;
+        fill: none;
+      }
+      #sa-link path {
+        fill: none;
+        stroke: rgba(20, 20, 19, 0.3);
+        stroke-width: 1.5;
+        stroke-linecap: round;
+      }
+    </style>
+
+    <!-- background: the cream ground -->
+    <div class="clip" id="sa-ground" data-start="0" data-duration="6.2" data-track-index="0"></div>
+
+    <!-- the frame -->
+    <div class="clip" id="sa-stage" data-start="0" data-duration="6.2" data-track-index="1">
+      <div id="sa-kicker">Second answer</div>
+      <div id="sa-floor"></div>
+
+      <!-- the footprint the refused card occupied -->
+      <div id="sa-footprint"></div>
+
+      <!-- Hearth: a pitched roof over a bed -->
+      <div class="sa-agent" id="sa-hearth">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <polyline points="10,30 32,12 54,30" />
+          <path d="M13 52 V41 a4 4 0 0 1 4-4 h30 a4 4 0 0 1 4 4 v11" />
+          <line x1="13" y1="46" x2="51" y2="46" />
+        </svg>
+      </div>
+      <div class="sa-agent-label" id="sa-label-hearth">Hearth</div>
+
+      <!-- Concierge: a desk bell -->
+      <div class="sa-agent" id="sa-concierge">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M16 43 a16 16 0 0 1 32 0" />
+          <line x1="10" y1="43" x2="54" y2="43" />
+          <line x1="32" y1="27" x2="32" y2="22" />
+          <circle cx="32" cy="19" r="3" />
+        </svg>
+      </div>
+      <div class="sa-agent-label" id="sa-label-concierge">Concierge</div>
+
+      <!-- Sentinel: a shield with one horizontal rule line across its middle -->
+      <div class="sa-agent" id="sa-sentinel">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 8 L54 16 V32 C54 44 44 52 32 56 C20 52 10 44 10 32 V16 Z" />
+          <path id="sa-shield-rule" pathLength="100" d="M17 32 H47" />
+        </svg>
+      </div>
+      <div class="sa-agent-label" id="sa-label-sentinel">Sentinel</div>
+
+      <div id="sa-clear">clear</div>
+
+      <!-- the hairline handoff, drawn as the card travels -->
+      <svg id="sa-link" viewBox="0 0 1920 1080" aria-hidden="true">
+        <path id="sa-link-path" pathLength="100" d="M1440 572 Q1520 600 1560 688" />
+      </svg>
+
+      <!-- the returning answer: HOLLOW envelope -->
+      <div id="sa-envelope">
+        <svg viewBox="0 0 120 48" aria-hidden="true">
+          <rect x="1" y="1" width="118" height="46" rx="8" />
+          <path d="M9 13 L60 33 L111 13" />
+        </svg>
+      </div>
+
+      <!-- the replacement card -->
+      <div id="sa-card">
+        <div id="sa-eyebrow">hearth &middot; revised</div>
+        <div id="sa-rate">
+          <span id="sa-figure">$189.96</span>
+          <span id="sa-unit">/ night</span>
+        </div>
+        <div id="sa-cardrule"></div>
+        <div id="sa-distance">500 m from the customer&rsquo;s door</div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var DURATION = 5.7;
+
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        var kicker = document.getElementById("sa-kicker");
+        var floor = document.getElementById("sa-floor");
+        var footprint = document.getElementById("sa-footprint");
+        var hearth = document.getElementById("sa-hearth");
+        var concierge = document.getElementById("sa-concierge");
+        var sentinel = document.getElementById("sa-sentinel");
+        var lHearth = document.getElementById("sa-label-hearth");
+        var lConcierge = document.getElementById("sa-label-concierge");
+        var lSentinel = document.getElementById("sa-label-sentinel");
+        var shieldRule = document.getElementById("sa-shield-rule");
+        var linkPath = document.getElementById("sa-link-path");
+        var clearMark = document.getElementById("sa-clear");
+        var env = document.getElementById("sa-envelope");
+        var card = document.getElementById("sa-card");
+        var eyebrow = document.getElementById("sa-eyebrow");
+        var figure = document.getElementById("sa-figure");
+        var unit = document.getElementById("sa-unit");
+        var cardrule = document.getElementById("sa-cardrule");
+        var distance = document.getElementById("sa-distance");
+
+        /* Hearth (298,678) box -> centre (340,720); footprint centre (960,383) */
+        var ENV_X0 = 280, ENV_Y0 = 696;   /* envelope top-left at Hearth */
+        var ENV_X1 = 900, ENV_Y1 = 359;   /* envelope top-left at the footprint centre */
+        var ENV_APEX = 322;               /* the shallow arc's high point */
+
+        /* ── t = 0 state ──
+           gsap.set(), not gsap.set(..., 0): a zero-duration set at position 0
+           does not render while the playhead sits exactly at 0, so the very
+           first rendered frame would flash the un-hidden state. ── */
+        gsap.set([kicker, floor, lHearth, lConcierge, lSentinel], { opacity: 0 });
+        gsap.set(footprint, { opacity: 0 });
+        gsap.set(hearth, { opacity: 0 });
+        gsap.set(concierge, { opacity: 0 });
+        gsap.set(sentinel, { opacity: 0 });
+        gsap.set(shieldRule, { strokeDasharray: 100, strokeDashoffset: 100 });
+        gsap.set(linkPath, { strokeDasharray: 100, strokeDashoffset: 100 });
+        gsap.set(clearMark, { opacity: 0 });
+        gsap.set(env, {
+          opacity: 0,
+          x: ENV_X0,
+          y: ENV_Y0,
+          scale: 0.82,
+          transformOrigin: "50% 50%",
+          filter: "blur(0px)"
+        });
+        gsap.set(card, {
+          opacity: 0,
+          scale: 0.74,
+          transformOrigin: "50% 50%",
+          filter: "blur(10px)"
+        });
+        gsap.set([eyebrow, figure, unit, distance], { opacity: 0 });
+        gsap.set(cardrule, { scaleX: 0 });
+
+        /* ══ Scene 1 (0.0–3.0s) — the hollow answer returns from Hearth and
+              opens in the exact footprint the refused card occupied. ══ */
+
+        /* the ground settles: chrome, floor rule, the three agents */
+        tl.fromTo(kicker, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power3.out" }, 0.02);
+        tl.fromTo(floor, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power3.out" }, 0.02);
+        tl.fromTo(hearth, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.02);
+        tl.fromTo(concierge, { opacity: 0 }, { opacity: 0.5, duration: 0.4, ease: "power3.out" }, 0.02);
+        tl.fromTo(sentinel, { opacity: 0 }, { opacity: 0.32, duration: 0.4, ease: "power3.out" }, 0.02);
+        tl.fromTo(lHearth, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.04);
+        tl.fromTo(lConcierge, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.04);
+        tl.fromTo(lSentinel, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.04);
+
+        /* the empty footprint is already standing there, waiting */
+        tl.fromTo(footprint, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power3.out" }, 0.05);
+
+        /* the envelope leaves Hearth and rides a shallow arc to the footprint */
+        tl.fromTo(env,
+          { opacity: 0, scale: 0.82 },
+          { opacity: 1, scale: 1, duration: 0.26, ease: "power3.out" }, 0.05);
+        tl.fromTo(env, { x: ENV_X0 }, { x: ENV_X1, duration: 0.66, ease: "power2.inOut" }, 0.1);
+        tl.fromTo(env, { y: ENV_Y0 }, { y: ENV_APEX, duration: 0.4, ease: "power2.out" }, 0.1);
+        tl.to(env, { y: ENV_Y1, duration: 0.26, ease: "power2.in" }, 0.5);
+
+        /* the SCALE-SWAP: the envelope grows through the frame and the card
+           takes its exact place at the same centre — a substitution, not a fade */
+        tl.to(env, {
+          scale: 1.55, opacity: 0, filter: "blur(9px)",
+          duration: 0.34, ease: "power3.out"
+        }, 0.7);
+        tl.to(footprint, { opacity: 0, duration: 0.34, ease: "power3.out" }, 0.72);
+        tl.fromTo(card,
+          { opacity: 0, scale: 0.74, filter: "blur(10px)" },
+          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.62, ease: "power3.out" },
+          0.74);
+
+        /* the Concierge, holding the answer */
+        tl.to(concierge, { opacity: 0.85, duration: 0.5, ease: "power3.out" }, 0.86);
+
+        /* the card reads out, on the numbers as they are spoken */
+        tl.fromTo(eyebrow, { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.42, ease: "power3.out" }, 0.88);
+        tl.fromTo(figure, { opacity: 0, y: 20, filter: "blur(7px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.62, ease: "power3.out" }, 0.96);
+        tl.fromTo(unit, { opacity: 0, y: 12 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 1.32);
+        tl.fromTo(cardrule, { scaleX: 0 },
+          { scaleX: 1, duration: 0.72, ease: "power3.out" }, 1.72);
+        tl.fromTo(distance, { opacity: 0, y: 16, filter: "blur(6px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 1.94);
+
+        /* ══ Scene 2 (3.0–5.7s) — the card travels to Sentinel, and the same
+              rule that struck through last time draws cleanly across. ══ */
+
+        tl.to(card, { x: 200, y: 34, scale: 0.87, duration: 0.9, ease: "power3.out" }, 2.95);
+        tl.to(hearth, { opacity: 0.34, duration: 0.65, ease: "power3.out" }, 3.05);
+        tl.to(concierge, { opacity: 0.42, duration: 0.65, ease: "power3.out" }, 3.05);
+
+        /* the hairline handoff draws itself between the card and the shield */
+        tl.fromTo(linkPath, { strokeDashoffset: 100 },
+          { strokeDashoffset: 0, duration: 0.7, ease: "power3.out" }, 3.15);
+
+        /* Sentinel comes up to full ink */
+        tl.to(sentinel, { opacity: 1, duration: 0.6, ease: "power3.out" }, 3.35);
+
+        /* THE INVERSION: the shield's rule line COMPLETES — in ink, across,
+           where it was a struck cross before */
+        tl.fromTo(shieldRule, { strokeDashoffset: 100 },
+          { strokeDashoffset: 0, duration: 0.8, ease: "power3.out" }, 3.55);
+
+        /* the card's hairline goes ink-strong: cleared */
+        tl.to(card, {
+          borderColor: "rgba(20, 20, 19, 0.24)",
+          duration: 0.4, ease: "power3.out"
+        }, 4.2);
+
+        /* a small ink mark sets beside the shield, and everything stops */
+        tl.fromTo(clearMark, { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 4.35);
+
+        /* held read: dead still from 4.85s to the end */
+        tl.to({}, { duration: DURATION }, 0);
+
+        window.__timelines["09-second-answer"] = tl;
+      })();
+    </script>
+  </div>
+</template>

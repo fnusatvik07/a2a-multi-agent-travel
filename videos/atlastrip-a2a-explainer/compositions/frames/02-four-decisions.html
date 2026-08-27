@@ -1,0 +1,308 @@
+<template id="fd02-template" data-composition-id="02-four-decisions" data-width="1920" data-height="1080" data-duration="7.55">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+<style>
+@font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+@font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+@font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+@font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+</style>
+
+<style>
+  #root{
+    position:absolute;
+    inset:0;
+    width:1920px;
+    height:1080px;
+    overflow:hidden;
+    container-type:size;
+    font-family:"Inter",system-ui,sans-serif;
+    color:#141413;
+  }
+
+  /* ---- background: warm cream ground + hairline grid (carried from frame 1) ---- */
+  .fd02-bg{
+    position:absolute;
+    inset:0;
+    background-color:#FAF9F5;
+  }
+  .fd02-grid{
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(to right, rgba(20,20,19,0.05) 0 1px, transparent 1px 160px),
+      repeating-linear-gradient(to bottom, rgba(20,20,19,0.05) 0 1px, transparent 1px 160px);
+  }
+
+  /* ---- stage (camera wrapper) ---- */
+  .fd02-stage{ position:absolute; inset:0; }
+  .fd02-cam{ position:absolute; inset:0; }
+
+  /* ---- chrome ---- */
+  .fd02-kicker{
+    position:absolute;
+    left:80px;
+    top:138px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:28px;
+    font-weight:400;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:rgba(20, 20, 19, 0.62);
+    line-height:1;
+  }
+  .fd02-kicker-dash{
+    display:block;
+    width:36px;
+    height:1px;
+    background:rgba(20,20,19,0.32);
+  }
+  .fd02-index{
+    position:absolute;
+    right:80px;
+    top:136px;
+    display:flex;
+    gap:22px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:26px;
+    font-weight:400;
+    letter-spacing:0.02em;
+    line-height:1;
+    color:rgba(20, 20, 19, 0.62);
+  }
+  .fd02-index span{ display:block; }
+
+  .fd02-headrule{
+    position:absolute;
+    left:80px;
+    top:200px;
+    width:1760px;
+    height:1px;
+    background:rgba(20,20,19,0.10);
+  }
+
+  /* ---- the full-width strip ---- */
+  .fd02-rule{
+    position:absolute;
+    left:80px;
+    top:700px;
+    width:1760px;
+    height:1px;
+    background:rgba(20,20,19,0.14);
+  }
+  .fd02-tick{
+    position:absolute;
+    top:700px;
+    width:1px;
+    height:26px;
+    background:rgba(20,20,19,0.20);
+  }
+
+  /* ---- the four slots ---- */
+  .fd02-card{
+    position:absolute;
+    top:360px;
+    width:380px;
+    height:340px;
+    background:#EFE9DE;
+    border:1px solid rgba(20,20,19,0.12);
+    border-radius:12px;
+  }
+  .fd02-icon{
+    position:absolute;
+    left:131px;
+    top:69px;
+    width:118px;
+    height:118px;
+    display:block;
+    overflow:visible;
+  }
+  .fd02-icon path{
+    fill:none;
+    stroke:#141413;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  .fd02-cap{
+    position:absolute;
+    left:0;
+    top:241px;
+    width:380px;
+    text-align:center;
+    font-family:"JetBrains Mono",monospace;
+    font-size:30px;
+    font-weight:400;
+    letter-spacing:0.02em;
+    line-height:1;
+    color:rgba(20,20,19,0.78);
+  }
+</style>
+
+<div id="root" data-composition-id="02-four-decisions" data-width="1920" data-height="1080">
+
+  <div class="fd02-bg clip" data-start="0" data-duration="7.55" data-track-index="0">
+    <div class="fd02-grid"></div>
+  </div>
+
+  <div class="fd02-stage clip" data-start="0" data-duration="7.55" data-track-index="1">
+   <div class="fd02-cam">
+
+    <div class="fd02-headrule fd02-chrome"></div>
+    <div class="fd02-kicker fd02-chrome" id="fd02-kicker"><span class="fd02-kicker-dash"></span>Four decisions</div>
+
+    <div class="fd02-index">
+      <span id="fd02-ix-1">01</span><span id="fd02-ix-2">02</span><span id="fd02-ix-3">03</span><span id="fd02-ix-4">04</span>
+    </div>
+
+    <div class="fd02-rule"></div>
+    <div class="fd02-tick" id="fd02-tick-1" style="left:300px;"></div>
+    <div class="fd02-tick" id="fd02-tick-2" style="left:740px;"></div>
+    <div class="fd02-tick" id="fd02-tick-3" style="left:1180px;"></div>
+    <div class="fd02-tick" id="fd02-tick-4" style="left:1620px;"></div>
+
+    <!-- slot 1 — flies -->
+    <div class="fd02-card" id="fd02-card-1" style="left:110px;">
+      <svg class="fd02-icon" id="fd02-icon-1" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path id="fd02-w-out" d="M 11 22 C 25 20 40 16 57 15 C 45 30 32 42 14 50 C 11 42 10 30 11 22 Z"/>
+        <path id="fd02-w-f1" d="M 14 28 C 25 26 36 23 47 19"/>
+        <path id="fd02-w-f2" d="M 14 34 C 24 32 33 29 42 25"/>
+        <path id="fd02-w-f3" d="M 14 40 C 22 38 29 35 36 30"/>
+      </svg>
+      <div class="fd02-cap" id="fd02-cap-1">flies</div>
+    </div>
+
+    <!-- slot 2 — sleeps -->
+    <div class="fd02-card" id="fd02-card-2" style="left:550px;">
+      <svg class="fd02-icon" id="fd02-icon-2" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path id="fd02-b-roof" d="M 8 29 L 32 10 L 56 29"/>
+        <path id="fd02-b-mat" d="M 14 45 L 50 45"/>
+        <path id="fd02-b-head" d="M 14 45 L 14 30"/>
+        <path id="fd02-b-legl" d="M 18 45 L 18 51"/>
+        <path id="fd02-b-legr" d="M 46 45 L 46 51"/>
+      </svg>
+      <div class="fd02-cap" id="fd02-cap-2">sleeps</div>
+    </div>
+
+    <!-- slot 3 — policy -->
+    <div class="fd02-card" id="fd02-card-3" style="left:990px;">
+      <svg class="fd02-icon" id="fd02-icon-3" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path id="fd02-s-out" d="M 32 9 L 53 17 C 53 38 45 50 32 56 C 19 50 11 38 11 17 Z"/>
+        <path id="fd02-s-rule" d="M 18 32 L 46 32"/>
+      </svg>
+      <div class="fd02-cap" id="fd02-cap-3">policy</div>
+    </div>
+
+    <!-- slot 4 — signs -->
+    <div class="fd02-card" id="fd02-card-4" style="left:1430px;">
+      <svg class="fd02-icon" id="fd02-icon-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path id="fd02-m-beam" d="M 11 17 L 53 17"/>
+        <path id="fd02-m-post" d="M 32 17 L 32 52"/>
+        <path id="fd02-m-hangl" d="M 12 17 L 12 29"/>
+        <path id="fd02-m-hangr" d="M 52 17 L 52 29"/>
+        <path id="fd02-m-panl" d="M 4 29 A 9 6 0 0 0 20 29"/>
+        <path id="fd02-m-panr" d="M 44 29 A 9 6 0 0 0 60 29"/>
+      </svg>
+      <div class="fd02-cap" id="fd02-cap-4">signs</div>
+    </div>
+
+   </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var scope = document.currentScript && document.currentScript.parentNode
+    ? document.currentScript.parentNode
+    : document;
+
+  // --- svg-path-draw setup: measured dash pattern on every stroke ---
+  var paths = scope.querySelectorAll ? scope.querySelectorAll(".fd02-icon path") : [];
+  if (!paths.length) { paths = document.querySelectorAll(".fd02-icon path"); }
+  for (var i = 0; i < paths.length; i++) {
+    var p = paths[i];
+    var len = 0;
+    try { len = p.getTotalLength(); } catch (e) { len = 0; }
+    if (!len || !isFinite(len)) { len = 200; }
+    len = len * 1.02;
+    p.style.strokeDasharray = String(len);
+    p.style.strokeDashoffset = String(len);
+    p.setAttribute("data-fd02-len", String(len));
+  }
+
+  window.__timelines = window.__timelines || {};
+  var tl = gsap.timeline({ paused: true });
+  window.__timelines["02-four-decisions"] = tl;
+
+  var DRAW = "power2.out";   // pens do not bounce
+  var EASE = "power3.out";   // long tail, no overshoot
+
+  // chrome settles in
+  tl.fromTo(".fd02-chrome", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: EASE }, 0.1);
+
+  // stroke sweep helper
+  function draw(sel, at, dur) {
+    tl.to(sel, { strokeDashoffset: 0, duration: dur, ease: DRAW }, at);
+  }
+
+  // one spoken beat = one slot filling
+  function slot(n, at) {
+    tl.fromTo("#fd02-card-" + n,
+      { opacity: 0, y: 14 },
+      { opacity: 1, y: 0, duration: 0.55, ease: EASE }, at);
+    tl.to("#fd02-tick-" + n, { backgroundColor: "rgba(20,20,19,0.46)", duration: 0.5, ease: EASE }, at + 0.1);
+    tl.to("#fd02-ix-" + n, { color: "rgba(20,20,19,0.62)", duration: 0.5, ease: EASE }, at + 0.1);
+  }
+
+  function caption(n, at) {
+    tl.fromTo("#fd02-cap-" + n,
+      { opacity: 0, y: 7 },
+      { opacity: 1, y: 0, duration: 0.36, ease: EASE }, at);
+  }
+
+  // Scene 1 (0.0-1.9s) — "What she flies."  a swept wing draws itself
+  slot(1, 0.28);
+  draw("#fd02-w-out", 0.42, 0.62);
+  draw("#fd02-w-f1", 0.89, 0.30);
+  draw("#fd02-w-f2", 0.99, 0.30);
+  draw("#fd02-w-f3", 1.09, 0.30);
+  caption(1, 1.44);
+
+  // Scene 2 (1.9-3.4s) — "Where she sleeps."  pitched roof over a bed
+  slot(2, 1.90);
+  draw("#fd02-b-roof", 2.02, 0.44);
+  draw("#fd02-b-mat", 2.34, 0.32);
+  draw("#fd02-b-head", 2.56, 0.22);
+  draw("#fd02-b-legl", 2.72, 0.20);
+  draw("#fd02-b-legr", 2.78, 0.20);
+  caption(2, 3.02);
+
+  // Scene 3 (3.4-5.2s) — "Whether the policy allows it."  shield with one rule line
+  slot(3, 3.44);
+  draw("#fd02-s-out", 3.56, 0.76);
+  draw("#fd02-s-rule", 4.12, 0.36);
+  caption(3, 4.56);
+
+  // Scene 4 (5.2-7.05s) — "And who signs for it."  a balance
+  slot(4, 5.22);
+  draw("#fd02-m-beam", 5.34, 0.34);
+  draw("#fd02-m-post", 5.56, 0.30);
+  draw("#fd02-m-hangl", 5.76, 0.16);
+  draw("#fd02-m-hangr", 5.80, 0.16);
+  draw("#fd02-m-panl", 5.94, 0.26);
+  draw("#fd02-m-panr", 5.98, 0.26);
+  caption(4, 6.32);
+
+  // macro camera: a very slow push that stops before the set holds still
+  tl.fromTo(".fd02-cam", { scale: 1 }, { scale: 1.014, duration: 5.4, ease: "power1.out" }, 0);
+
+  // hold the matched set, dead still, to the end of the frame
+  tl.to({}, { duration: 0.01 }, 7.04);
+})();
+</script>
+</template>

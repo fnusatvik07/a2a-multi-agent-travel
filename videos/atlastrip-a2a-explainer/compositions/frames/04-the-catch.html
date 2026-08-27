@@ -1,0 +1,368 @@
+<template>
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;container-type:size;
+      -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;color:#141413;}
+
+    .catch04-ground{position:absolute;inset:0;background:#FAF9F5;}
+    .catch04-grid{position:absolute;inset:0;
+      background-image:linear-gradient(to right,rgba(20,20,19,0.045) 1px,transparent 1px),
+                       linear-gradient(to bottom,rgba(20,20,19,0.045) 1px,transparent 1px);
+      background-size:120px 120px;background-position:0px 0px;}
+
+    .catch04-cam{position:absolute;inset:0;transform-origin:50% 60%;}
+    .catch04-layer{position:absolute;inset:0;}
+
+    /* ── headline ── */
+    .catch04-headwrap{position:absolute;left:96px;top:100px;width:1300px;height:152px;overflow:hidden;}
+    .catch04-head{font-family:"EB Garamond",Georgia,serif;font-weight:400;font-size:140px;line-height:1.02;
+      letter-spacing:-0.022em;color:#141413;}
+
+    /* ── agent cards ── */
+    .catch04-card{position:absolute;width:300px;height:292px;background:#EFE9DE;
+      border:1px solid rgba(20,20,19,0.12);border-radius:12px;
+      box-shadow:0 1px 3px rgba(20,20,19,0.08),0 4px 16px rgba(20,20,19,0.04);opacity:0.55;}
+    .catch04-glyph{position:absolute;top:26px;left:0;width:100%;text-align:center;line-height:0;opacity:0.72;}
+    .catch04-name{position:absolute;top:92px;left:0;width:100%;text-align:center;
+      font-family:"Inter",system-ui,sans-serif;font-weight:400;font-size:32px;line-height:38px;
+      letter-spacing:-0.005em;color:#141413;}
+    .catch04-slot{position:absolute;top:152px;left:106px;width:88px;height:64px;
+      border:1px solid rgba(20,20,19,0.14);border-radius:8px;opacity:0;}
+    .catch04-div{position:absolute;top:300px;width:1px;height:320px;background:rgba(20,20,19,0.14);
+      transform-origin:50% 50%;transform:scaleY(0);}
+
+    /* ── brand marks ── */
+    .catch04-mark{position:absolute;width:180px;color:#141413;opacity:0;
+      display:flex;flex-direction:column;align-items:center;}
+    .catch04-mark svg{width:64px;height:64px;display:block;}
+    .catch04-mark img{width:64px;height:64px;display:block;object-fit:contain;}
+    .catch04-word{margin-top:12px;font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:400;
+      font-size:20px;line-height:26px;letter-spacing:0.02em;color:rgba(20,20,19,0.68);white-space:nowrap;}
+
+    /* ── the one-process container ── */
+    .catch04-box{position:absolute;left:610px;top:458px;width:700px;height:204px;opacity:0;}
+    .catch04-boxlabel{position:absolute;left:0;top:443px;width:1920px;height:34px;text-align:center;opacity:0;}
+    .catch04-boxlabel span{display:inline-block;background:#FAF9F5;padding:0 18px;height:34px;line-height:34px;
+      font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:400;font-size:26px;letter-spacing:0.02em;
+      color:rgba(20,20,19,0.72);}
+
+    /* ── dependency pins (navy code plates) ── */
+    .catch04-plate{position:absolute;left:358px;width:732px;height:74px;background:#181715;
+      border:1px solid rgba(250,249,245,0.14);border-radius:8px;opacity:0;}
+    .catch04-typewrap{position:absolute;left:28px;top:20px;height:34px;width:0px;overflow:hidden;}
+    .catch04-code{display:block;width:760px;white-space:pre;
+      font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:400;font-size:28px;line-height:34px;
+      letter-spacing:0;color:#FAF9F5;}
+    .catch04-code .pk{color:#5DB8A6;}
+    .catch04-code .vr{color:#E8A55A;}
+    .catch04-code .rq{color:rgba(250,249,245,0.55);}
+    .catch04-code .cn{color:#FAF9F5;}
+    .catch04-caret{position:absolute;right:0;top:3px;width:3px;height:28px;background:rgba(250,249,245,0.8);opacity:0;}
+    .catch04-joinrule{position:absolute;left:358px;top:789px;width:732px;height:1px;background:#CC785C;
+      transform-origin:0% 50%;transform:scaleX(0);}
+
+    .catch04-verdict{position:absolute;left:1186px;top:726px;
+      font-family:"EB Garamond",Georgia,serif;font-weight:400;font-style:italic;font-size:128px;
+      line-height:0.98;letter-spacing:-0.012em;color:#141413;opacity:0;}
+  </style>
+
+  <div id="root" data-composition-id="04-the-catch" data-width="1920" data-height="1080" data-duration="18.9">
+
+    <div class="clip catch04-ground" data-start="0" data-duration="18.9" data-track-index="0">
+      <div class="catch04-grid"></div>
+    </div>
+
+    <div class="clip" data-start="0" data-duration="18.9" data-track-index="1" style="position:absolute;inset:0;">
+      <div class="catch04-cam" data-cam>
+
+        <!-- agent cards + separators -->
+        <div class="catch04-layer" data-cards>
+          <div class="catch04-div" data-div style="left:434px;"></div>
+          <div class="catch04-div" data-div style="left:785px;"></div>
+          <div class="catch04-div" data-div style="left:1135px;"></div>
+          <div class="catch04-div" data-div style="left:1486px;"></div>
+
+          <div class="catch04-card" data-card="skyline" style="left:130px;top:320px;">
+            <div class="catch04-glyph">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 42c10-16 26-26 46-28-4 10-11 18-20 23"/>
+                <path d="M17 47c8-4 16-10 21-18"/>
+                <path d="M28 51c6-3 11-8 15-14"/>
+              </svg>
+            </div>
+            <div class="catch04-name">Skyline</div>
+            <div class="catch04-slot" data-slot></div>
+          </div>
+
+          <div class="catch04-card" data-card="hearth" style="left:470px;top:320px;">
+            <div class="catch04-glyph">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 31 32 14l21 17"/>
+                <path d="M16 45h32"/>
+                <path d="M16 40v11"/>
+                <path d="M48 41v10"/>
+                <circle cx="24" cy="39" r="4"/>
+              </svg>
+            </div>
+            <div class="catch04-name">Hearth</div>
+            <div class="catch04-slot" data-slot></div>
+          </div>
+
+          <div class="catch04-card" data-card="concierge" style="left:810px;top:290px;">
+            <div class="catch04-glyph">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 45c0-15 6-23 15-23s15 8 15 23"/>
+                <path d="M11 45h42"/>
+                <circle cx="32" cy="18" r="3"/>
+                <path d="M21 50h22"/>
+              </svg>
+            </div>
+            <div class="catch04-name">Concierge</div>
+            <div class="catch04-slot" data-slot></div>
+          </div>
+
+          <div class="catch04-card" data-card="sentinel" style="left:1150px;top:320px;">
+            <div class="catch04-glyph">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M32 11 51 18v14c0 12-8 19-19 24-11-5-19-12-19-24V18z"/>
+                <path d="m25 33 5 5 10-12"/>
+              </svg>
+            </div>
+            <div class="catch04-name">Sentinel</div>
+            <div class="catch04-slot" data-slot></div>
+          </div>
+
+          <div class="catch04-card" data-card="ledger" style="left:1490px;top:320px;">
+            <div class="catch04-glyph">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M32 13v39"/>
+                <path d="M14 21h36"/>
+                <path d="M21 52h22"/>
+                <path d="M14 21 8 33"/><path d="m14 21 6 12"/><path d="M8 33a6 6 0 0 0 12 0"/>
+                <path d="M50 21 44 33"/><path d="m50 21 6 12"/><path d="M44 33a6 6 0 0 0 12 0"/>
+              </svg>
+            </div>
+            <div class="catch04-name">Ledger</div>
+            <div class="catch04-slot" data-slot></div>
+          </div>
+        </div>
+
+        <!-- headline -->
+        <div class="catch04-layer" data-headlayer>
+          <div class="catch04-headwrap"><div class="catch04-head" data-head>Here is the catch.</div></div>
+        </div>
+
+        <!-- one Python process container -->
+        <div class="catch04-layer">
+          <svg class="catch04-box" data-box viewBox="0 0 700 204" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect data-boxfill x="2" y="2" width="696" height="200" rx="12" fill="rgba(20,20,19,0.03)" opacity="0"/>
+            <rect data-boxline x="2" y="2" width="696" height="200" rx="12" fill="none"
+              stroke="rgba(20,20,19,0.24)" stroke-width="1" stroke-dasharray="1800" stroke-dashoffset="1800"/>
+            <rect data-boxring x="2" y="2" width="696" height="200" rx="12" fill="none"
+              stroke="#CC785C" stroke-width="2" opacity="0"/>
+            <path data-boxedge d="M697 22v160" stroke="#CC785C" stroke-width="4" stroke-linecap="round" opacity="0"/>
+          </svg>
+          <div class="catch04-boxlabel" data-boxlabel><span>one Python process</span></div>
+        </div>
+
+        <!-- brand marks -->
+        <div class="catch04-layer">
+          <div class="catch04-mark" data-mark="langchain" style="left:870px;top:442px;">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7.531 15.976a7.534 7.534 0 0 0 0-10.651L2.206 0A7.54 7.54 0 0 0 0 5.326c0 1.996.794 3.913 2.206 5.325zm11.143.493a7.535 7.535 0 0 0-10.65 0l5.325 5.325a7.536 7.536 0 0 0 10.651 0zM2.218 21.782a7.54 7.54 0 0 0 5.326 2.206v-7.531H.012c0 1.996.795 3.914 2.206 5.325M20.73 8.595a7.534 7.534 0 0 0-10.651.001l5.325 5.326z"/></svg>
+            <span class="catch04-word">LangGraph</span>
+          </div>
+          <div class="catch04-mark" data-mark="google" style="left:168px;top:472px;">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+            <span class="catch04-word">Google ADK</span>
+          </div>
+          <div class="catch04-mark" data-mark="crewai" style="left:520px;top:472px;">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12.482.18C7.161 1.319 1.478 9.069 1.426 15.372c-.051 5.527 3.1 8.68 8.68 8.627 6.716-.05 14.259-6.87 12.09-10.9-.672-1.292-1.396-1.344-2.687-.207-1.602 1.395-1.654.31-.207-2.893 1.757-3.98 1.705-5.322-.31-7.544C17.03.388 14.962-.388 12.482.181Zm5.322 2.068c2.273 2.015 2.376 4.236.465 8.42-1.395 3.1-2.17 3.515-3.824 1.86-1.24-1.24-1.343-3.46-.258-6.044 1.137-2.635.982-3.1-.568-1.653-3.72 3.358-6.458 9.765-5.424 12.503.464 1.189.825 1.395 2.737 1.395 2.79 0 6.303-1.705 7.957-3.926 1.756-2.274 2.79-2.274 2.79-.052 0 3.875-6.459 8.627-11.625 8.627-6.251 0-9.351-4.752-7.491-11.47.878-2.995 4.443-7.904 7.077-9.66 3.255-2.17 5.684-2.17 8.164 0z"/></svg>
+            <span class="catch04-word">CrewAI</span>
+          </div>
+          <div class="catch04-mark" data-mark="llamaindex" style="left:1220px;top:472px;">
+            <img src="assets/logos/llamaindex.png" alt="" />
+            <span class="catch04-word">LlamaIndex</span>
+          </div>
+          <div class="catch04-mark" data-mark="pydantic" style="left:1572px;top:472px;">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="m23.826 17.316-4.23-5.866-6.847-9.496c-.348-.48-1.151-.48-1.497 0l-6.845 9.494-4.233 5.868a.925.925 0 0 0 .46 1.417l11.078 3.626h.002a.92.92 0 0 0 .572 0h.002l11.077-3.626c.28-.092.5-.31.59-.592a.916.916 0 0 0-.13-.825h.002ZM12.001 4.07l4.44 6.158-4.152-1.36c-.032-.01-.066-.008-.098-.016a.8.8 0 0 0-.096-.016c-.032-.004-.062-.016-.094-.016s-.062.012-.094.016a.74.74 0 0 0-.096.016c-.032.006-.066.006-.096.016L7.59 10.221l-.026.008 4.44-6.158h-.002Zm-6.273 8.7 4.834-1.583.516-.168v9.19L2.41 17.372l3.317-4.6Zm7.197 7.437V11.02l5.35 1.752 3.316 4.598-8.666 2.838Z"/></svg>
+            <span class="catch04-word">Pydantic AI</span>
+          </div>
+        </div>
+
+        <!-- dependency pins -->
+        <div class="catch04-layer">
+          <div class="catch04-plate" data-plate="1" style="top:706px;">
+            <div class="catch04-typewrap" data-typewrap="1">
+              <span class="catch04-code"><span class="pk">crewai</span> <span class="vr">1.15.17</span>   <span class="rq">requires</span> <span class="cn">openai&gt;=2.30,&lt;3</span></span>
+              <div class="catch04-caret" data-caret="1"></div>
+            </div>
+          </div>
+          <div class="catch04-joinrule" data-joinrule></div>
+          <div class="catch04-plate" data-plate="2" style="top:798px;">
+            <div class="catch04-typewrap" data-typewrap="2">
+              <span class="catch04-code"><span class="pk">pydantic-ai</span> <span class="vr">2.35.1</span>   <span class="rq">requires</span> <span class="cn">openai&gt;=3</span></span>
+              <div class="catch04-caret" data-caret="2"></div>
+            </div>
+          </div>
+          <div class="catch04-verdict" data-verdict>install</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var R = document.querySelector('[data-composition-id="04-the-catch"]') || document;
+      var q = function (s) { return R.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(R.querySelectorAll(s)); };
+
+      var cam = q('[data-cam]');
+      var cardsLayer = q('[data-cards]');
+      var headLayer = q('[data-headlayer]');
+      var head = q('[data-head]');
+      var divs = qa('[data-div]');
+      var slots = qa('[data-slot]');
+
+      var card = {
+        skyline: q('[data-card="skyline"]'),
+        hearth: q('[data-card="hearth"]'),
+        concierge: q('[data-card="concierge"]'),
+        sentinel: q('[data-card="sentinel"]'),
+        ledger: q('[data-card="ledger"]')
+      };
+      var slot = {
+        skyline: card.skyline.querySelector('[data-slot]'),
+        hearth: card.hearth.querySelector('[data-slot]'),
+        concierge: card.concierge.querySelector('[data-slot]'),
+        sentinel: card.sentinel.querySelector('[data-slot]'),
+        ledger: card.ledger.querySelector('[data-slot]')
+      };
+      var mark = {
+        langchain: q('[data-mark="langchain"]'),
+        google: q('[data-mark="google"]'),
+        crewai: q('[data-mark="crewai"]'),
+        llamaindex: q('[data-mark="llamaindex"]'),
+        pydantic: q('[data-mark="pydantic"]')
+      };
+
+      var box = q('[data-box]');
+      var boxfill = q('[data-boxfill]');
+      var boxline = q('[data-boxline]');
+      var boxring = q('[data-boxring]');
+      var boxedge = q('[data-boxedge]');
+      var boxlabel = q('[data-boxlabel]');
+
+      var plate1 = q('[data-plate="1"]');
+      var plate2 = q('[data-plate="2"]');
+      var wrap1 = q('[data-typewrap="1"]');
+      var wrap2 = q('[data-typewrap="2"]');
+      var caret1 = q('[data-caret="1"]');
+      var caret2 = q('[data-caret="2"]');
+      var joinrule = q('[data-joinrule]');
+      var verdict = q('[data-verdict]');
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      /* ── macro camera: one slow push, stopped before the final hold ── */
+      tl.fromTo(cam, { scale: 1 }, { scale: 1.014, duration: 17, ease: "power1.out" }, 0);
+
+      /* ══ Scene 1 (0.0–3.9) — the five cards hold at ~55%, "Here is the catch." sets and clears ══ */
+      tl.fromTo(head, { yPercent: 108 }, { yPercent: 0, duration: 0.95, ease: "power3.out" }, 0.2);
+      tl.fromTo(headLayer, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.2);
+      tl.to(headLayer, { opacity: 0, y: -26, duration: 0.6, ease: "power3.inOut" }, 3.3);
+
+      /* ══ Scene 2 (3.9–13.3) — five separate stacks, then each real mark drops in ══ */
+      tl.to(card.skyline,  { x: -22, duration: 1.1, ease: "power3.out" }, 4.00);
+      tl.to(card.hearth,   { x: -10, duration: 1.1, ease: "power3.out" }, 4.06);
+      tl.to(card.sentinel, { x:  10, duration: 1.1, ease: "power3.out" }, 4.06);
+      tl.to(card.ledger,   { x:  22, duration: 1.1, ease: "power3.out" }, 4.00);
+      tl.fromTo(divs, { scaleY: 0, opacity: 0 },
+        { scaleY: 1, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.09 }, 4.25);
+      tl.fromTo(slots, { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.1 }, 4.70);
+
+      function drop(m, c, s, t) {
+        tl.fromTo(m, { opacity: 0, y: -34, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out" }, t);
+        tl.to(c, { opacity: 1, duration: 0.5, ease: "power2.out" }, t);
+        tl.to(s, { opacity: 0, duration: 0.35, ease: "power2.out" }, t + 0.2);
+      }
+      drop(mark.langchain,  card.concierge, slot.concierge, 6.70);  /* LangGraph  */
+      drop(mark.google,     card.skyline,   slot.skyline,   7.85);  /* Google ADK */
+      drop(mark.crewai,     card.hearth,    slot.hearth,    9.45);  /* CrewAI     */
+      drop(mark.llamaindex, card.sentinel,  slot.sentinel, 10.65);  /* LlamaIndex */
+      drop(mark.pydantic,   card.ledger,    slot.ledger,   12.10);  /* Pydantic AI*/
+
+      /* ══ Scene 3 (13.3–17.7) — the marks leave, four fit, the fifth cannot ══ */
+      tl.to(cardsLayer, { y: -160, opacity: 0.22, duration: 1.0, ease: "power3.out" }, 13.30);
+      tl.to(divs, { opacity: 0, duration: 0.5, ease: "power2.out" }, 13.30);
+
+      var allMarks = [mark.langchain, mark.google, mark.crewai, mark.llamaindex, mark.pydantic];
+      tl.to(allMarks, { scale: 1.14, duration: 0.32, ease: "power2.out" }, 13.35);
+
+      /* the container draws itself */
+      tl.fromTo(box, { opacity: 0 }, { opacity: 1, duration: 0.01, ease: "none" }, 13.85);
+      tl.fromTo(boxline, { strokeDashoffset: 1800 },
+        { strokeDashoffset: 0, duration: 0.9, ease: "power3.out" }, 13.90);
+      tl.fromTo(boxfill, { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out" }, 14.05);
+      tl.fromTo(boxlabel, { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 14.25);
+
+      /* four settle inside */
+      tl.to(mark.langchain,  { x: -248, y:  67, scale: 1, duration: 0.90, ease: "power3.out" }, 14.35);
+      tl.to(mark.google,     { x:  604, y:  37, scale: 1, duration: 1.00, ease: "power3.out" }, 14.48);
+      tl.to(mark.crewai,     { x:  402, y:  37, scale: 1, duration: 0.95, ease: "power3.out" }, 14.62);
+      tl.to(mark.llamaindex, { x: -148, y:  37, scale: 1, duration: 0.90, ease: "power3.out" }, 14.76);
+
+      /* the pins type in beneath, one line each */
+      tl.fromTo(plate1, { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 14.95);
+      tl.fromTo(caret1, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, 15.05);
+      tl.fromTo(wrap1, { width: 0 }, { width: 676, duration: 0.62, ease: "steps(40)" }, 15.07);
+      tl.to(caret1, { opacity: 0, duration: 0.2, ease: "none" }, 15.72);
+
+      /* the fifth mark presses on the boundary — and cannot get in */
+      tl.to(mark.pydantic, { x: -350, y: 37, scale: 1, duration: 0.82, ease: "power2.out" }, 15.45);
+
+      tl.fromTo(plate2, { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 15.78);
+      tl.fromTo(caret2, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, 15.86);
+      tl.fromTo(wrap2, { width: 0 }, { width: 660, duration: 0.60, ease: "steps(39)" }, 15.88);
+      tl.to(caret2, { opacity: 0, duration: 0.2, ease: "none" }, 16.50);
+
+      /* flare 1 — the edge refuses, the mark is pushed back out */
+      tl.to(boxring, { opacity: 1, duration: 0.10, ease: "power2.out" }, 16.28);
+      tl.to(boxedge, { opacity: 1, duration: 0.10, ease: "power2.out" }, 16.28);
+      tl.to(mark.pydantic, { x: -242, duration: 0.42, ease: "power3.out" }, 16.34);
+      tl.to(boxring, { opacity: 0.28, duration: 0.45, ease: "power2.out" }, 16.44);
+      tl.to(boxedge, { opacity: 0.5, duration: 0.45, ease: "power2.out" }, 16.44);
+
+      /* the coral rule joins the two pins — the real reason */
+      tl.fromTo(joinrule, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 16.55);
+
+      /* flare 2 — it tries again, harder, and is thrown clear */
+      tl.to(mark.pydantic, { x: -332, duration: 0.30, ease: "power2.in" }, 16.85);
+      tl.to(boxring, { opacity: 1, duration: 0.08, ease: "none" }, 17.14);
+      tl.to(boxedge, { opacity: 1, duration: 0.08, ease: "none" }, 17.14);
+      tl.to(mark.pydantic, { x: -142, y: 15, duration: 0.50, ease: "power3.out" }, 17.20);
+      tl.to(mark.pydantic, { opacity: 0.55, duration: 0.45, ease: "power2.out" }, 17.25);
+      tl.to(boxring, { opacity: 0.4, duration: 0.5, ease: "power2.out" }, 17.30);
+
+      /* ══ Scene 4 close — the verdict lands, and everything holds still ══ */
+      tl.fromTo(verdict, { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 17.35);
+
+      tl.to({}, { duration: 18.4 }, 0);
+
+      window.__timelines["04-the-catch"] = tl;
+    })();
+  </script>
+</template>

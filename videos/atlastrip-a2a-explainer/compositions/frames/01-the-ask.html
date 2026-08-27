@@ -1,0 +1,298 @@
+<template>
+  <div
+    id="root"
+    data-composition-id="01-the-ask"
+    data-start="0"
+    data-duration="8.45"
+    data-width="1920"
+    data-height="1080"
+  >
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+
+    <style>
+      @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+      @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+      @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+      @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+      @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+      @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+      #root {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        container-type: size;
+      }
+
+      .clip {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ── ground: warm cream paper + a hairline grid held at ~15% ── */
+      #ask-ground {
+        background-color: #faf9f5;
+      }
+      #ask-grid {
+        position: absolute;
+        inset: 0;
+        opacity: 0.15;
+        background-image:
+          repeating-linear-gradient(to right, #141413 0 1px, transparent 1px 128px),
+          repeating-linear-gradient(to bottom, #141413 0 1px, transparent 1px 128px);
+        background-position: 64px 40px;
+      }
+
+      /* ── the sentence (foreground subject) ── */
+      #ask-sentence {
+        position: absolute;
+        left: 160px;
+        right: 160px;
+        top: 358px;
+        text-align: center;
+        font-family: "EB Garamond", serif;
+        font-weight: 400;
+        font-size: 4.4cqw;
+        line-height: 1.06;
+        letter-spacing: -0.018em;
+        color: rgba(20, 20, 19, 0.62);
+      }
+      #ask-sentence .ask-line {
+        display: block;
+      }
+      #ask-sentence .ask-w {
+        display: inline-block;
+      }
+      #ask-sentence .ask-focal {
+        color: #141413;
+      }
+
+      /* the ink map marker — small, quiet, drawn on */
+      #ask-pin {
+        display: inline-block;
+        width: 28px;
+        height: 40px;
+        margin-left: 9px;
+        margin-right: 1px;
+        vertical-align: 14px;
+        overflow: visible;
+      }
+      #ask-pin .ask-pin-shell {
+        fill: none;
+        stroke: rgba(20, 20, 19, 0.55);
+        stroke-width: 2.2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      #ask-pin .ask-pin-dot {
+        fill: rgba(20, 20, 19, 0.55);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      /* ── the two beat lines, swapped in place ── */
+      .ask-beat {
+        position: absolute;
+        left: 120px;
+        right: 120px;
+        top: 512px;
+        text-align: center;
+        font-family: "EB Garamond", serif;
+        font-weight: 400;
+        color: #141413;
+        line-height: 1.02;
+        letter-spacing: -0.022em;
+      }
+      #ask-beat-simple {
+        font-size: 7.3cqw;
+      }
+      #ask-beat-four {
+        font-size: 6.5cqw;
+      }
+
+      /* ── the waiting strip: four empty slots ── */
+      #ask-rule {
+        position: absolute;
+        left: 200px;
+        top: 812px;
+        width: 1520px;
+        height: 1px;
+        background: rgba(20, 20, 19, 0.14);
+      }
+      .ask-tick {
+        position: absolute;
+        top: 795px;
+        width: 2px;
+        height: 34px;
+        background: rgba(20, 20, 19, 0.24);
+      }
+      #ask-tick-0 { left: 389px; }
+      #ask-tick-1 { left: 769px; }
+      #ask-tick-2 { left: 1149px; }
+      #ask-tick-3 { left: 1529px; }
+    </style>
+
+    <!-- ground -->
+    <div class="clip" id="ask-ground" data-start="0" data-duration="8.45" data-track-index="0">
+      <div id="ask-grid"></div>
+    </div>
+
+    <!-- type -->
+    <div class="clip" id="ask-stage" data-start="0" data-duration="8.45" data-track-index="1">
+      <div id="ask-sentence">
+        <span class="ask-line"
+          ><span class="ask-w" id="ask-w0">A</span> <span class="ask-w" id="ask-w1">robotics</span>
+          <span class="ask-w" id="ask-w2">company</span> <span class="ask-w" id="ask-w3">needs</span></span
+        >
+        <span class="ask-line"
+          ><span class="ask-w ask-focal" id="ask-w4">one</span>
+          <span class="ask-w ask-focal" id="ask-w5">engineer</span>
+          <span class="ask-w ask-focal" id="ask-w6">in</span>
+          <span class="ask-w ask-focal" id="ask-w7"
+            >Tokyo<svg id="ask-pin" viewBox="0 0 24 34" aria-hidden="true">
+              <path
+                class="ask-pin-shell"
+                pathLength="100"
+                d="M12 32.4C12 32.4 21.6 20.6 21.6 12.6A9.6 9.6 0 0 0 2.4 12.6C2.4 20.6 12 32.4 12 32.4Z"
+              />
+              <circle class="ask-pin-dot" cx="12" cy="12.6" r="3.1" /></svg
+          ></span>
+          <span class="ask-w" id="ask-w8">next</span> <span class="ask-w" id="ask-w9">month.</span></span
+        >
+      </div>
+
+      <div class="ask-beat" id="ask-beat-simple">Simple ask.</div>
+      <div class="ask-beat" id="ask-beat-four">Four separate decisions.</div>
+    </div>
+
+    <!-- the four waiting slots -->
+    <div class="clip" id="ask-strip" data-start="0" data-duration="8.45" data-track-index="2">
+      <div id="ask-rule"></div>
+      <div class="ask-tick" id="ask-tick-0"></div>
+      <div class="ask-tick" id="ask-tick-1"></div>
+      <div class="ask-tick" id="ask-tick-2"></div>
+      <div class="ask-tick" id="ask-tick-3"></div>
+    </div>
+
+    <script>
+      (function () {
+        var DURATION = 8.45;
+
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        var sentence = document.getElementById("ask-sentence");
+        var pin = document.getElementById("ask-pin");
+        var pinShell = pin.querySelector(".ask-pin-shell");
+        var pinDot = pin.querySelector(".ask-pin-dot");
+        var simple = document.getElementById("ask-beat-simple");
+        var four = document.getElementById("ask-beat-four");
+        var rule = document.getElementById("ask-rule");
+        var ticks = [0, 1, 2, 3].map(function (i) {
+          return document.getElementById("ask-tick-" + i);
+        });
+
+        var words = [];
+        for (var w = 0; w < 10; w++) words.push(document.getElementById("ask-w" + w));
+
+        /* ── t=0 state (set, not CSS — seek-safe in both directions) ── */
+        gsap.set(words, { opacity: 0, y: 26, filter: "blur(7px)" });
+        gsap.set(pin, { opacity: 0 });
+        gsap.set(pinShell, { strokeDasharray: 100, strokeDashoffset: 100 });
+        gsap.set(pinDot, { opacity: 0, scale: 0 });
+        gsap.set(simple, { opacity: 0 });
+        gsap.set(four, { opacity: 0 });
+        gsap.set(rule, { opacity: 0, scaleX: 0, transformOrigin: "left center" });
+        gsap.set(ticks, { opacity: 0, scaleY: 0, transformOrigin: "center center" });
+
+        /* ── Scene 1 (0.0–4.2s) — the sentence assembles, word by word,
+              each landing as the voice reaches it. ── */
+        var BASE = 0.16,
+          STEP = 0.28;
+        words.forEach(function (el, i) {
+          tl.fromTo(
+            el,
+            { opacity: 0, y: 26, filter: "blur(7px)" },
+            {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.62,
+              ease: "power3.out",
+            },
+            BASE + i * STEP,
+          );
+        });
+
+        /* the map marker DRAWS itself on, on the word "Tokyo" — never fades */
+        var PIN_AT = BASE + 7 * STEP + 0.18; // 2.30s
+        gsap.set(pin, { opacity: 1 }, PIN_AT);
+        tl.fromTo(
+          pinShell,
+          { strokeDashoffset: 100 },
+          { strokeDashoffset: 0, duration: 0.62, ease: "power2.inOut" },
+          PIN_AT,
+        );
+        tl.set(pinDot, { opacity: 1 }, PIN_AT + 0.44);
+        tl.fromTo(
+          pinDot,
+          { scale: 0 },
+          { scale: 1, duration: 0.34, ease: "power3.out" },
+          PIN_AT + 0.44,
+        );
+
+        /* ── Scene 2 (4.2–6.0s) — the sentence steps back to ~40% ink and
+              lifts into the upper third; "Simple ask." slams in beneath it. ── */
+        tl.to(
+          sentence,
+          { y: -160, opacity: 0.4, duration: 0.95, ease: "power3.out" },
+          4.22,
+        );
+        tl.fromTo(
+          simple,
+          { opacity: 0, scale: 1.3, filter: "blur(13px)" },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 0.74,
+            ease: "power3.out",
+          },
+          4.56,
+        );
+
+        /* ── Scene 3 (6.0–8.45s) — hard cut, in place, on the beat. ── */
+        tl.set(simple, { opacity: 0 }, 6.02);
+        tl.set(four, { opacity: 1 }, 6.02);
+
+        /* the strip draws across, then four empty slots tick in — waiting */
+        tl.set(rule, { opacity: 1 }, 6.14);
+        tl.fromTo(
+          rule,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.9, ease: "power3.out" },
+          6.14,
+        );
+        ticks.forEach(function (t, i) {
+          var at = 6.76 + i * 0.2;
+          tl.set(t, { opacity: 1 }, at);
+          tl.fromTo(
+            t,
+            { scaleY: 0 },
+            { scaleY: 1, duration: 0.5, ease: "power3.out" },
+            at,
+          );
+        });
+
+        /* settle still to the end */
+        tl.to({}, { duration: DURATION });
+
+        window.__timelines["01-the-ask"] = tl;
+      })();
+    </script>
+  </div>
+</template>

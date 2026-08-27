@@ -1,0 +1,304 @@
+<template>
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;container-type:size;}
+    #root .clip{position:absolute;inset:0;width:100%;height:100%;}
+
+    #root .f06r-ground{background:#FAF9F5;}
+
+    #root .f06r-kicker{
+      position:absolute;left:200px;top:84px;
+      font-family:"JetBrains Mono",monospace;font-weight:400;font-size:26px;
+      letter-spacing:0.16em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);
+      opacity:0;
+    }
+
+    /* ---- the request plate ---- */
+    #root .f06r-plate{
+      position:absolute;left:200px;top:168px;width:1520px;height:148px;
+      box-sizing:border-box;
+      background:#EFE9DE;
+      border:1px solid rgba(20,20,19,0.12);
+      border-radius:12px;
+      box-shadow:0 1px 3px rgba(20,20,19,0.08),0 4px 16px rgba(20,20,19,0.04);
+      display:flex;align-items:center;
+      padding:0 60px;
+      opacity:0;
+    }
+    #root .f06r-line{
+      font-family:"JetBrains Mono",monospace;font-weight:400;font-size:32px;line-height:1.6;
+      letter-spacing:0.02em;color:#141413;white-space:pre;
+    }
+    #root .f06r-caret{
+      display:inline-block;width:2px;height:34px;background:#141413;
+      vertical-align:-7px;margin-left:3px;opacity:0;
+    }
+
+    /* ---- wires ---- */
+    #root .f06r-wires{position:absolute;left:0;top:0;width:100%;height:100%;}
+    #root .f06r-wires path{fill:none;stroke:#141413;stroke-linecap:round;}
+    #root .f06r-stem{stroke-width:1.5;stroke-opacity:0.22;}
+    #root .f06r-wire{stroke-width:1.5;stroke-opacity:0.22;}
+
+    /* ---- the agent row (ground) ---- */
+    #root .f06r-agent{
+      position:absolute;top:648px;width:240px;margin-left:-120px;
+      text-align:center;opacity:0.35;
+    }
+    #root .f06r-glyph{display:block;width:92px;height:92px;margin:0 auto;}
+    #root .f06r-glyph path,#root .f06r-glyph circle{
+      fill:none;stroke:#141413;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+    }
+    #root .f06r-name{
+      margin-top:12px;
+      font-family:"EB Garamond",Georgia,serif;font-weight:400;font-size:30px;line-height:1.1;
+      letter-spacing:-0.01em;color:#141413;
+    }
+    #root .f06r-rule{
+      position:absolute;left:60px;top:152px;width:120px;height:1px;
+      background:rgba(20,20,19,0.38);
+    }
+
+    /* ---- envelopes ---- */
+    #root .f06r-env{
+      position:absolute;width:120px;height:48px;
+      background:#141413;border-radius:6px;opacity:0;
+    }
+    #root .f06r-flap{position:absolute;left:12px;right:12px;top:16px;height:1px;background:rgba(250,249,245,0.40);}
+    #root .f06r-word{
+      position:absolute;left:0;right:0;top:16px;height:32px;line-height:32px;text-align:center;
+      font-family:"JetBrains Mono",monospace;font-weight:400;font-size:19px;letter-spacing:0.02em;
+      color:#FAF9F5;
+    }
+  </style>
+
+  <div id="root" data-composition-id="06-the-request" data-width="1920" data-height="1080">
+
+    <div class="clip f06r-ground" data-start="0" data-duration="8.9" data-track-index="0"></div>
+
+    <div class="clip f06r-stage" data-start="0" data-duration="8.9" data-track-index="1">
+
+      <div class="f06r-kicker" id="f06-the-request-kicker">The request</div>
+
+      <div class="f06r-plate" id="f06-the-request-plate">
+        <div class="f06r-line"><span id="f06-the-request-typed"></span><span class="f06r-caret" id="f06-the-request-caret"></span></div>
+      </div>
+
+      <svg class="f06r-wires" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+        <path class="f06r-stem" id="f06-the-request-stem" pathLength="1000" d="M240 322 V636"/>
+        <path class="f06r-wire" id="f06-the-request-wire-a" pathLength="1000" d="M240 640 Q420 440 600 640"/>
+        <path class="f06r-wire" id="f06-the-request-wire-b" pathLength="1000" d="M240 640 Q600 310 960 640"/>
+      </svg>
+
+      <!-- Concierge -->
+      <div class="f06r-agent" id="f06-the-request-ag-0" style="left:240px">
+        <svg class="f06r-glyph" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="32" cy="11" r="3"/>
+          <path d="M32 14 V26"/>
+          <path d="M14 44 A18 18 0 0 1 50 44"/>
+          <path d="M9 44 H55"/>
+        </svg>
+        <div class="f06r-name">Concierge</div>
+      </div>
+
+      <!-- Skyline -->
+      <div class="f06r-agent" id="f06-the-request-ag-1" style="left:600px">
+        <svg class="f06r-glyph" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 43 C16 21, 36 10, 58 12 C52 33, 30 45, 6 43 Z"/>
+          <path d="M13 38 C21 31, 29 25, 39 20"/>
+          <path d="M20 41 C27 35, 34 30, 43 25"/>
+          <path d="M28 43 C34 38, 40 34, 47 30"/>
+        </svg>
+        <div class="f06r-name">Skyline</div>
+        <div class="f06r-rule" id="f06-the-request-rule-1"></div>
+      </div>
+
+      <!-- Hearth -->
+      <div class="f06r-agent" id="f06-the-request-ag-2" style="left:960px">
+        <svg class="f06r-glyph" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 31 L32 12 L55 31"/>
+          <path d="M15 49 V36"/>
+          <path d="M15 43 H49"/>
+          <path d="M49 49 V43"/>
+          <path d="M15 49 H49"/>
+          <path d="M19 43 V39 H26 V43"/>
+        </svg>
+        <div class="f06r-name">Hearth</div>
+        <div class="f06r-rule" id="f06-the-request-rule-2"></div>
+      </div>
+
+      <!-- Sentinel -->
+      <div class="f06r-agent" id="f06-the-request-ag-3" style="left:1320px">
+        <svg class="f06r-glyph" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 9 L52 17 V33 C52 45 42 51 32 55 C22 51 12 45 12 33 V17 Z"/>
+          <path d="M15 31 H49"/>
+        </svg>
+        <div class="f06r-name">Sentinel</div>
+      </div>
+
+      <!-- Ledger -->
+      <div class="f06r-agent" id="f06-the-request-ag-4" style="left:1680px">
+        <svg class="f06r-glyph" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 22 H54"/>
+          <circle cx="32" cy="17" r="3"/>
+          <path d="M32 20 V48"/>
+          <path d="M22 48 H42"/>
+          <path d="M15 22 V29"/>
+          <path d="M7 29 A8 8 0 0 0 23 29"/>
+          <path d="M49 22 V29"/>
+          <path d="M41 29 A8 8 0 0 0 57 29"/>
+        </svg>
+        <div class="f06r-name">Ledger</div>
+      </div>
+
+      <!-- envelopes: solid = work going out -->
+      <div class="f06r-env" id="f06-the-request-env-a" style="left:180px;top:616px">
+        <span class="f06r-flap"></span><span class="f06r-word">flights</span>
+      </div>
+      <div class="f06r-env" id="f06-the-request-env-b" style="left:180px;top:616px">
+        <span class="f06r-flap"></span><span class="f06r-word">a room</span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.querySelector('[data-composition-id="06-the-request"]');
+      if (!root) return;
+      var q = function (s) { return root.querySelector(s); };
+
+      var plate   = q('#f06-the-request-plate');
+      var kicker  = q('#f06-the-request-kicker');
+      var typed   = q('#f06-the-request-typed');
+      var caret   = q('#f06-the-request-caret');
+      var stem    = q('#f06-the-request-stem');
+      var wireA   = q('#f06-the-request-wire-a');
+      var wireB   = q('#f06-the-request-wire-b');
+      var envA    = q('#f06-the-request-env-a');
+      var envB    = q('#f06-the-request-env-b');
+
+      var agents = [];
+      var glyphs = [];
+      for (var i = 0; i < 5; i++) {
+        var a = q('#f06-the-request-ag-' + i);
+        agents.push(a);
+        glyphs.push(a.querySelector('.f06r-glyph'));
+      }
+      var rules = [q('#f06-the-request-rule-1'), q('#f06-the-request-rule-2')];
+
+      var LINE = "Get Mira to Tokyo, 14 to 17 October, near the customer's office.";
+      var proxy = { n: 0 };
+      var renderText = function () { typed.textContent = LINE.slice(0, Math.round(proxy.n)); };
+      renderText();
+
+      // normalised path lengths (pathLength="1000")
+      [stem, wireA, wireB].forEach(function (p) {
+        p.style.strokeDasharray = '1000';
+        p.style.strokeDashoffset = '1000';
+      });
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines['06-the-request'] = tl;
+
+      /* ---------- Scene 1 (0.0-4.6s) : the agents recede to ground, the plate seats and types ---------- */
+
+      tl.fromTo(agents,
+        { opacity: 0, y: 16 },
+        { opacity: 0.35, y: 0, duration: 0.55, ease: 'power3.out', stagger: 0.07 }, 0.0);
+
+      tl.fromTo(plate,
+        { opacity: 0, y: 24, scale: 0.99 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'power3.out' }, 0.15);
+
+      tl.fromTo(kicker,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, 0.30);
+
+      // caret blinks, then leads the typing
+      tl.set(caret, { opacity: 1 }, 0.58);
+      tl.set(caret, { opacity: 0 }, 0.74);
+      tl.set(caret, { opacity: 1 }, 0.90);
+
+      var chunks = [
+        { to: 18, at: 1.05, dur: 0.90 },
+        { to: 36, at: 2.09, dur: 0.78 },
+        { to: 64, at: 2.99, dur: 1.16 }
+      ];
+      var from = 0;
+      chunks.forEach(function (c) {
+        tl.to(proxy, {
+          n: c.to,
+          duration: c.dur,
+          ease: 'steps(' + (c.to - from) + ')',
+          onUpdate: renderText
+        }, c.at);
+        from = c.to;
+      });
+
+      /* ---------- Scene 2 (4.6-6.2s) : the caret stops, the plate goes ink-strong, the bell brightens ---------- */
+
+      tl.to(caret, { opacity: 0, duration: 0.30, ease: 'power2.out' }, 4.62);
+
+      tl.to(plate, { borderColor: 'rgba(20,20,19,0.42)', duration: 0.28, ease: 'power3.out' }, 4.72);
+      tl.to(plate, { borderColor: 'rgba(20,20,19,0.20)', duration: 0.55, ease: 'power3.out' }, 5.10);
+
+      // the Concierge reads it - a hairline drops from the plate to the bell
+      tl.to(stem, { strokeDashoffset: 0, duration: 0.60, ease: 'power2.inOut' }, 4.85);
+
+      tl.to(agents[0], { opacity: 1, duration: 0.50, ease: 'power3.out' }, 5.30);
+      tl.to(glyphs[0], { scale: 1.07, duration: 0.30, ease: 'power3.out' }, 5.30);
+      tl.to(glyphs[0], { scale: 1, duration: 0.45, ease: 'power3.out' }, 5.60);
+
+      /* ---------- Scene 3 (6.2-8.9s) : two solid envelopes leave at the same moment ---------- */
+
+      var flights = [
+        { el: envA, wire: wireA, dx: 360, apex: 100, tilt: -7 },
+        { el: envB, wire: wireB, dx: 720, apex: 165, tilt: -9 }
+      ];
+
+      flights.forEach(function (f) {
+        tl.fromTo(f.el,
+          { opacity: 0, scale: 0.86, x: 0, y: 0 },
+          { opacity: 1, scale: 1, duration: 0.20, ease: 'power3.out' }, 6.20);
+
+        // thrown: x carries across, y lifts then falls, rotation settles level on arrival
+        tl.to(f.el, { x: f.dx, duration: 1.30, ease: 'power1.inOut' }, 6.28);
+        tl.to(f.el, { y: -f.apex, duration: 0.62, ease: 'power2.out' }, 6.28);
+        tl.to(f.el, { y: 0, duration: 0.68, ease: 'power2.in' }, 6.90);
+        tl.fromTo(f.el, { rotation: f.tilt }, { rotation: 0, duration: 1.30, ease: 'power3.out' }, 6.28);
+
+        // the wire is drawn by the envelope that travels it
+        tl.to(f.wire, { strokeDashoffset: 0, duration: 1.30, ease: 'power1.inOut' }, 6.28);
+
+        // the catch
+        tl.to(f.el, { scale: 0.94, duration: 0.10, ease: 'power2.out' }, 7.58);
+        tl.to(f.el, { scale: 1, duration: 0.26, ease: 'power3.out' }, 7.68);
+      });
+
+      // both receiving glyphs brighten to full ink as their envelope lands
+      [1, 2].forEach(function (i) {
+        tl.to(agents[i], { opacity: 1, duration: 0.50, ease: 'power3.out' }, 7.58);
+        tl.to(glyphs[i], { scale: 1.07, duration: 0.28, ease: 'power3.out' }, 7.58);
+        tl.to(glyphs[i], { scale: 1, duration: 0.45, ease: 'power3.out' }, 7.86);
+      });
+
+      // the hold: the wires quieten and the two commissioned agents are ruled under
+      tl.to([wireA, wireB], { strokeOpacity: 0.14, duration: 0.55, ease: 'power2.out' }, 8.10);
+
+      tl.fromTo(rules,
+        { scaleX: 0, transformOrigin: 'left center' },
+        { scaleX: 1, duration: 0.52, ease: 'power3.out', stagger: 0.09 }, 8.18);
+
+      // pad the timeline to the frame's full length (no exit - this is not the final frame)
+      tl.to({}, { duration: 0.01 }, 8.89);
+    })();
+  </script>
+</template>

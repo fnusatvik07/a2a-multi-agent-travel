@@ -1,0 +1,233 @@
+<template>
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;container-type:size;}
+    #root *{box-sizing:border-box;}
+
+    .ledger-stops-bg{position:absolute;inset:0;background:#FAF9F5;}
+    .ledger-stops-cam{position:absolute;inset:0;transform-origin:50% 46%;}
+
+    .ledger-stops-kicker{position:absolute;left:80px;top:60px;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:1.35cqw;letter-spacing:0.16em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);}
+    .ledger-stops-rule{position:absolute;left:80px;top:112px;width:1760px;height:1px;background:rgba(20,20,19,0.12);}
+
+    .ledger-stops-balance{position:absolute;left:104px;top:232px;width:620px;height:320px;transform-origin:50% 87.3%;}
+    .ledger-stops-balance svg{display:block;width:620px;height:320px;overflow:visible;}
+
+    .ledger-stops-totlabel{position:absolute;right:80px;top:258px;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:1.35cqw;letter-spacing:0.16em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);text-align:right;}
+    .ledger-stops-total{position:absolute;right:80px;top:296px;font-family:"EB Garamond",Georgia,serif;font-weight:400;font-size:9.4cqw;line-height:0.95;letter-spacing:-0.025em;color:#141413;text-align:right;transform-origin:100% 50%;white-space:nowrap;}
+
+    .ledger-stops-budget{position:absolute;right:80px;top:596px;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:1.46cqw;letter-spacing:0.02em;color:rgba(20,20,19,0.62);text-align:right;}
+
+    .ledger-stops-bar{position:absolute;left:80px;top:638px;width:1760px;height:28px;border:1px solid rgba(20,20,19,0.14);border-radius:6px;background:#ECE3D4;overflow:hidden;}
+    .ledger-stops-fill{position:absolute;left:0;top:0;width:1760px;height:100%;background:rgba(20,20,19,0.86);transform-origin:0% 50%;}
+
+    .ledger-stops-marker{position:absolute;left:563px;top:578px;width:24px;height:114px;}
+    .ledger-stops-diamond{position:absolute;left:3px;top:0;width:18px;height:18px;background:#141413;transform:rotate(45deg);}
+    .ledger-stops-mline{position:absolute;left:11px;top:16px;width:2px;height:96px;background:#141413;}
+
+    .ledger-stops-bracket{position:absolute;left:573px;top:676px;width:366px;height:18px;overflow:visible;}
+
+    .ledger-stops-marklabel{position:absolute;left:573px;top:712px;width:820px;font-family:"EB Garamond",Georgia,serif;font-weight:400;font-style:italic;font-size:2.3cqw;line-height:1.2;letter-spacing:-0.012em;color:rgba(20,20,19,0.80);}
+
+    .ledger-stops-verdict{position:absolute;right:80px;top:696px;width:900px;height:120px;}
+    .ledger-stops-word{position:absolute;right:0;top:0;width:100%;font-family:"EB Garamond",Georgia,serif;font-weight:400;font-style:italic;font-size:6cqw;line-height:1.0;letter-spacing:-0.012em;text-align:right;white-space:nowrap;filter:blur(0px);transform-origin:100% 50%;}
+    .ledger-stops-fits{color:#141413;}
+    .ledger-stops-wait{color:#CC785C;}
+    .ledger-stops-sub{position:absolute;right:80px;top:822px;font-family:"EB Garamond",Georgia,serif;font-weight:400;font-size:2.08cqw;line-height:1.25;letter-spacing:-0.012em;color:rgba(20,20,19,0.74);text-align:right;}
+  </style>
+
+  <div id="root" data-composition-id="10-ledger-stops" data-width="1920" data-height="1080">
+    <div class="ledger-stops-bg clip" data-start="0" data-duration="18.05" data-track-index="0"></div>
+
+    <div class="ledger-stops-cam clip" id="ledger-stops-cam" data-start="0" data-duration="18.05" data-track-index="1">
+
+      <div class="ledger-stops-kicker">Ledger &middot; budget check</div>
+      <div class="ledger-stops-rule"></div>
+
+      <div class="ledger-stops-balance" id="ledger-stops-balance">
+        <svg viewBox="0 60 640 330" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round">
+          <line x1="320" y1="90" x2="320" y2="348"></line>
+          <line x1="242" y1="348" x2="398" y2="348"></line>
+          <g id="ledger-stops-beam">
+            <line x1="96" y1="90" x2="544" y2="90"></line>
+            <circle cx="320" cy="90" r="8"></circle>
+            <g id="ledger-stops-panL">
+              <line x1="96" y1="90" x2="96" y2="150"></line>
+              <line x1="36" y1="150" x2="156" y2="150"></line>
+              <path d="M36 150 Q96 196 156 150"></path>
+              <g id="ledger-stops-env">
+                <rect x="62" y="124" width="68" height="46" rx="3" fill="#141413" stroke="none"></rect>
+                <polyline points="62,124 96,152 130,124" fill="none" stroke="#FAF9F5" stroke-width="2"></polyline>
+              </g>
+            </g>
+            <g id="ledger-stops-panR">
+              <line x1="544" y1="90" x2="544" y2="150"></line>
+              <line x1="484" y1="150" x2="604" y2="150"></line>
+              <path d="M484 150 Q544 196 604 150"></path>
+              <path id="ledger-stops-token" d="M544 106 L566 128 L544 150 L522 128 Z" fill="#141413" stroke="none"></path>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="ledger-stops-totlabel" id="ledger-stops-totlabel" data-layout-allow-overlap>Trip total</div>
+      <div class="ledger-stops-total" id="ledger-stops-total" data-layout-allow-overlap>$0.00</div>
+
+      <div class="ledger-stops-budget" id="ledger-stops-budget">$7,600.00 left this quarter</div>
+
+      <div class="ledger-stops-bar" id="ledger-stops-bar">
+        <div class="ledger-stops-fill" id="ledger-stops-fill"></div>
+      </div>
+
+      <svg class="ledger-stops-bracket" viewBox="0 0 366 18" xmlns="http://www.w3.org/2000/svg">
+        <path id="ledger-stops-bracketpath" d="M1 1 L1 11 L361 11 L361 1" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-dasharray="382" stroke-dashoffset="382"></path>
+      </svg>
+
+      <div class="ledger-stops-marker" id="ledger-stops-marker">
+        <div class="ledger-stops-diamond"></div>
+        <div class="ledger-stops-mline"></div>
+      </div>
+
+      <div class="ledger-stops-marklabel" id="ledger-stops-marklabel">the line where a human signs</div>
+
+      <div class="ledger-stops-verdict">
+        <div class="ledger-stops-word ledger-stops-fits" id="ledger-stops-fits">fits</div>
+        <div class="ledger-stops-word ledger-stops-wait" id="ledger-stops-wait">waiting</div>
+      </div>
+      <div class="ledger-stops-sub" id="ledger-stops-sub">not failed. waiting.</div>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var q = function (id) { return document.getElementById(id); };
+      var cam = q("ledger-stops-cam");
+      var bal = q("ledger-stops-balance");
+      var beam = q("ledger-stops-beam");
+      var panL = q("ledger-stops-panL");
+      var panR = q("ledger-stops-panR");
+      var env = q("ledger-stops-env");
+      var token = q("ledger-stops-token");
+      var totlabel = q("ledger-stops-totlabel");
+      var total = q("ledger-stops-total");
+      var budget = q("ledger-stops-budget");
+      var bar = q("ledger-stops-bar");
+      var fill = q("ledger-stops-fill");
+      var bracket = q("ledger-stops-bracketpath");
+      var marker = q("ledger-stops-marker");
+      var marklabel = q("ledger-stops-marklabel");
+      var fits = q("ledger-stops-fits");
+      var wait = q("ledger-stops-wait");
+      var sub = q("ledger-stops-sub");
+
+      var TOTAL = 3688.76;
+      var RATIO = 0.48536; // 3688.76 / 7600.00
+
+      function money(v) {
+        var s = v.toFixed(2);
+        var parts = s.split(".");
+        var ints = parts[0];
+        var out = "";
+        for (var i = 0; i < ints.length; i++) {
+          if (i > 0 && (ints.length - i) % 3 === 0) out += ",";
+          out += ints.charAt(i);
+        }
+        return "$" + out + "." + parts[1];
+      }
+
+      gsap.set(beam, { svgOrigin: "320 90" });
+      gsap.set(panL, { svgOrigin: "96 90" });
+      gsap.set(panR, { svgOrigin: "544 90" });
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["10-ledger-stops"] = tl;
+
+      // beam tip + counter-rotated pans so the pans hang vertical
+      function tip(from, to, dur, ease, at) {
+        tl.fromTo(beam, { rotation: from }, { rotation: to, duration: dur, ease: ease }, at);
+        tl.fromTo(panL, { rotation: -from }, { rotation: -to, duration: dur, ease: ease }, at);
+        tl.fromTo(panR, { rotation: -from }, { rotation: -to, duration: dur, ease: ease }, at);
+      }
+
+      // --- initial state -----------------------------------------------
+      tl.set(bal, { x: -164, y: -211, scale: 0.42, rotation: 0, opacity: 0 }, 0);
+      tl.set(env, { x: -520 }, 0);
+      tl.set(token, { y: -170, opacity: 0 }, 0);
+      tl.set([totlabel, total, budget, marklabel, fits, wait, sub], { opacity: 0 }, 0);
+      tl.set(marker, { opacity: 0 }, 0);
+      tl.set(bar, { opacity: 0 }, 0);
+      tl.set(fill, { scaleX: 0 }, 0);
+      tl.set(wait, { scale: 1.08 }, 0);
+
+      // very slow held creep that STOPS DEAD at 13.6s
+      tl.fromTo(cam, { scale: 1 }, { scale: 1.014, duration: 13.6, ease: "none" }, 0);
+
+      // --- Scene 1 (0.0-4.2) envelope arrives, balance becomes the instrument
+      tl.fromTo(bal, { opacity: 0 }, { opacity: 1, duration: 0.55, ease: "power3.out" }, 0.15);
+      tl.fromTo(env, { x: -520 }, { x: 0, duration: 1.05, ease: "power3.out" }, 0.70);
+      tl.fromTo(bal,
+        { x: -164, y: -211, scale: 0.42 },
+        { x: 0, y: 0, scale: 1, duration: 1.55, ease: "power3.out" }, 1.90);
+
+      tl.fromTo(bar, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power3.out" }, 2.60);
+      tl.fromTo(bar, { width: 0 }, { width: 1760, duration: 1.35, ease: "power3.out" }, 2.65);
+      tl.fromTo(budget, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.75, ease: "power3.out" }, 3.60);
+
+      // --- Scene 2 (4.2-9.4) the count-up, the fill, the gentle tip, "fits"
+      tl.fromTo(totlabel, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 4.30);
+      tl.fromTo(total, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power3.out" }, 4.45);
+
+      var counter = { v: 0 };
+      tl.fromTo(counter, { v: 0 }, {
+        v: TOTAL, duration: 3.1, ease: "power3.out",
+        onUpdate: function () { total.textContent = money(counter.v); }
+      }, 4.60);
+      tl.fromTo(total, { scale: 0.88 }, { scale: 1, duration: 3.1, ease: "power3.out" }, 4.60);
+      tl.fromTo(fill, { scaleX: 0 }, { scaleX: RATIO, duration: 3.1, ease: "power3.out" }, 4.60);
+
+      // beam tips gently under the envelope, then settles back level -> "it fits"
+      tip(0, -4.6, 1.35, "power3.out", 5.60);
+      tip(-4.6, 0, 1.55, "power3.out", 7.30);
+      tl.fromTo(fits, { opacity: 0, y: 22, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }, 8.40);
+
+      // --- Scene 3 (9.4-14.0) the threshold lands, the beam locks with a catch
+      tl.fromTo(marker, { opacity: 0, y: -130 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 9.90);
+      tl.fromTo(token, { opacity: 0, y: -170 }, { opacity: 1, y: 0, duration: 0.75, ease: "power3.out" }, 10.30);
+      tl.fromTo(marklabel, { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.85, ease: "power3.out" }, 10.55);
+
+      // travel, then the arrest: two hard linear steps, no easing out of the catch
+      tip(0, 15.4, 0.90, "power3.out", 10.90);
+      tip(15.4, 13.85, 0.08, "none", 11.80);
+      tip(13.85, 14.50, 0.11, "none", 11.88);
+
+      // the fill has already passed the line
+      tl.fromTo(bracket, { strokeDashoffset: 382 }, { strokeDashoffset: 0, duration: 0.95, ease: "power3.out" }, 11.35);
+
+      // locked: low-amplitude deterministic tremor on the whole instrument
+      var jit = [0.16, -0.13, 0.09, -0.17, 0.12, -0.08, 0.15, -0.11, 0.07, -0.14,
+                 0.10, -0.16, 0.13, -0.09, 0.11, -0.12, 0.08, -0.15, 0.14, -0.10,
+                 0.12, -0.13, 0.09, -0.11, 0.15];
+      var prev = 0, at = 12.05;
+      for (var i = 0; i < jit.length; i++) {
+        tl.fromTo(bal, { rotation: prev }, { rotation: jit[i], duration: 0.24, ease: "none" }, at);
+        prev = jit[i];
+        at += 0.24;
+      }
+
+      // --- Scene 4 (14.0-18.05) "fits" swaps for the coral "waiting", then dead stop
+      tl.fromTo(fits, { opacity: 1, scale: 1, filter: "blur(0px)" }, { opacity: 0, scale: 1.1, filter: "blur(10px)", duration: 0.55, ease: "power3.out" }, 14.00);
+      tl.fromTo(wait,
+        { opacity: 0, scale: 1.08, filter: "blur(8px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.85, ease: "power3.out" }, 14.25);
+      tl.fromTo(sub, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 15.10);
+    })();
+  </script>
+</template>

@@ -1,0 +1,306 @@
+<template>
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{position:relative;width:1920px;height:1080px;overflow:hidden;}
+
+    .f7-bg{position:absolute;inset:0;background:#FAF9F5;}
+    .f7-stage{position:absolute;inset:0;}
+
+    /* ---------- ground: wires, hub, agent row, kicker ---------- */
+    .f7-ground{position:absolute;inset:0;z-index:1;}
+    .f7-wires{position:absolute;left:0;top:0;}
+    .f7-wire{fill:none;stroke:rgba(20,20,19,0.10);stroke-width:1.5;}
+    .f7-wire-a{fill:none;stroke:rgba(20,20,19,0.34);stroke-width:2;stroke-linecap:round;}
+
+    .f7-kicker{position:absolute;left:80px;top:62px;font-family:"JetBrains Mono",monospace;font-weight:400;
+      font-size:28px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);white-space:nowrap;}
+
+    .f7-node{position:absolute;display:flex;flex-direction:column;align-items:center;}
+    .f7-glyph{display:block;}
+    .f7-glyph path,.f7-glyph circle{fill:none;stroke:#141413;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+    .f7-nlabel{margin-top:12px;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:22px;
+      letter-spacing:0.14em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);white-space:nowrap;}
+
+    #f7-hub{left:882px;top:112px;width:156px;}
+    #f7-hub .f7-nlabel{font-size:24px;color:rgba(20, 20, 19, 0.62);}
+    #f7-hub .f7-glyph{opacity:0.72;}
+
+    .f7-agent{width:200px;}
+    .f7-agent .f7-glyph{opacity:0.32;}
+    #f7-ag-sky{left:380px;top:764px;}
+    #f7-ag-hea{left:700px;top:764px;}
+    #f7-ag-sen{left:1020px;top:764px;}
+    #f7-ag-led{left:1340px;top:764px;}
+
+    /* ---------- result cards ---------- */
+    .f7-card{position:absolute;top:300px;width:660px;height:400px;z-index:3;
+      clip-path:inset(0px 270px 352px 270px round 8px);}
+    #f7-card-sky{left:250px;}
+    #f7-card-hea{left:1010px;}
+
+    .f7-surface{position:absolute;inset:0;background:#EFE9DE;border:2px solid #141413;border-radius:12px;
+      box-shadow:0 1px 3px rgba(20,20,19,0.08),0 4px 16px rgba(20,20,19,0.04);}
+    .f7-body{position:absolute;inset:0;padding:40px 44px 44px;display:flex;flex-direction:column;align-items:flex-start;}
+
+    .f7-src{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:22px;letter-spacing:0.18em;
+      text-transform:uppercase;color:rgba(20, 20, 19, 0.62);line-height:1.2;margin-bottom:14px;}
+    .f7-name{font-family:"Inter",sans-serif;font-weight:400;font-size:44px;letter-spacing:-0.005em;
+      color:#141413;line-height:1.2;margin-bottom:16px;white-space:nowrap;}
+    .f7-detail{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:26px;letter-spacing:0.01em;
+      color:rgba(20, 20, 19, 0.62);line-height:1.3;margin-bottom:26px;white-space:nowrap;}
+    .f7-rule{width:572px;height:1px;background:rgba(20,20,19,0.16);margin-bottom:26px;transform-origin:left center;}
+    .f7-val{display:flex;align-items:baseline;gap:10px;transform-origin:left bottom;white-space:nowrap;}
+    .f7-cur{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:38px;color:rgba(20, 20, 19, 0.62);}
+    .f7-fig{font-family:"EB Garamond",Georgia,serif;font-weight:400;font-size:120px;line-height:0.95;
+      letter-spacing:-0.025em;color:#141413;font-variant-numeric:tabular-nums;display:inline-block;}
+    .f7-unit{font-family:"JetBrains Mono",monospace;font-weight:400;font-size:34px;color:rgba(20, 20, 19, 0.62);}
+
+    /* ---------- envelopes (HOLLOW = an answer) ---------- */
+    .f7-env{position:absolute;top:300px;width:120px;height:48px;z-index:4;}
+    #f7-env-sky{left:520px;}
+    #f7-env-hea{left:1280px;}
+    .f7-env-body{position:absolute;inset:0;background:#FAF9F5;border:2px solid #141413;border-radius:8px;}
+    .f7-env-flap{position:absolute;left:0;top:0;transform-origin:50% 27%;}
+    .f7-env-flap path{fill:none;stroke:#141413;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  </style>
+
+  <div id="root" data-composition-id="07-what-came-back" data-width="1920" data-height="1080">
+    <div class="f7-bg clip" data-start="0" data-duration="13.75" data-track-index="0"></div>
+
+    <div class="f7-stage clip" data-start="0" data-duration="13.75" data-track-index="1">
+
+      <div class="f7-ground" id="f7-ground">
+        <svg class="f7-wires" width="1920" height="1080" viewBox="0 0 1920 1080">
+          <path class="f7-wire" d="M480 766 C480 600 640 380 960 246"/>
+          <path class="f7-wire" d="M800 766 C800 620 860 400 960 246"/>
+          <path class="f7-wire" d="M1120 766 C1120 620 1060 400 960 246"/>
+          <path class="f7-wire" d="M1440 766 C1440 600 1280 380 960 246"/>
+          <path class="f7-wire-a" id="f7-wire-sky" d="M480 766 C480 600 640 380 960 246"/>
+          <path class="f7-wire-a" id="f7-wire-hea" d="M800 766 C800 620 860 400 960 246"/>
+        </svg>
+
+        <div class="f7-kicker" id="f7-kicker">Inbound answers</div>
+
+        <div class="f7-node" id="f7-hub">
+          <svg class="f7-glyph" id="f7-glyph-hub" width="76" height="76" viewBox="0 0 64 64" fill="none">
+            <path d="M12 44a20 20 0 0 1 40 0"/>
+            <path d="M5 44h54"/>
+            <circle cx="32" cy="19" r="3.5"/>
+          </svg>
+          <div class="f7-nlabel">Concierge</div>
+        </div>
+
+        <div class="f7-node f7-agent" id="f7-ag-sky">
+          <svg class="f7-glyph" id="f7-glyph-sky" width="60" height="60" viewBox="0 0 64 64" fill="none">
+            <path d="M6 47c18-2 34-13 51-33-6 20-22 33-51 33z"/>
+            <path d="M17 44l8-10"/><path d="M27 40l9-12"/><path d="M37 34l8-11"/>
+          </svg>
+          <div class="f7-nlabel">Skyline</div>
+        </div>
+
+        <div class="f7-node f7-agent" id="f7-ag-hea">
+          <svg class="f7-glyph" id="f7-glyph-hea" width="60" height="60" viewBox="0 0 64 64" fill="none">
+            <path d="M7 31L32 12L57 31"/>
+            <path d="M13 44v-5h38v5z"/>
+            <path d="M13 52v-8"/><path d="M51 52v-8"/>
+            <path d="M18 39v-4h9v4"/>
+          </svg>
+          <div class="f7-nlabel">Hearth</div>
+        </div>
+
+        <div class="f7-node f7-agent" id="f7-ag-sen">
+          <svg class="f7-glyph" width="60" height="60" viewBox="0 0 64 64" fill="none">
+            <path d="M32 7l22 8v16c0 12-10 20-22 25-12-5-22-13-22-25V15z"/>
+            <path d="M17 30h30"/>
+          </svg>
+          <div class="f7-nlabel">Sentinel</div>
+        </div>
+
+        <div class="f7-node f7-agent" id="f7-ag-led">
+          <svg class="f7-glyph" width="60" height="60" viewBox="0 0 64 64" fill="none">
+            <path d="M32 14v34"/><path d="M22 52h20"/>
+            <path d="M12 20h40"/><path d="M12 20v4"/><path d="M52 20v4"/>
+            <path d="M4 24a8 8 0 0 0 16 0"/><path d="M44 24a8 8 0 0 0 16 0"/>
+          </svg>
+          <div class="f7-nlabel">Ledger</div>
+        </div>
+      </div>
+
+      <div class="f7-card" id="f7-card-sky">
+        <div class="f7-surface" id="f7-surf-sky"></div>
+        <div class="f7-body">
+          <div class="f7-src" id="f7-src-sky">Skyline</div>
+          <div class="f7-name" id="f7-name-sky">United</div>
+          <div class="f7-detail" id="f7-detail-sky">premium economy</div>
+          <div class="f7-rule" id="f7-rule-sky"></div>
+          <div class="f7-val" id="f7-val-sky">
+            <span class="f7-cur">$</span><span class="f7-fig" id="f7-fig-sky">0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="f7-card" id="f7-card-hea">
+        <div class="f7-surface" id="f7-surf-hea"></div>
+        <div class="f7-body">
+          <div class="f7-src f7-hea-chrome" id="f7-src-hea">Hearth</div>
+          <div class="f7-name f7-hea-chrome" id="f7-name-hea">Shinagawa Bay Tower</div>
+          <div class="f7-detail f7-hea-chrome" id="f7-detail-hea">200 m from the customer&rsquo;s door</div>
+          <div class="f7-rule f7-hea-chrome" id="f7-rule-hea"></div>
+          <div class="f7-val" id="f7-val-hea">
+            <span class="f7-cur">$</span><span class="f7-fig" id="f7-fig-hea">0.00</span><span class="f7-unit" id="f7-unit-hea">/ night</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="f7-env" id="f7-env-sky">
+        <div class="f7-env-body"></div>
+        <svg class="f7-env-flap" id="f7-flap-sky" width="120" height="48" viewBox="0 0 120 48" fill="none">
+          <path d="M6 13L60 22L114 13"/>
+        </svg>
+      </div>
+
+      <div class="f7-env" id="f7-env-hea">
+        <div class="f7-env-body"></div>
+        <svg class="f7-env-flap" id="f7-flap-hea" width="120" height="48" viewBox="0 0 120 48" fill="none">
+          <path d="M6 13L60 22L114 13"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var ID = "07-what-came-back";
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines[ID] = tl;
+
+      var $ = function (s) { return document.querySelector(s); };
+
+      /* ---- geometry ---- */
+      var CARD_W = 660, CARD_H = 400, ENV_W = 120, ENV_H = 48;
+      var SIDE = (CARD_W - ENV_W) / 2;   /* 270 */
+      var BOT  = CARD_H - ENV_H;         /* 352 */
+
+      /* ---- wire draw-in (svg-path-draw) ---- */
+      function armWire(sel, fallback) {
+        var p = $(sel);
+        var L = (p && p.getTotalLength) ? p.getTotalLength() : fallback;
+        if (!L) { L = fallback; }
+        if (p) {
+          p.style.strokeDasharray = L + " " + L;
+          p.style.strokeDashoffset = L;
+        }
+        return { el: p, len: L };
+      }
+      var wSky = armWire("#f7-wire-sky", 620);
+      var wHea = armWire("#f7-wire-hea", 560);
+
+      /* ---- card unfold (anchored expand, proxy-driven clip window) ---- */
+      function unfold(sel, at, dur) {
+        var el = $(sel), st = { p: 0 };
+        tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.10, ease: "power2.out" }, at);
+        tl.fromTo(st, { p: 0 }, {
+          p: 1, duration: dur, ease: "power3.out",
+          onUpdate: function () {
+            var p = st.p;
+            el.style.clipPath = "inset(0px " + (SIDE * (1 - p)).toFixed(2) + "px " +
+              (BOT * (1 - p)).toFixed(2) + "px " + (SIDE * (1 - p)).toFixed(2) +
+              "px round " + (8 + 4 * p).toFixed(2) + "px)";
+          }
+        }, at);
+      }
+
+      /* ---- value-scaled counter (counting-dynamic-scale) ---- */
+      function countUp(figSel, rowSel, target, at, dur) {
+        var fig = $(figSel), st = { v: 0 };
+        tl.fromTo($(rowSel), { opacity: 0 }, { opacity: 1, duration: 0.30, ease: "power2.out" }, at);
+        tl.fromTo(st, { v: 0 }, {
+          v: target, duration: dur, ease: "power3.out",
+          onUpdate: function () {
+            fig.textContent = st.v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          }
+        }, at);
+        tl.fromTo($(rowSel), { scale: 0.52 }, { scale: 1, duration: dur, ease: "power3.out" }, at);
+      }
+
+      /* ---- envelope leg: agent -> Concierge -> its card slot ---- */
+      function envelope(cfg) {
+        var env = cfg.env, flap = cfg.flap;
+        tl.fromTo(env, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: "power2.out" }, cfg.t);
+        tl.fromTo(env, { scale: 0.68 }, { scale: 1, duration: 0.52, ease: "power3.out" }, cfg.t);
+        tl.fromTo(env, { x: cfg.x0 }, { x: cfg.xHub, duration: 0.95, ease: "power2.in" }, cfg.t);
+        tl.fromTo(env, { y: cfg.y0 }, { y: -46, duration: 0.95, ease: "power2.out" }, cfg.t);
+        tl.fromTo(env, { rotation: cfg.rot }, { rotation: 0, duration: 0.80, ease: "power3.out" }, cfg.t);
+        /* the Concierge takes delivery */
+        tl.fromTo("#f7-glyph-hub", { scale: 1 }, { scale: 1.09, duration: 0.14, ease: "power2.out", immediateRender: false }, cfg.t + 0.95);
+        tl.fromTo("#f7-glyph-hub", { scale: 1.09 }, { scale: 1, duration: 0.34, ease: "power3.out", immediateRender: false }, cfg.t + 1.09);
+        tl.fromTo("#f7-glyph-hub", { opacity: 0.72 }, { opacity: 1, duration: 0.14, ease: "power2.out", immediateRender: false }, cfg.t + 0.95);
+        tl.fromTo("#f7-glyph-hub", { opacity: 1 }, { opacity: 0.72, duration: 0.50, ease: "power3.out", immediateRender: false }, cfg.t + 1.20);
+        /* laid down in its slot */
+        tl.fromTo(env, { x: cfg.xHub }, { x: 0, duration: 0.38, ease: "power3.out", immediateRender: false }, cfg.t + 1.12);
+        tl.fromTo(env, { y: -46 }, { y: 0, duration: 0.38, ease: "power3.out", immediateRender: false }, cfg.t + 1.12);
+        /* the flap lifts */
+        tl.fromTo(flap, { scaleY: 1 }, { scaleY: -0.75, duration: 0.22, ease: "power3.out" }, cfg.t + 1.54);
+        tl.fromTo(flap, { opacity: 1 }, { opacity: 0.45, duration: 0.22, ease: "power3.out", immediateRender: false }, cfg.t + 1.54);
+        /* ...and it opens into the card */
+        unfold(cfg.card, cfg.t + 1.62, 0.62);
+        tl.fromTo(env, { opacity: 1 }, { opacity: 0, duration: 0.34, ease: "power2.out", immediateRender: false }, cfg.t + 1.72);
+      }
+
+      /* ================= Scene 0 — the ground ================= */
+      tl.fromTo("#f7-ground", { opacity: 0 }, { opacity: 1, duration: 0.40, ease: "power3.out" }, 0);
+      tl.fromTo("#f7-kicker", { y: 10 }, { y: 0, duration: 0.60, ease: "power3.out" }, 0);
+
+      /* ================= Scene 1 (0.0-6.4) — Skyline answers ================= */
+      tl.fromTo("#f7-glyph-sky", { opacity: 0.32 }, { opacity: 0.85, duration: 0.40, ease: "power3.out" }, 0.15);
+      tl.fromTo(wSky.el, { opacity: 0 }, { opacity: 1, duration: 0.20, ease: "power2.out" }, 0.15);
+      tl.fromTo(wSky.el, { strokeDashoffset: wSky.len }, { strokeDashoffset: 0, duration: 0.95, ease: "power2.inOut" }, 0.15);
+
+      envelope({
+        env: "#f7-env-sky", flap: "#f7-flap-sky", card: "#f7-card-sky",
+        t: 0.18, x0: -100, y0: 462, xHub: 380, rot: -14
+      });
+
+      tl.fromTo("#f7-src-sky", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.40, ease: "power3.out" }, 2.02);
+      tl.fromTo("#f7-name-sky", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.52, ease: "power3.out" }, 2.24);
+      tl.fromTo("#f7-detail-sky", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.46, ease: "power3.out" }, 2.96);
+      tl.fromTo("#f7-rule-sky", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.55, ease: "power3.out" }, 3.32);
+      countUp("#f7-fig-sky", "#f7-val-sky", 3110.48, 3.72, 1.76);
+
+      /* ================= Scene 2 (6.4-12.2) — Hearth answers ================= */
+      tl.fromTo("#f7-glyph-hea", { opacity: 0.32 }, { opacity: 0.85, duration: 0.40, ease: "power3.out" }, 6.45);
+      tl.fromTo(wHea.el, { opacity: 0 }, { opacity: 1, duration: 0.20, ease: "power2.out" }, 6.45);
+      tl.fromTo(wHea.el, { strokeDashoffset: wHea.len }, { strokeDashoffset: 0, duration: 0.95, ease: "power2.inOut" }, 6.45);
+
+      envelope({
+        env: "#f7-env-hea", flap: "#f7-flap-hea", card: "#f7-card-hea",
+        t: 6.48, x0: -540, y0: 462, xHub: -380, rot: -14
+      });
+
+      tl.fromTo("#f7-src-hea", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.40, ease: "power3.out" }, 8.32);
+      tl.fromTo("#f7-name-hea", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.52, ease: "power3.out" }, 8.54);
+      tl.fromTo("#f7-detail-hea", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.46, ease: "power3.out" }, 9.24);
+      tl.fromTo("#f7-rule-hea", { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.55, ease: "power3.out" }, 9.62);
+      countUp("#f7-fig-hea", "#f7-val-hea", 298.33, 10.05, 1.72);
+      tl.fromTo("#f7-unit-hea", { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.36, ease: "power3.out" }, 11.80);
+
+      /* ================= Scene 3 (12.2-13.75) — one number left alone ================= */
+      tl.fromTo("#f7-card-sky", { opacity: 1 }, { opacity: 0.5, duration: 0.78, ease: "power3.out", immediateRender: false }, 12.30);
+      tl.fromTo("#f7-ground", { opacity: 1 }, { opacity: 0.26, duration: 0.82, ease: "power3.out", immediateRender: false }, 12.40);
+      tl.fromTo(["#f7-src-hea", "#f7-name-hea", "#f7-detail-hea", "#f7-rule-hea"],
+        { opacity: 1 }, { opacity: 0.30, duration: 0.82, ease: "power3.out", immediateRender: false }, 12.50);
+      tl.fromTo("#f7-surf-hea", { opacity: 1 }, { opacity: 0.40, duration: 0.82, ease: "power3.out", immediateRender: false }, 12.50);
+
+      /* pin the shot to its full length */
+      tl.to({ v: 0 }, { v: 1, duration: 0.01 }, 13.74);
+    })();
+  </script>
+</template>

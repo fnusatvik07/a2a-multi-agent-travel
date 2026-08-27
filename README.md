@@ -55,12 +55,16 @@ Two protocols, two jobs:
 
 <p align="center">
   <a href="https://github.com/fnusatvik07/a2a-multi-agent-travel/raw/main/docs/media/atlastrip-explainer.mp4"><b>Watch the explainer</b></a>
-  &nbsp;·&nbsp; 89 seconds &nbsp;·&nbsp; narrated
+  &nbsp;·&nbsp; 2 min 37 &nbsp;·&nbsp; narrated
 </p>
 
-It covers the dependency constraint that makes a single process impossible, the
-split between MCP and A2A, the five agents, the negotiation between Hearth and
-Sentinel, and the approval interrupt. The composition that produced it is in
+A company needs one engineer in Tokyo, which is four separate decisions. Five
+agents take them, on five frameworks that cannot share a process. You watch the
+messages travel between them, watch Sentinel refuse a room Hearth had already
+chosen, and watch Ledger stop dead rather than spend money without a human.
+
+Every figure on screen comes from an actual run of the network. The composition
+that produced it is in
 [`videos/atlastrip-a2a-explainer/`](videos/atlastrip-a2a-explainer) and rebuilds
 with `npx hyperframes render`.
 

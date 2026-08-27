@@ -1,0 +1,386 @@
+<template>
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;container-type:size;
+      color:#141413;-webkit-font-smoothing:antialiased;}
+
+    #root .clip{position:absolute;inset:0;width:1920px;height:1080px;}
+
+    #f08-bg{background:#FAF9F5;}
+    #f08-grid{position:absolute;inset:0;opacity:.5;
+      background-image:linear-gradient(to right,rgba(20,20,19,.05) 1px,transparent 1px),
+                       linear-gradient(to bottom,rgba(20,20,19,.05) 1px,transparent 1px);
+      background-size:120px 120px;}
+
+    #f08-kicker{position:absolute;left:80px;top:70px;font-family:"JetBrains Mono",monospace;font-weight:500;
+      font-size:26px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap;}
+    #f08-kicker span{color:#141413;}
+    .f08-ksep{opacity:.25;padding:0 14px;}
+
+    .f08-agent{position:absolute;width:240px;margin-left:-120px;margin-top:-32px;text-align:center;}
+    .f08-disc{position:absolute;left:60px;top:-28px;width:120px;height:120px;border-radius:50%;background:#ECE3D4;opacity:0;}
+    .f08-glyph{display:block;margin:0 auto;position:relative;}
+    .f08-alabel{margin-top:8px;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:22px;
+      letter-spacing:.14em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);position:relative;}
+
+    #f08-card{position:absolute;left:780px;top:230px;width:510px;height:345px;background:#EFE9DE;
+      border:1px solid rgba(20,20,19,.12);border-radius:12px;
+      box-shadow:0 1px 3px rgba(20,20,19,.08),0 4px 16px rgba(20,20,19,.04);}
+    .f08-cardkick{position:absolute;left:34px;top:28px;font-family:"JetBrains Mono",monospace;font-weight:500;
+      font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);}
+    .f08-cardtitle{position:absolute;left:34px;top:74px;font-family:"Inter",sans-serif;font-weight:400;
+      font-size:40px;line-height:1.2;letter-spacing:-.005em;color:#141413;}
+    .f08-cardnum{position:absolute;left:34px;top:146px;font-family:"EB Garamond",serif;font-weight:400;
+      font-size:84px;line-height:1;letter-spacing:-.022em;color:#141413;}
+    .f08-cardunit{position:absolute;left:340px;top:206px;font-family:"JetBrains Mono",monospace;font-weight:500;
+      font-size:26px;color:rgba(20,20,19,.6);}
+    .f08-cardmeta{position:absolute;left:34px;top:270px;font-family:"JetBrains Mono",monospace;font-weight:400;
+      font-size:24px;color:rgba(20, 20, 19, 0.62);}
+
+    #f08-note{position:absolute;left:782px;top:598px;font-family:"JetBrains Mono",monospace;font-weight:400;
+      font-size:22px;letter-spacing:.02em;color:rgba(20, 20, 19, 0.62);}
+
+    #f08-panel{position:absolute;left:110px;top:460px;width:650px;height:0;overflow:hidden;background:#FAF9F5;
+      border:1px solid rgba(20,20,19,.12);border-radius:12px;
+      box-shadow:0 1px 3px rgba(20,20,19,.08),0 4px 16px rgba(20,20,19,.04);}
+    #f08-pkick{position:absolute;left:32px;top:26px;font-family:"JetBrains Mono",monospace;font-weight:500;
+      font-size:24px;letter-spacing:.16em;text-transform:uppercase;color:rgba(20, 20, 19, 0.62);}
+    .f08-pnum{position:absolute;left:32px;font-family:"EB Garamond",serif;font-weight:400;font-size:58px;
+      line-height:1;letter-spacing:-.02em;}
+    #f08-pnum-a{top:62px;color:#141413;}
+    #f08-pnum-b{top:166px;color:rgba(20, 20, 19, 0.62);}
+    #f08-pdelta{position:absolute;left:360px;top:240px;font-family:"EB Garamond",serif;font-weight:400;
+      font-size:58px;line-height:1;letter-spacing:-.02em;color:#CC785C;}
+    #f08-prule{position:absolute;left:32px;top:316px;width:586px;height:1px;background:rgba(20,20,19,.14);
+      transform-origin:left center;}
+    .f08-pwords{position:absolute;left:32px;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:26px;
+      letter-spacing:.01em;color:rgba(20,20,19,.72);white-space:nowrap;}
+    #f08-pw1{top:336px;}
+    #f08-pw2{top:372px;}
+    .f08-w{display:inline-block;}
+
+    #f08-chip{position:absolute;left:130px;top:450px;height:58px;padding:0 26px;border-radius:9999px;
+      border:1px solid rgba(20,20,19,.2);background:#FAF9F5;font-family:"JetBrains Mono",monospace;font-weight:500;
+      font-size:24px;line-height:56px;letter-spacing:.02em;color:#141413;transform-origin:left center;}
+
+    .f08-glabel{position:absolute;font-family:"JetBrains Mono",monospace;font-weight:400;font-size:22px;
+      letter-spacing:.02em;color:rgba(20, 20, 19, 0.62);white-space:nowrap;}
+    #f08-gl-a{left:430px;top:300px;}
+    #f08-gl-b{left:430px;top:336px;}
+    .f08-glabel i{position:absolute;left:0;top:50%;width:100%;height:2px;background:rgba(20,20,19,.55);
+      transform-origin:left center;}
+
+    #f08-hchip{position:absolute;left:1562px;top:700px;height:52px;padding:0 24px;border-radius:9999px;
+      border:1px solid rgba(20,20,19,.2);background:#EFE9DE;font-family:"JetBrains Mono",monospace;font-weight:500;
+      font-size:24px;line-height:50px;letter-spacing:.02em;color:#141413;}
+    #f08-hstatus{position:absolute;left:1548px;top:770px;font-family:"JetBrains Mono",monospace;font-weight:400;
+      font-size:22px;letter-spacing:.02em;color:rgba(20, 20, 19, 0.62);}
+
+    #f08-svg{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible;}
+    .f08-env-text{font-family:"JetBrains Mono",monospace;font-weight:500;font-size:17px;letter-spacing:.02em;}
+  </style>
+
+  <div id="root" data-composition-id="08-sentinel-says-no" data-width="1920" data-height="1080">
+
+    <div class="clip" id="f08-bg" data-start="0" data-duration="19.9" data-track-index="0">
+      <div id="f08-grid"></div>
+    </div>
+
+    <div class="clip" id="f08-stage" data-start="0" data-duration="19.9" data-track-index="1">
+
+      <div id="f08-kicker">
+        <span id="f08-k1">Refusal</span><span class="f08-ksep">&#183;</span><span id="f08-k2">Reason</span><span class="f08-ksep">&#183;</span><span id="f08-k3">Re-ask</span>
+      </div>
+
+      <!-- CONCIERGE -->
+      <div class="f08-agent" id="f08-ag-conc" style="left:280px;top:330px;">
+        <svg class="f08-glyph" id="f08-glyph-conc" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 41 C14 26 22 18 32 18 C42 18 50 26 50 41" />
+          <path d="M8 45 H56" />
+          <path d="M32 18 V13" />
+          <circle cx="32" cy="10" r="3" />
+        </svg>
+        <div class="f08-alabel">Concierge</div>
+      </div>
+
+      <!-- SENTINEL -->
+      <div class="f08-agent" id="f08-ag-sent" style="left:1660px;top:330px;">
+        <div class="f08-disc" id="f08-disc-sent"></div>
+        <svg class="f08-glyph" id="f08-glyph-sent" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 6 L56 16 V32 C56 46 45 55 32 58 C19 55 8 46 8 32 V16 Z" />
+          <path d="M15 32 H49" />
+        </svg>
+        <div class="f08-alabel">Sentinel</div>
+      </div>
+
+      <!-- HEARTH -->
+      <div class="f08-agent" id="f08-ag-hearth" style="left:1660px;top:620px;">
+        <div class="f08-disc" id="f08-disc-hearth"></div>
+        <svg class="f08-glyph" id="f08-glyph-hearth" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 31 L32 12 L53 31" />
+          <path d="M16 50 V37 H48 V50" />
+          <path d="M16 44 H48" />
+        </svg>
+        <div class="f08-alabel">Hearth</div>
+      </div>
+
+      <!-- SKYLINE (dim) -->
+      <div class="f08-agent f08-dim" id="f08-ag-sky" style="left:1530px;top:130px;">
+        <svg class="f08-glyph" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 45 C28 41 42 30 54 13 C48 32 34 45 12 51 Z" />
+        </svg>
+        <div class="f08-alabel">Skyline</div>
+      </div>
+
+      <!-- LEDGER (dim) -->
+      <div class="f08-agent f08-dim" id="f08-ag-ledger" style="left:1800px;top:130px;">
+        <svg class="f08-glyph" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 22 H50" />
+          <path d="M32 22 V45" />
+          <path d="M32 22 V15" />
+          <path d="M22 47 H42" />
+          <path d="M14 22 L8 33 H20 Z" />
+          <path d="M50 22 L44 33 H56 Z" />
+        </svg>
+        <div class="f08-alabel">Ledger</div>
+      </div>
+
+      <!-- THE HOTEL CARD -->
+      <div id="f08-card">
+        <div class="f08-cardkick">Hotel</div>
+        <div class="f08-cardtitle">Shinagawa Bay Tower</div>
+        <div class="f08-cardnum">$298.33</div>
+        <div class="f08-cardunit">/ night</div>
+        <div class="f08-cardmeta">0.21 km from the venue</div>
+      </div>
+
+      <div id="f08-note">card unchanged</div>
+
+      <!-- THE REASON -->
+      <div id="f08-panel">
+        <div id="f08-pkick">Sentinel &#183; ruling</div>
+        <div class="f08-pnum" id="f08-pnum-a">$298.33</div>
+        <div class="f08-pnum" id="f08-pnum-b">cap $280.00</div>
+        <div id="f08-pdelta">+$18.33</div>
+        <div id="f08-prule"></div>
+        <div class="f08-pwords" id="f08-pw1"><span class="f08-w">policy</span> <span class="f08-w">caps</span> <span class="f08-w">Tokyo</span> <span class="f08-w">at</span></div>
+        <div class="f08-pwords" id="f08-pw2"><span class="f08-w">two</span> <span class="f08-w">hundred</span> <span class="f08-w">and</span> <span class="f08-w">eighty</span></div>
+      </div>
+
+      <div id="f08-chip">cap $280.00</div>
+
+      <div class="f08-glabel" id="f08-gl-a">overrule Sentinel<i></i></div>
+      <div class="f08-glabel" id="f08-gl-b">overrule Hearth<i></i></div>
+
+      <div id="f08-hchip">under $280</div>
+      <div id="f08-hstatus">searching lodging</div>
+
+      <svg id="f08-svg" viewBox="0 0 1920 1080" width="1920" height="1080" fill="none">
+        <path id="f08-wire1" d="M350 300 Q970 40 1596 312" stroke="#141413" stroke-width="1.5" opacity=".16" />
+        <path id="f08-route2" d="M344 316 C540 400 640 654 940 684 C1200 710 1430 694 1548 622" stroke="#141413" stroke-width="1.5" opacity=".16" />
+
+        <path id="f08-crossrule" d="M1606 330 H1714" stroke="#CC785C" stroke-width="3.5" stroke-linecap="round" />
+
+        <path id="f08-dimline" d="M560 552 V660" stroke="#141413" stroke-width="1.5" opacity=".55" />
+        <path id="f08-tick1" d="M520 552 H600" stroke="#141413" stroke-width="1.5" opacity="0" />
+        <path id="f08-tick2" d="M520 660 H600" stroke="#141413" stroke-width="1.5" opacity="0" />
+
+        <g id="f08-ghosts" opacity=".26">
+          <path id="f08-arrowA" d="M400 296 L700 206" stroke="#141413" stroke-width="2.5" stroke-linecap="round" />
+          <path id="f08-headA" d="M684.8 217.9 L700 206 L680.8 204.5" stroke="#141413" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path id="f08-arrowB" d="M400 384 L700 474" stroke="#141413" stroke-width="2.5" stroke-linecap="round" />
+          <path id="f08-headB" d="M680.8 475.5 L700 474 L684.8 462.1" stroke="#141413" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+        <g id="f08-strikes" opacity=".62">
+          <path id="f08-strikeA" d="M542.5 226.1 L557.5 275.9" stroke="#141413" stroke-width="3" stroke-linecap="round" />
+          <path id="f08-strikeB" d="M557.5 404.1 L542.5 453.9" stroke="#141413" stroke-width="3" stroke-linecap="round" />
+        </g>
+
+        <circle id="f08-spin" cx="1534" cy="726" r="13" stroke="#141413" stroke-width="2.5" stroke-dasharray="24 58" stroke-linecap="round" opacity="0" />
+
+        <g class="f08-env" id="f08-env1">
+          <rect x="-60" y="-24" width="120" height="48" rx="6" fill="#141413" />
+          <path d="M-60 -24 L0 -4 L60 -24" stroke="rgba(250,249,245,.5)" stroke-width="2" fill="none" />
+          <text class="f08-env-text" x="0" y="15" text-anchor="middle" fill="#FAF9F5">$298.33</text>
+        </g>
+
+        <g class="f08-env" id="f08-env1h">
+          <rect x="-60" y="-24" width="120" height="48" rx="6" fill="none" stroke="#CC785C" stroke-width="2" />
+          <path d="M-60 -24 L0 -4 L60 -24" stroke="#CC785C" stroke-width="2" fill="none" />
+          <text class="f08-env-text" x="0" y="15" text-anchor="middle" fill="#CC785C">$298.33</text>
+        </g>
+
+        <g class="f08-env" id="f08-env2">
+          <rect x="-60" y="-24" width="120" height="48" rx="6" fill="#141413" />
+          <path d="M-60 -24 L0 -4 L60 -24" stroke="rgba(250,249,245,.5)" stroke-width="2" fill="none" />
+          <text class="f08-env-text" x="0" y="15" text-anchor="middle" fill="#FAF9F5">under $280</text>
+        </g>
+      </svg>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      var q = function (s) { return document.querySelector(s); };
+
+      var wire1 = q("#f08-wire1");
+      var route2 = q("#f08-route2");
+      var env1 = q("#f08-env1");
+      var env1h = q("#f08-env1h");
+      var env2 = q("#f08-env2");
+
+      function prep(el) {
+        var l = el.getTotalLength();
+        gsap.set(el, { strokeDasharray: l, strokeDashoffset: l });
+        return l;
+      }
+      function draw(el, dur, at, ease) {
+        tl.to(el, { strokeDashoffset: 0, duration: dur, ease: ease || "power3.out" }, at);
+      }
+      function place(el, path, p) {
+        var pt = path.getPointAtLength(path.getTotalLength() * p);
+        gsap.set(el, { x: pt.x, y: pt.y });
+      }
+      function travel(el, path, from, to, dur, at) {
+        var len = path.getTotalLength();
+        var o = { p: from };
+        tl.to(o, {
+          p: to, duration: dur, ease: "power3.inOut",
+          onUpdate: function () {
+            var pt = path.getPointAtLength(o.p * len);
+            gsap.set(el, { x: pt.x, y: pt.y });
+          }
+        }, at);
+      }
+
+      /* --- static prep --- */
+      prep(wire1); prep(route2);
+      prep(q("#f08-crossrule")); prep(q("#f08-dimline"));
+      prep(q("#f08-arrowA")); prep(q("#f08-headA"));
+      prep(q("#f08-arrowB")); prep(q("#f08-headB"));
+      prep(q("#f08-strikeA")); prep(q("#f08-strikeB"));
+
+      gsap.set([env1, env1h, env2], { autoAlpha: 0 });
+      place(env1, wire1, 0);
+      place(env1h, wire1, 1);
+      place(env2, route2, 0);
+      gsap.set("#f08-ghosts", { opacity: .26 });
+      gsap.set("#f08-strikes", { opacity: .62 });
+      gsap.set("#f08-k2, #f08-k3", { opacity: .26 });
+
+      /* ===================== SCENE 1 — THE REFUSAL (0.0–4.4) ===================== */
+      tl.fromTo("#f08-kicker", { autoAlpha: 0, y: -10 }, { autoAlpha: 1, y: 0, duration: .55, ease: "power3.out" }, 0);
+
+      tl.fromTo("#f08-ag-conc, #f08-ag-sent, #f08-ag-hearth",
+        { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .55, stagger: .07, ease: "power3.out" }, .05);
+      tl.fromTo(".f08-dim", { autoAlpha: 0, y: 12 }, { autoAlpha: .22, y: 0, duration: .6, stagger: .07, ease: "power3.out" }, .18);
+      tl.fromTo("#f08-card", { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .6, ease: "power3.out" }, .15);
+
+      draw(wire1, .6, .45);
+      tl.fromTo(env1, { autoAlpha: 0, scale: .7 }, { autoAlpha: 1, scale: 1, duration: .32, ease: "power3.out" }, .78);
+      travel(env1, wire1, 0, 1, 1.35, .9);
+
+      /* the shield brightens */
+      tl.to("#f08-disc-sent", { opacity: 1, duration: .45, ease: "power3.out" }, 2.24);
+      tl.to("#f08-glyph-sent", { scale: 1.06, duration: .45, ease: "power3.out" }, 2.24);
+      /* the coral cross-rule strikes */
+      draw(q("#f08-crossrule"), .5, 2.6);
+
+      /* solid -> hollow + coral, at the same centre */
+      tl.to(env1, { autoAlpha: 0, scale: .94, duration: .28, ease: "power3.out" }, 3.14);
+      tl.fromTo(env1h, { autoAlpha: 0, scale: .94 }, { autoAlpha: 1, scale: 1, duration: .28, ease: "power3.out" }, 3.14);
+      tl.to(wire1, { attr: { stroke: "#CC785C" }, opacity: .5, duration: .3, ease: "power3.out" }, 3.4);
+
+      /* back along the same wire, landing on the Concierge */
+      travel(env1h, wire1, 1, 0, .95, 3.45);
+      tl.to(env1h, { scale: 1.05, duration: .14, ease: "power3.out" }, 4.4);
+      tl.to(env1h, { scale: 1, duration: .3, ease: "power3.out" }, 4.54);
+
+      /* ===================== SCENE 2 — THE REASON (4.4–8.4) ===================== */
+      tl.to("#f08-k1", { opacity: .26, duration: .3, ease: "power3.out" }, 4.5);
+      tl.to("#f08-k2", { opacity: 1, duration: .3, ease: "power3.out" }, 4.5);
+
+      /* the envelope opens into the ruling */
+      tl.to(env1h, { autoAlpha: 0, duration: .28, ease: "power3.out" }, 4.6);
+      tl.fromTo("#f08-panel", { height: 0, autoAlpha: 0 }, { height: 420, autoAlpha: 1, duration: .55, ease: "power3.out" }, 4.58);
+      tl.fromTo("#f08-pkick", { autoAlpha: 0 }, { autoAlpha: 1, duration: .35, ease: "power3.out" }, 4.95);
+
+      tl.fromTo("#f08-pnum-a", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: .45, ease: "power3.out" }, 5.1);
+      tl.fromTo("#f08-pnum-b", { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: .45, ease: "power3.out" }, 5.7);
+
+      /* the measurement line draws between them */
+      draw(q("#f08-dimline"), .6, 6.3);
+      tl.fromTo("#f08-tick1, #f08-tick2", { opacity: 0 }, { opacity: .55, duration: .3, stagger: .1, ease: "power3.out" }, 6.62);
+
+      /* the difference, in coral */
+      tl.fromTo("#f08-pdelta", { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: .5, ease: "power3.out" }, 7.05);
+
+      /* Sentinel's own words */
+      tl.fromTo("#f08-prule", { scaleX: 0 }, { scaleX: 1, duration: .4, ease: "power3.out" }, 7.6);
+      tl.fromTo(".f08-w", { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: .4, stagger: .05, ease: "power3.out" }, 7.8);
+
+      /* ===================== SCENE 3 — WHAT IT DOES NOT DO (8.4–13.6) ============ */
+      tl.to("#f08-k2", { opacity: .26, duration: .3, ease: "power3.out" }, 8.42);
+      tl.to("#f08-k3", { opacity: 1, duration: .3, ease: "power3.out" }, 8.42);
+
+      draw(q("#f08-arrowA"), .55, 8.55);
+      draw(q("#f08-headA"), .22, 9.02);
+      tl.fromTo("#f08-gl-a", { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: .4, ease: "power3.out" }, 8.95);
+
+      draw(q("#f08-arrowB"), .55, 9.4);
+      draw(q("#f08-headB"), .22, 9.87);
+      tl.fromTo("#f08-gl-b", { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: .4, ease: "power3.out" }, 9.8);
+
+      /* struck through */
+      draw(q("#f08-strikeA"), .45, 10.35);
+      tl.fromTo("#f08-gl-a i", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.out" }, 10.35);
+      draw(q("#f08-strikeB"), .45, 11.05);
+      tl.fromTo("#f08-gl-b i", { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power3.out" }, 11.05);
+
+      /* and dismissed */
+      tl.to("#f08-ghosts, #f08-strikes", { autoAlpha: 0, duration: .6, ease: "power3.out" }, 11.95);
+      tl.to("#f08-gl-a, #f08-gl-b", { autoAlpha: 0, y: -8, duration: .6, ease: "power3.out" }, 11.95);
+
+      /* nothing was chosen: the card has not moved */
+      tl.fromTo("#f08-note", { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: .5, ease: "power3.out" }, 12.65);
+
+      /* ===================== SCENE 4 — THE RE-ASK (13.6–19.9) =================== */
+      /* the ruling condenses into the hard limit the Concierge now carries */
+      tl.to("#f08-panel", { height: 0, autoAlpha: 0, duration: .55, ease: "power3.inOut" }, 13.2);
+      tl.fromTo("#f08-chip", { autoAlpha: 0, scale: .9 }, { autoAlpha: 1, scale: 1, duration: .45, ease: "power3.out" }, 13.4);
+
+      tl.fromTo(env2, { autoAlpha: 0, scale: .7 }, { autoAlpha: 1, scale: 1, duration: .35, ease: "power3.out" }, 13.8);
+      /* the route draws ahead of it — around the card, never through it */
+      draw(route2, 2.6, 14.05, "power3.inOut");
+      travel(env2, route2, 0, 1, 2.95, 14.25);
+
+      /* the coral drains out of the frame as it travels */
+      tl.to("#f08-crossrule", { attr: { stroke: "#141413" }, opacity: .3, duration: 2.0, ease: "power3.inOut" }, 14.6);
+      tl.to(wire1, { attr: { stroke: "#141413" }, opacity: .1, duration: 2.0, ease: "power3.inOut" }, 14.6);
+
+      /* it lands on Hearth */
+      tl.to(env2, { scale: .82, autoAlpha: 0, duration: .4, ease: "power3.out" }, 17.2);
+      tl.to("#f08-disc-hearth", { opacity: 1, duration: .5, ease: "power3.out" }, 17.2);
+      tl.to("#f08-glyph-hearth", { scale: 1.06, duration: .5, ease: "power3.out" }, 17.2);
+      tl.fromTo("#f08-hchip", { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: .45, ease: "power3.out" }, 17.55);
+
+      /* lit, and working */
+      tl.fromTo("#f08-spin", { opacity: 0 }, { opacity: .75, duration: .3, ease: "power3.out" }, 17.95);
+      tl.to("#f08-spin", { rotation: 540, svgOrigin: "1534 726", duration: 1.85, ease: "none" }, 17.95);
+      tl.fromTo("#f08-hstatus", { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: .45, ease: "power3.out" }, 18.15);
+
+      tl.to({}, { duration: .01 }, 19.89);
+
+      window.__timelines["08-sentinel-says-no"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,295 @@
+<template>
+  <style>
+    @font-face{font-family:"EB Garamond";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Regular.woff2") format("woff2");}
+    @font-face{font-family:"EB Garamond";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/EBGaramond-Bold.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Regular.woff2") format("woff2");}
+    @font-face{font-family:"Inter";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/Inter-Bold.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:400;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Regular.woff2") format("woff2");}
+    @font-face{font-family:"JetBrains Mono";font-weight:700;font-style:normal;font-display:block;src:url("assets/fonts/JetBrainsMono-Bold.woff2") format("woff2");}
+
+    #root{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      container-type:size;
+    }
+    #root .clip{position:absolute;inset:0;}
+
+    .f12-close-bg{background:#FAF9F5;}
+
+    /* — the cast, returned as texture — */
+    .f12-close-rail{
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      gap:3.1cqw;
+      padding-top:34.5cqh;
+      opacity:0.16;
+    }
+    .f12-close-agent{
+      width:15.6cqw;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      color:#141413;
+    }
+    .f12-close-glyph{width:6.2cqw;height:6.2cqw;display:block;}
+    .f12-close-name{
+      font-family:"JetBrains Mono",monospace;
+      font-weight:400;
+      font-size:1.18cqw;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      color:#141413;
+      margin-top:1.5cqw;
+    }
+    .f12-close-mark{
+      margin-top:1.35cqw;
+      height:1.3cqw;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#141413;
+    }
+    .f12-close-mark svg{height:100%;width:auto;display:block;}
+    .f12-close-mark img{height:100%;width:auto;display:block;}
+
+    /* — the closing statement — */
+    .f12-close-beats{
+      position:absolute;
+      left:0;right:0;
+      top:33.5%;
+      text-align:center;
+    }
+    .f12-close-beat{
+      font-family:"EB Garamond",serif;
+      font-weight:400;
+      font-size:3.45cqw;
+      line-height:1.24;
+      letter-spacing:-0.018em;
+      color:#141413;
+    }
+    .f12-close-claim{
+      position:absolute;
+      left:0;right:0;
+      top:37.8%;
+      text-align:center;
+    }
+    .f12-close-line{
+      font-family:"EB Garamond",serif;
+      font-weight:400;
+      font-size:5.0cqw;
+      line-height:1.16;
+      letter-spacing:-0.022em;
+      color:#141413;
+      white-space:nowrap;
+    }
+    .f12-close-line + .f12-close-line{margin-top:2.2cqw;}
+
+    /* — the lockup — */
+    .f12-close-lockup{
+      position:absolute;
+      left:0;right:0;
+      top:38.5%;
+      text-align:center;
+    }
+    .f12-close-wordmark{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:1.5cqw;
+    }
+    .f12-close-spike{width:3.5cqw;height:3.5cqw;display:block;color:#CC785C;}
+    .f12-close-name-big{
+      font-family:"EB Garamond",serif;
+      font-weight:400;
+      font-size:7.3cqw;
+      line-height:1.02;
+      letter-spacing:-0.022em;
+      color:#141413;
+    }
+    .f12-close-repo{
+      margin-top:3.4cqw;
+      font-family:"JetBrains Mono",monospace;
+      font-weight:400;
+      font-size:1.46cqw;
+      letter-spacing:0.02em;
+      color:#141413;
+      opacity:0.62;
+    }
+    .f12-close-repo span{display:inline-block;}
+  </style>
+
+  <div id="root" data-composition-id="12-close" data-width="1920" data-height="1080">
+
+    <div class="clip f12-close-bg" data-start="0" data-duration="9.75" data-track-index="0"></div>
+
+    <div id="f12-close-rail" class="clip f12-close-rail" data-start="0" data-duration="9.75" data-track-index="1">
+
+      <div class="f12-close-agent">
+        <svg class="f12-close-glyph" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 42a19 19 0 0 1 38 0"/>
+          <path d="M9 46H55"/>
+          <circle cx="32" cy="19" r="3"/>
+        </svg>
+        <div class="f12-close-name">Concierge</div>
+        <div class="f12-close-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M7.531 15.976a7.534 7.534 0 0 0 0-10.651L2.206 0A7.54 7.54 0 0 0 0 5.326c0 1.996.794 3.913 2.206 5.325zm11.143.493a7.535 7.535 0 0 0-10.65 0l5.325 5.325a7.536 7.536 0 0 0 10.651 0zM2.218 21.782a7.54 7.54 0 0 0 5.326 2.206v-7.531H.012c0 1.996.795 3.914 2.206 5.325M20.73 8.595a7.534 7.534 0 0 0-10.651.001l5.325 5.326z"/></svg>
+        </div>
+      </div>
+
+      <div class="f12-close-agent">
+        <svg class="f12-close-glyph" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 46C26 42 42 32 56 14 54 34 42 48 24 52Z"/>
+          <path d="M18 45 34 34"/>
+          <path d="M23 48 38 38"/>
+          <path d="M28 50 42 42"/>
+        </svg>
+        <div class="f12-close-name">Skyline</div>
+        <div class="f12-close-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+        </div>
+      </div>
+
+      <div class="f12-close-agent">
+        <svg class="f12-close-glyph" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 32 32 14 54 32"/>
+          <path d="M15 50V40h34v10"/>
+          <path d="M15 44H49"/>
+          <path d="M19 40v-4h9v4"/>
+        </svg>
+        <div class="f12-close-name">Hearth</div>
+        <div class="f12-close-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M12.482.18C7.161 1.319 1.478 9.069 1.426 15.372c-.051 5.527 3.1 8.68 8.68 8.627 6.716-.05 14.259-6.87 12.09-10.9-.672-1.292-1.396-1.344-2.687-.207-1.602 1.395-1.654.31-.207-2.893 1.757-3.98 1.705-5.322-.31-7.544C17.03.388 14.962-.388 12.482.181Zm5.322 2.068c2.273 2.015 2.376 4.236.465 8.42-1.395 3.1-2.17 3.515-3.824 1.86-1.24-1.24-1.343-3.46-.258-6.044 1.137-2.635.982-3.1-.568-1.653-3.72 3.358-6.458 9.765-5.424 12.503.464 1.189.825 1.395 2.737 1.395 2.79 0 6.303-1.705 7.957-3.926 1.756-2.274 2.79-2.274 2.79-.052 0 3.875-6.459 8.627-11.625 8.627-6.251 0-9.351-4.752-7.491-11.47.878-2.995 4.443-7.904 7.077-9.66 3.255-2.17 5.684-2.17 8.164 0z"/></svg>
+        </div>
+      </div>
+
+      <div class="f12-close-agent">
+        <svg class="f12-close-glyph" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 12 51 19v13c0 12-8 17-19 21-11-4-19-9-19-21V19Z"/>
+          <path d="M19 31h26"/>
+        </svg>
+        <div class="f12-close-name">Sentinel</div>
+        <div class="f12-close-mark">
+          <img src="assets/logos/llamaindex.png" alt="">
+        </div>
+      </div>
+
+      <div class="f12-close-agent">
+        <svg class="f12-close-glyph" viewBox="0 0 64 64" fill="none" stroke="#141413" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32 18V48"/>
+          <path d="M22 50h20"/>
+          <path d="M12 22h40"/>
+          <circle cx="32" cy="15" r="2.5"/>
+          <path d="M12 22v8"/>
+          <path d="M4 30a8 8 0 0 0 16 0"/>
+          <path d="M52 22v8"/>
+          <path d="M44 30a8 8 0 0 0 16 0"/>
+        </svg>
+        <div class="f12-close-name">Ledger</div>
+        <div class="f12-close-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m23.826 17.316-4.23-5.866-6.847-9.496c-.348-.48-1.151-.48-1.497 0l-6.845 9.494-4.233 5.868a.925.925 0 0 0 .46 1.417l11.078 3.626h.002a.92.92 0 0 0 .572 0h.002l11.077-3.626c.28-.092.5-.31.59-.592a.916.916 0 0 0-.13-.825h.002ZM12.001 4.07l4.44 6.158-4.152-1.36c-.032-.01-.066-.008-.098-.016a.8.8 0 0 0-.096-.016c-.032-.004-.062-.016-.094-.016s-.062.012-.094.016a.74.74 0 0 0-.096.016c-.032.006-.066.006-.096.016L7.59 10.221l-.026.008 4.44-6.158h-.002Zm-6.273 8.7 4.834-1.583.516-.168v9.19L2.41 17.372l3.317-4.6Zm7.197 7.437V11.02l5.35 1.752 3.316 4.598-8.666 2.838Z"/></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="clip" data-start="0" data-duration="9.75" data-track-index="2">
+      <div id="f12-close-beats" class="f12-close-beats">
+        <div class="f12-close-beat f12-close-beat-1">Five specialists.</div>
+        <div class="f12-close-beat f12-close-beat-2">Five frameworks.</div>
+        <div class="f12-close-beat f12-close-beat-3">One conversation.</div>
+      </div>
+      <div id="f12-close-claim" class="f12-close-claim">
+        <div class="f12-close-line" id="f12-close-line-1">Nobody is in charge of everybody.</div>
+        <div class="f12-close-line" id="f12-close-line-2">They just agreed on how to talk.</div>
+      </div>
+    </div>
+
+    <div class="clip" data-start="0" data-duration="9.75" data-track-index="3">
+      <div class="f12-close-lockup">
+        <div class="f12-close-wordmark" id="f12-close-wordmark">
+          <svg class="f12-close-spike" id="f12-close-spike" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+            <path d="M12 3.4V20.6"/>
+            <path d="M4.55 7.7 19.45 16.3"/>
+            <path d="M4.55 16.3 19.45 7.7"/>
+          </svg>
+          <div class="f12-close-name-big">AtlasTrip</div>
+        </div>
+        <div class="f12-close-repo" id="f12-close-repo"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var gsap = window.gsap;
+
+      var repoEl = document.getElementById("f12-close-repo");
+      var REPO = "github.com/fnusatvik07/a2a-multi-agent-travel";
+      for (var i = 0; i < REPO.length; i++) {
+        var s = document.createElement("span");
+        s.textContent = REPO.charAt(i);
+        repoEl.appendChild(s);
+      }
+      var repoChars = repoEl.querySelectorAll("span");
+
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      window.__timelines["12-close"] = tl;
+
+      /* — Scene 1 (0.0–3.0s): the rail recedes; the cast returns as texture — */
+      tl.fromTo("#f12-close-rail",
+        { opacity: 0.34, scale: 1.055 },
+        { opacity: 0.16, scale: 1, duration: 1.5, ease: "power3.out" }, 0);
+
+      /* three beats, centred */
+      tl.fromTo(".f12-close-beat-1",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 0.15);
+      tl.fromTo(".f12-close-beat-2",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 1.05);
+      tl.fromTo(".f12-close-beat-3",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 1.95);
+
+      /* the beats drop back AND clear upward — off the claim's ground entirely */
+      tl.to("#f12-close-beats",
+        { opacity: 0, y: -190, duration: 0.65, ease: "power2.in" }, 2.95);
+
+      /* — Scene 2 (3.75–7.2s): the claim has the frame to itself — */
+      tl.fromTo("#f12-close-line-1",
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 3.75);
+      tl.fromTo("#f12-close-line-2",
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.9, ease: "power3.out" }, 5.15);
+
+      /* — Scene 3 (6.5–9.75s): the claim clears upward, the wordmark lands alone — */
+      tl.to("#f12-close-claim",
+        { opacity: 0, y: -190, duration: 0.7, ease: "power2.in" }, 6.5);
+      tl.to("#f12-close-rail",
+        { opacity: 0.1, duration: 0.9, ease: "power3.out" }, 6.45);
+
+      /* the film's one overshoot — small, on the wordmark */
+      tl.fromTo("#f12-close-wordmark",
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 1.0, ease: "back.out(1.35)" }, 7.35);
+      tl.fromTo("#f12-close-spike",
+        { opacity: 0, scale: 0.92 },
+        { opacity: 1, scale: 1, duration: 0.7, ease: "power3.out" }, 7.5);
+
+      /* the repo line types beneath, then everything stops */
+      tl.fromTo(repoChars,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.01, stagger: 0.019, ease: "none" }, 7.95);
+
+      /* held to the end — no drift, no glow, no sting */
+      tl.to({}, { duration: 9.75 }, 0);
+    })();
+  </script>
+</template>
