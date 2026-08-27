@@ -121,6 +121,17 @@ async def accept_task(context: RequestContext, event_queue: EventQueue) -> None:
     )
 
 
+def describe(error: BaseException) -> str:
+    """A message that is useful even when the exception has none.
+
+    Several exception types, ``httpx.ReadTimeout`` among them, stringify to the
+    empty string. An agent that reports a bare "could not do it" leaves the
+    caller with nothing to act on, so the type name always appears.
+    """
+    detail = str(error).strip()
+    return f"{type(error).__name__}: {detail}" if detail else type(error).__name__
+
+
 def data_part(payload: Any) -> Part:
     """Wrap a pydantic model or dictionary as an A2A structured data part."""
     if hasattr(payload, "model_dump"):

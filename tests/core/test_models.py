@@ -114,3 +114,12 @@ def test_budget_verdict_separates_a_pending_token_from_an_issued_code():
     )
     assert pending.authorization_code is None
     assert pending.approval_token == "AUTH-ABC"
+
+
+def test_a_message_survives_an_exception_that_has_no_message():
+    """httpx.ReadTimeout and friends stringify to "", which produced agent
+    failures that said nothing at all."""
+    from atlastrip_core.a2a_support import describe
+
+    assert describe(TimeoutError()) == "TimeoutError"
+    assert describe(ValueError("bad brief")) == "ValueError: bad brief"

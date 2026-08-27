@@ -139,7 +139,7 @@ make doctor                              # is everything up?
 make cards                               # read all five agent cards
 make trail                               # replay what crossed the wire
 make plan REQUEST="Deshawn Okafor needs three days in London next month"
-make test                                # 87 unit tests, 70 integration tests
+make test                                # 88 unit tests, 70 integration tests
 ```
 
 `make` on its own lists every target.
@@ -455,8 +455,8 @@ The one thing that needs a model is the Concierge's intake, since something has 
 ## Tests
 
 ```bash
-make test          # everything: 157 tests
-make test-unit     # 87 tests, offline, no API key, about 2 seconds
+make test          # everything: 158 tests
+make test-unit     # 88 tests, offline, no API key, about 2 seconds
 make test-network  # 70 tests against the running network, about 4 minutes
 ```
 

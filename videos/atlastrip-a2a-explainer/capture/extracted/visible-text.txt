@@ -113,7 +113,7 @@ of these agents had to invent.
 WHAT IS IN THE REPOSITORY
 
 Seven virtualenvs, one per service. A seeded dataset: 1,938 flights, 6,042
-hotel rates, 10 policy clauses, 12 entry rules. 87 unit tests that run offline
+hotel rates, 10 policy clauses, 12 entry rules. 88 unit tests that run offline
 with no API key, and 70 integration tests against the live network. Three
 generated architecture diagrams. A CLI that reads every agent card and replays
 the whole exchange.

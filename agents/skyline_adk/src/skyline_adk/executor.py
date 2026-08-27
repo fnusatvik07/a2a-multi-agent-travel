@@ -20,7 +20,12 @@ from a2a.server.tasks import TaskUpdater
 from a2a.types import Part
 
 from atlastrip_core import audit
-from atlastrip_core.a2a_support import accept_task, data_part, read_request
+from atlastrip_core.a2a_support import (
+    accept_task,
+    data_part,
+    describe,
+    read_request,
+)
 from atlastrip_core.console import get_logger
 from atlastrip_core.models import FlightBrief
 
@@ -49,7 +54,7 @@ class SkylineExecutor(AgentExecutor):
             # so the task is rejected rather than failed.
             await updater.reject(
                 updater.new_agent_message(
-                    [Part(text=f"That is not a flight brief I can act on: {error}")]
+                    [Part(text=f"That is not a flight brief I can act on: {describe(error)}")]
                 )
             )
             return
@@ -106,9 +111,13 @@ class SkylineExecutor(AgentExecutor):
                 rationale=selection.rationale,
             )
         except Exception as error:
-            log.warning("flight sourcing failed for %s: %s", brief.trip_ref, error)
+            log.warning(
+                "flight sourcing failed for %s: %s", brief.trip_ref, describe(error)
+            )
             await updater.failed(
-                updater.new_agent_message([Part(text=f"Could not source flights: {error}")])
+                updater.new_agent_message(
+                    [Part(text=f"Could not source flights: {describe(error)}")]
+                )
             )
             audit.record(
                 agent="skyline",

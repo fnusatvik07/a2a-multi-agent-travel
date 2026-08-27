@@ -13,16 +13,28 @@ from atlastrip_core.models import ComplianceVerdict, ScreeningRequest
 
 from . import rules
 
+_COUNTRY_BY_IATA: dict[str, str] = {}
+"""Airports do not change while the process is alive.
+
+Fetched once rather than on every screening: an MCP session is three round
+trips, and opening one per request put avoidable load on the shared inventory
+server for an answer that is always the same."""
+
+
+async def _airport_countries() -> dict[str, str]:
+    if not _COUNTRY_BY_IATA:
+        async with MCPClient() as mcp:
+            airports = await mcp.call("list_airports")
+        _COUNTRY_BY_IATA.update(
+            {airport["iata"]: airport["country"] for airport in airports}
+        )
+    return _COUNTRY_BY_IATA
+
 
 async def destination_country(request: ScreeningRequest) -> str:
     """Which country the traveller is entering, from the destination airport."""
-    async with MCPClient() as mcp:
-        airports = await mcp.call("list_airports")
-    wanted = request.request.destination_iata.upper()
-    for airport in airports:
-        if airport["iata"] == wanted:
-            return airport["country"]
-    return "Unknown"
+    countries = await _airport_countries()
+    return countries.get(request.request.destination_iata.upper(), "Unknown")
 
 
 async def screen(request: ScreeningRequest) -> ComplianceVerdict:
